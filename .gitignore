@@ -109,7 +109,6 @@ app/
 # Entornos / secretos locales
 # =========================
 .env
-.env.*
 *.local
 secret.properties
 application-local.properties
