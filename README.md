@@ -35,7 +35,7 @@ Durante el desarrollo del proyecto se utilizaron los siguientes comandos:
 Se utilizó para copiar el repositorio remoto al entorno local:
 
 ```bash
-git clone https://github.com/Raydberg/poo_taller_semana1_2.git
+https://github.com/JhonRodriguez31/Proyecto_RH.git
 ```
 ---
 
