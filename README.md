@@ -47,46 +47,17 @@ Cada integrante creó su propia rama para trabajar de forma independiente:
 ```bash
 git checkout -b nombre-rama
 ```
-
 # Arquitectura del Proyecto
 
 ## Enfoque general
 
-Este proyecto se desarrollará como una
-*
-*aplicación
-de
-escritorio
-en
-JavaFX
-**, organizada de forma
-*
-*modular
-por
-funcionalidad
-**, con el objetivo de aprender y aplicar correctamente los principios de la
-*
-*Programación
-Orientada
-a
-Objetos (
-POO)
-**.
+Este proyecto se desarrollará como una **aplicación de escritorio en JavaFX**, organizada de forma **modular por funcionalidad**, con el objetivo de aprender y aplicar correctamente los principios de la **Programación Orientada a Objetos (POO)**.
 
 La arquitectura propuesta combina:
 
--
-*
-*MVC
-** para la interfaz gráfica
--
-*
-*Service
-** para la lógica de negocio
--
-*
-*DAO
-** para el acceso a base de datos
+- **MVC** para la interfaz gráfica
+- **Service** para la lógica de negocio
+- **DAO** para el acceso a base de datos
 
 De esta manera, se evita mezclar la interfaz, la lógica y la persistencia en una sola clase.
 
@@ -103,50 +74,32 @@ View -> Controller -> Service -> DAO -> Base de Datos
 ### Componentes
 
 #### Model
-
 Representa las entidades del negocio.
 
 Ejemplos:
-
--
-`Employee`
--
-`User`
--
-`Attendance`
--
-`Payroll`
--
-`VacationRequest`
+- `Employee`
+- `User`
+- `Attendance`
+- `Payroll`
+- `VacationRequest`
 
 #### View
-
 Corresponde a las vistas de la aplicación:
-
-- archivos
-  `.fxml`
-- estilos
-  `.css`
+- archivos `.fxml`
+- estilos `.css`
 
 #### Controller
-
 Controla los eventos de la interfaz y comunica la vista con la lógica del sistema.
 
 Ejemplos:
-
--
-`LoginController`
--
-`EmployeeFormController`
--
-`AttendanceController`
+- `LoginController`
+- `EmployeeFormController`
+- `AttendanceController`
 
 #### Service
-
 Contiene la lógica de negocio del sistema.
 
 Ejemplos:
-
 - validar reglas
 - calcular sueldos
 - aprobar vacaciones
@@ -154,17 +107,24 @@ Ejemplos:
 - registrar accesos
 
 #### DAO
-
 Se encarga del acceso a la base de datos mediante JDBC.
 
 Ejemplos:
-
 - guardar empleados
 - buscar usuarios
 - listar asistencias
 - actualizar planillas
 
 ---
+
+## ¿Por qué usar MVC + Service + DAO?
+
+Usar solo MVC en un proyecto real suele ser insuficiente, porque mucha lógica termina colocándose en el `Controller`.
+
+Por eso se agrega:
+
+- **Service**: para separar las reglas del negocio
+- **DAO**: para encapsular el acceso a datos
 
 ### Beneficios
 
@@ -182,36 +142,24 @@ El sistema estará dividido por módulos funcionales.
 
 ### Módulos principales
 
--
-`auth`
--
-`employee`
--
-`attendance`
--
-`payroll`
--
-`vacation`
--
-`benefit`
--
-`document`
--
-`report`
--
-`dashboard`
--
-`common`
--
-`config`
+- `auth`
+- `employee`
+- `attendance`
+- `payroll`
+- `vacation`
+- `benefit`
+- `document`
+- `report`
+- `dashboard`
+- `common`
+- `config`
 
 Esta organización permite que cada módulo tenga sus propias clases, reglas y acceso a datos.
 
 ---
 
-# Estructura del Proyecto
+# Estructura Recomendada del Proyecto
 
-## Estructura recomendada
 
 ```text
 src/
@@ -328,85 +276,51 @@ modulo/
 
 ## Responsabilidad de cada carpeta
 
-###
-`model/`
-
+### `model/`
 Contiene las entidades del negocio.
 
 Ejemplos:
+- `Employee`
+- `User`
+- `Attendance`
+- `Payroll`
 
--
-`Employee`
--
-`User`
--
-`Attendance`
--
-`Payroll`
-
-###
-`dto/`
-
+### `dto/`
 Contiene objetos para transferencia de datos entre capas.
 
 Ejemplos:
+- `LoginRequestDto`
+- `EmployeeCreateDto`
+- `VacationRequestDto`
 
--
-`LoginRequestDto`
--
-`EmployeeCreateDto`
--
-`VacationRequestDto`
-
-###
-`dao/`
-
+### `dao/`
 Contiene interfaces y clases encargadas del acceso a base de datos.
 
 Ejemplos:
+- `EmployeeDao`
+- `EmployeeDaoImpl`
 
--
-`EmployeeDao`
--
-`EmployeeDaoImpl`
-
-###
-`service/`
-
+### `service/`
 Contiene la lógica de negocio del módulo.
 
 Ejemplos:
+- `EmployeeService`
+- `AuthService`
+- `PayrollService`
 
--
-`EmployeeService`
--
-`AuthService`
--
-`PayrollService`
-
-###
-`controller/`
-
+### `controller/`
 Contiene los controladores JavaFX asociados a las vistas.
 
 Ejemplos:
+- `LoginController`
+- `EmployeeListController`
 
--
-`LoginController`
--
-`EmployeeListController`
-
-###
-`validator/`
-
+### `validator/`
 Contiene validaciones específicas del módulo.
 
 Ejemplos:
-
--
-`EmployeeValidator`
--
-`AuthValidator`
+- `EmployeeValidator`
+- `AuthValidator`
 
 ---
 
@@ -501,36 +415,12 @@ String pass = EnvConfig.get("DB_PASSWORD");
 
 ---
 
-# Tecnologías sugeridas
+# Tecnologías a usar
 
--
-*
-*Java
-21
-**
--
-*
-*JavaFX
-**
--
-*
-*FXML
-**
--
-*
-*CSS
-**
--
-*
-*Maven
-**
--
-*
-*JDBC
-**
--
-*
-*MySQL
-**
-
----
+- Java 21
+- JavaFX
+- FXML
+- CSS
+- Maven
+- JDBC
+- SQLServer
