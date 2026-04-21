@@ -9,12 +9,19 @@ public class EnvConfig {
             .load();
 
 
-    private static String get(String key) {
+    private EnvConfig() {
+    }
+
+    static String get(String key) {
         String systemValue = System.getenv(key);
         if (systemValue != null && !systemValue.isBlank()) {
             return systemValue;
         }
         return dotenv.get(key);
+    }
+
+    static String get(String key, String defaultValue) {
+        return dotenv.get(key, defaultValue);
     }
 
 }

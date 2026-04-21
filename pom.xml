@@ -61,7 +61,12 @@
         <!--            <artifactId>materialfx</artifactId>-->
         <!--            <version>11.17.0</version>-->
         <!--        </dependency>-->
-
+        <!--Driver SQLSERVER-->
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <version>13.4.0.jre11</version>
+        </dependency>
 
         <dependency>
             <groupId>io.github.cdimascio</groupId>
