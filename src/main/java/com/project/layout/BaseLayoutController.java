@@ -18,6 +18,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -73,10 +74,6 @@ public abstract class BaseLayoutController {
         }
     }
 
-    /**
-     * Theme toggle: dark = base CSS (no class needed).
-     * Light = add .theme-light class.
-     */
     @FXML
     protected void toggleTheme() {
         darkMode = !darkMode;
@@ -95,7 +92,9 @@ public abstract class BaseLayoutController {
                     root.getStyleClass().add("theme-light");
                 }
             }
-            themeButton.setText(darkMode ? "☾" : "☀");
+            // Switch icon between moon and sun
+            FontIcon icon = (FontIcon) themeButton.getGraphic();
+            icon.setIconLiteral(darkMode ? "mdi2w-weather-night" : "mdi2w-weather-sunny");
 
             FadeTransition fadeIn = new FadeTransition(Duration.millis(250), root);
             fadeIn.setFromValue(0.85);
@@ -114,9 +113,8 @@ public abstract class BaseLayoutController {
         }
 
         sidebarCollapsed = !sidebarCollapsed;
-        double targetWidth = sidebarCollapsed ? 60 : 260;
+        double targetWidth = sidebarCollapsed ? 72 : 260;
 
-        // When COLLAPSING → update elements FIRST, then animate width
         if (sidebarCollapsed) {
             updateSidebarForCollapse(false);
         }
@@ -130,7 +128,6 @@ public abstract class BaseLayoutController {
                 )
         );
 
-        // When EXPANDING → reveal elements AFTER animation finishes
         if (!sidebarCollapsed) {
             timeline.setOnFinished(e -> updateSidebarForCollapse(true));
         }
@@ -143,51 +140,32 @@ public abstract class BaseLayoutController {
         }
     }
 
-    /**
-     * Smart sidebar collapse: iterates DIRECT children of the sidebar VBox.
-     *
-     * - Header items (brand, badge, spacer before menu) → HIDE completely
-     * - Menu buttons → KEEP, but hide their text labels
-     * - Grow spacer → KEEP (pushes footer down)
-     * - Divider → KEEP visible
-     * - User card → KEEP, but hide text VBox (only show avatar)
-     * - Footer spacers → KEEP (maintain gap)
-     * - Logout button → KEEP, switch to GRAPHIC_ONLY mode
-     */
     private void updateSidebarForCollapse(boolean expanded) {
         boolean passedFirstMenuItem = false;
 
         for (Node child : sidebar.getChildren()) {
-            // Menu buttons: always visible
             if (child instanceof Button && child.getStyleClass().contains("menu-item")) {
                 passedFirstMenuItem = true;
                 continue;
             }
 
-            // Header section (before first menu button) → hide brand, badge, spacer
             if (!passedFirstMenuItem) {
                 child.setVisible(expanded);
                 child.setManaged(expanded);
                 continue;
             }
 
-            // === Below here: footer section (after menu buttons) ===
-
-            // Grow spacer → always keep
             if (child instanceof Region && VBox.getVgrow(child) == Priority.ALWAYS) {
                 continue;
             }
 
-            // Sidebar divider → always keep
             if (child.getStyleClass().contains("sidebar-divider")) {
                 continue;
             }
 
-            // User card → keep visible, but toggle text content
             if (child.getStyleClass().contains("user-card") && child instanceof HBox hbox) {
                 hbox.setAlignment(expanded ? Pos.CENTER_LEFT : Pos.CENTER);
                 for (Node cardChild : hbox.getChildren()) {
-                    // Hide the VBox with user-name and user-role-text
                     if (cardChild instanceof VBox) {
                         cardChild.setVisible(expanded);
                         cardChild.setManaged(expanded);
@@ -196,16 +174,13 @@ public abstract class BaseLayoutController {
                 continue;
             }
 
-            // Logout button → keep visible, switch display mode
             if (child instanceof Button btn && child.getStyleClass().contains("logout-btn")) {
                 btn.setContentDisplay(expanded ? ContentDisplay.LEFT : ContentDisplay.GRAPHIC_ONLY);
                 continue;
             }
 
-            // Footer spacer regions → keep visible for spacing
         }
 
-        // Toggle menu text labels inside each button's graphic HBox
         for (Button btn : menuButtons) {
             Node graphic = btn.getGraphic();
             if (graphic instanceof HBox hbox) {

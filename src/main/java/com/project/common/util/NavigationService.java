@@ -25,10 +25,6 @@ public class NavigationService {
         switchWithSlideUp(view);
     }
 
-    /**
-     * Smooth slide-up + fade-in transition for page navigation.
-     * Gives a modern, premium feel to every page change.
-     */
     private void switchWithSlideUp(Node newContent) {
         if (!contentHost.getChildren().isEmpty() && contentHost.getChildren().getFirst() == newContent) {
             return;

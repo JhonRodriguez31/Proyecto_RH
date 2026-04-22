@@ -12,7 +12,7 @@ import java.util.Objects;
 public class MainApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        boolean isAdmin = true;
+        boolean isAdmin = false;
         String layoutPath = isAdmin
                 ? "/com/project/fxml/layout/admin-layout.fxml"
                 : "/com/project/fxml/layout/user-layout.fxml";

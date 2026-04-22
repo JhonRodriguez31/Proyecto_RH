@@ -40,75 +40,108 @@
                 <Button fx:id="btnPanel"
                         styleClass="menu-item">
                     <graphic>
-                        <HBox alignment="CENTER_LEFT" spacing="10" styleClass="menu-content">
-                            <FontIcon iconLiteral="mdi2v-view-dashboard-outline" styleClass="menu-icon"/>
-                            <Label text="Mi Panel" styleClass="menu-text"/>
+                        <HBox alignment="CENTER_LEFT"
+                              spacing="10"
+                              styleClass="menu-content">
+                            <FontIcon
+                                    iconLiteral="mdi2v-view-dashboard-outline"
+                                    styleClass="menu-icon"/>
+                            <Label text="Mi Panel"
+                                   styleClass="menu-text"/>
                         </HBox>
                     </graphic>
                 </Button>
                 <Button fx:id="btnDirectory"
                         styleClass="menu-item">
                     <graphic>
-                        <HBox alignment="CENTER_LEFT" spacing="10" styleClass="menu-content">
-                            <FontIcon iconLiteral="mdi2a-account-group-outline" styleClass="menu-icon"/>
-                            <Label text="Directorio de Empleados" styleClass="menu-text"/>
+                        <HBox alignment="CENTER_LEFT"
+                              spacing="10"
+                              styleClass="menu-content">
+                            <FontIcon
+                                    iconLiteral="mdi2a-account-group-outline"
+                                    styleClass="menu-icon"/>
+                            <Label text="Directorio de Empleados"
+                                   styleClass="menu-text"/>
                         </HBox>
                     </graphic>
                 </Button>
                 <Button fx:id="btnAttendance"
                         styleClass="menu-item">
                     <graphic>
-                        <HBox alignment="CENTER_LEFT" spacing="10" styleClass="menu-content">
-                            <FontIcon iconLiteral="mdi2c-calendar-check-outline" styleClass="menu-icon"/>
-                            <Label text="Mis Asistencias" styleClass="menu-text"/>
+                        <HBox alignment="CENTER_LEFT"
+                              spacing="10"
+                              styleClass="menu-content">
+                            <FontIcon
+                                    iconLiteral="mdi2c-calendar-check-outline"
+                                    styleClass="menu-icon"/>
+                            <Label text="Mis Asistencias"
+                                   styleClass="menu-text"/>
                         </HBox>
                     </graphic>
                 </Button>
                 <Button fx:id="btnPayroll"
                         styleClass="menu-item">
                     <graphic>
-                        <HBox alignment="CENTER_LEFT" spacing="10" styleClass="menu-content">
-                            <FontIcon iconLiteral="mdi2c-cash-multiple" styleClass="menu-icon"/>
-                            <Label text="Mi Planilla" styleClass="menu-text"/>
+                        <HBox alignment="CENTER_LEFT"
+                              spacing="10"
+                              styleClass="menu-content">
+                            <FontIcon
+                                    iconLiteral="mdi2c-cash-multiple"
+                                    styleClass="menu-icon"/>
+                            <Label text="Mi Planilla"
+                                   styleClass="menu-text"/>
                         </HBox>
                     </graphic>
                 </Button>
                 <Button fx:id="btnVacation"
                         styleClass="menu-item">
                     <graphic>
-                        <HBox alignment="CENTER_LEFT" spacing="10" styleClass="menu-content">
-                            <FontIcon iconLiteral="mdi2b-beach" styleClass="menu-icon"/>
-                            <Label text="Mis Vacaciones" styleClass="menu-text"/>
+                        <HBox alignment="CENTER_LEFT"
+                              spacing="10"
+                              styleClass="menu-content">
+                            <FontIcon
+                                    iconLiteral="mdi2b-beach"
+                                    styleClass="menu-icon"/>
+                            <Label text="Mis Vacaciones"
+                                   styleClass="menu-text"/>
                         </HBox>
                     </graphic>
                 </Button>
                 <Button fx:id="btnBenefits"
                         styleClass="menu-item">
                     <graphic>
-                        <HBox alignment="CENTER_LEFT" spacing="10" styleClass="menu-content">
-                            <FontIcon iconLiteral="mdi2g-gift-outline" styleClass="menu-icon"/>
-                            <Label text="Mis Beneficios" styleClass="menu-text"/>
+                        <HBox alignment="CENTER_LEFT"
+                              spacing="10"
+                              styleClass="menu-content">
+                            <FontIcon
+                                    iconLiteral="mdi2g-gift-outline"
+                                    styleClass="menu-icon"/>
+                            <Label text="Mis Beneficios"
+                                   styleClass="menu-text"/>
                         </HBox>
                     </graphic>
                 </Button>
 
                 <Region VBox.vgrow="ALWAYS"/>
 
-                <!-- Divider -->
                 <Region styleClass="sidebar-divider"
-                        minHeight="1" maxHeight="1"/>
+                        minHeight="1"
+                        maxHeight="1"/>
                 <Region minHeight="10"/>
 
-                <!-- User card with avatar -->
                 <HBox styleClass="user-card"
                       alignment="CENTER_LEFT"
                       spacing="12">
-                    <StackPane styleClass="user-avatar">
-                        <Label text="U" styleClass="avatar-initial"/>
+                    <StackPane
+                            styleClass="user-avatar">
+                        <Label text="U"
+                               styleClass="avatar-initial"/>
                     </StackPane>
                     <VBox spacing="2">
-                        <Label text="user" styleClass="user-name"/>
-                        <Label text="Empleado" styleClass="user-role-text"/>
+                        <Label text="user"
+                               styleClass="user-name"/>
+                        <Label text="Empleado"
+                               styleClass="user-role-text"/>
                     </VBox>
                 </HBox>
 
@@ -119,7 +152,9 @@
                         styleClass="logout-btn"
                         contentDisplay="LEFT">
                     <graphic>
-                        <FontIcon iconLiteral="mdi2l-logout" styleClass="logout-icon"/>
+                        <FontIcon
+                                iconLiteral="mdi2l-logout"
+                                styleClass="logout-icon"/>
                     </graphic>
                 </Button>
             </VBox>
@@ -138,17 +173,27 @@
                 <HBox alignment="CENTER_LEFT"
                       styleClass="topbar">
                     <Button fx:id="menuButton"
-                            text="☰"
                             styleClass="icon-btn"
-                            onAction="#toggleSidebar"/>
+                            onAction="#toggleSidebar">
+                        <graphic>
+                            <FontIcon
+                                    iconLiteral="mdi2m-menu"
+                                    styleClass="topbar-icon"/>
+                        </graphic>
+                    </Button>
                     <Label fx:id="dateLabel"
                            text="martes, 21 de abril de 2026"
                            styleClass="date-label"/>
                     <Region HBox.hgrow="ALWAYS"/>
                     <Button fx:id="themeButton"
-                            text="☾"
                             styleClass="icon-btn"
-                            onAction="#toggleTheme"/>
+                            onAction="#toggleTheme">
+                        <graphic>
+                            <FontIcon
+                                    iconLiteral="mdi2w-weather-night"
+                                    styleClass="topbar-icon"/>
+                        </graphic>
+                    </Button>
                 </HBox>
 
                 <StackPane
