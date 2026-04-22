@@ -7,11 +7,13 @@ module com.project.projectpoo {
     requires org.controlsfx.controls;
     requires net.synedra.validatorfx;
     requires org.kordamp.ikonli.javafx;
+    requires org.kordamp.ikonli.materialdesign2;
 
     requires com.dlsc.formsfx;
     requires eu.hansolo.tilesfx;
     requires io.github.cdimascio.dotenv.java;
 
     opens com.project to javafx.fxml;
+    opens com.project.layout to javafx.fxml;
     exports com.project;
 }

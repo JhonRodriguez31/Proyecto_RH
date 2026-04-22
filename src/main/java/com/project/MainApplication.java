@@ -2,6 +2,7 @@ package com.project;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -11,15 +12,23 @@ import java.util.Objects;
 public class MainApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("hello-view.fxml"));
+        boolean isAdmin = true;
+        String layoutPath = isAdmin
+                ? "/com/project/fxml/layout/admin-layout.fxml"
+                : "/com/project/fxml/layout/user-layout.fxml";
+
+        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource(layoutPath));
         Scene scene = new Scene(fxmlLoader.load(), 1200, 700);
 
         scene.getStylesheets().add(
                 Objects.requireNonNull(
-                        MainApplication.class.getResource("/com/project/css/styles.css")
+                        MainApplication.class.getResource("/com/project/css/layout.css")
                 ).toExternalForm()
         );
-
+//        String layoutPath = isAdmin
+//                ? "/com/project/fxml/layout/admin-layout.fxml"
+//                : "/com/project/fxml/layout/user-layout.fxml";
+//        Parent root = FXMLLoader.load(MainApplication.class.getResource(layoutPath));
         stage.setTitle("Sistema de Recursos Humanos");
         stage.setScene(scene);
 //        stage.setMinWidth(1000);

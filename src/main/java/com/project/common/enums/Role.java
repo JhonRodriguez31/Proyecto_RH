@@ -1,4 +1,7 @@
 package com.project.common.enums;
 
-public record Role() {
+public enum Role {
+    ADMIN,
+    USER
+
 }
