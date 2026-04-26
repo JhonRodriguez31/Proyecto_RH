@@ -1,4 +1,4 @@
 package com.project.services;
 
-public class AuthService {
+public interface AuthService {
 }
