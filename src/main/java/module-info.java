@@ -15,5 +15,6 @@ module com.project.projectpoo {
 
     opens com.project to javafx.fxml;
     opens com.project.layout to javafx.fxml;
+    opens com.project.controllers to javafx.fxml;
     exports com.project;
 }
