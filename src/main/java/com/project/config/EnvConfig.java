@@ -12,7 +12,7 @@ public class EnvConfig {
     private EnvConfig() {
     }
 
-    static String get(String key) {
+    public static String get(String key) {
         String systemValue = System.getenv(key);
         if (systemValue != null && !systemValue.isBlank()) {
             return systemValue;
@@ -20,7 +20,7 @@ public class EnvConfig {
         return dotenv.get(key);
     }
 
-    static String get(String key, String defaultValue) {
+    public static String get(String key, String defaultValue) {
         return dotenv.get(key, defaultValue);
     }
 
