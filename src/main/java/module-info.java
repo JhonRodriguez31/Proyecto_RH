@@ -12,6 +12,8 @@ module com.project.projectpoo {
     requires com.dlsc.formsfx;
     requires eu.hansolo.tilesfx;
     requires io.github.cdimascio.dotenv.java;
+    requires java.net.http;
+    requires com.google.gson;
 
     opens com.project to javafx.fxml;
     opens com.project.layout to javafx.fxml;
