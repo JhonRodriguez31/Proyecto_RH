@@ -1,22 +1,119 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<?import javafx.geometry.Insets?>
-<VBox spacing="10"
-      styleClass="page-placeholder"
+<VBox spacing="16"
+      styleClass="employee-container"
+      stylesheets="@../../../css/empleado.css"
       xmlns="http://javafx.com/javafx/21"
-      xmlns:fx="http://javafx.com/fxml/1">
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.project.controllers.EmpleadoController">
+
     <padding>
         <Insets top="22"
                 right="22"
                 bottom="22"
                 left="22"/>
     </padding>
-    <Label text="Empleados"
-           styleClass="placeholder-title"/>
+
+    <!-- Encabezado -->
+    <HBox spacing="10"
+          alignment="CENTER_LEFT">
+        <Label text="Empleados"
+               styleClass="section-title"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="btnRecargar"
+                styleClass="btn-icon">
+            <tooltip>
+                <Tooltip
+                        text="Recargar"/>
+            </tooltip>
+            <graphic>
+                <FontIcon
+                        iconLiteral="mdi2r-refresh"
+                        styleClass="icon-btn"/>
+            </graphic>
+        </Button>
+    </HBox>
+
+    <!-- Barra de búsqueda -->
+    <HBox spacing="10"
+          styleClass="search-bar">
+        <FontIcon
+                iconLiteral="mdi2m-magnify"
+                styleClass="search-icon"/>
+        <TextField
+                fx:id="searchField"
+                promptText="Buscar por nombre, apellido o DNI..."
+                HBox.hgrow="ALWAYS"
+                styleClass="search-field"/>
+    </HBox>
+
+    <!-- Tabla -->
+    <TableView
+            fx:id="empleadosTable"
+            styleClass="empleados-table"
+            VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn
+                    fx:id="colCodigo"
+                    text="Código"
+                    prefWidth="100"/>
+            <TableColumn
+                    fx:id="colNombre"
+                    text="Nombre"
+                    prefWidth="150"/>
+            <TableColumn
+                    fx:id="colApellidos"
+                    text="Apellidos"
+                    prefWidth="150"/>
+            <TableColumn
+                    fx:id="colDNI"
+                    text="DNI"
+                    prefWidth="120"/>
+            <TableColumn
+                    fx:id="colTelefono"
+                    text="Teléfono"
+                    prefWidth="130"/>
+        </columns>
+    </TableView>
+
+    <!-- Acciones -->
+    <HBox spacing="10"
+          styleClass="actions-bar">
+        <Button fx:id="btnAgregar"
+                text="Agregar"
+                styleClass="btn-primary">
+            <graphic>
+                <FontIcon
+                        iconLiteral="mdi2p-plus"
+                        styleClass="icon-btn"/>
+            </graphic>
+        </Button>
+        <Button fx:id="btnEditar"
+                text="Editar"
+                styleClass="btn-secondary">
+            <graphic>
+                <FontIcon
+                        iconLiteral="mdi2p-pencil"
+                        styleClass="icon-btn"/>
+            </graphic>
+        </Button>
+        <Button fx:id="btnEliminar"
+                text="Eliminar"
+                styleClass="btn-danger">
+            <graphic>
+                <FontIcon
+                        iconLiteral="mdi2t-trash-can"
+                        styleClass="icon-btn"/>
+            </graphic>
+        </Button>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label text="0 empleados seleccionados"
+               fx:id="lblSeleccionados"
+               styleClass="info-label"/>
+    </HBox>
 </VBox>

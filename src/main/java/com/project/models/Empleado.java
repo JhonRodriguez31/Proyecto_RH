@@ -1,17 +1,17 @@
 package com.project.models;
 
+import com.project.common.audit.EntidadAuditable;
 import com.project.common.enums.Estado;
 
 import java.time.LocalDate;
 
-public class Empleado {
+public class Empleado extends EntidadAuditable {
     private Integer id;
     private String codigoEmpleado;
-    private String nombre;
+    private String nombres;
     private String apellidos;
     private String dni;
     private String telefono;
-    private String correo;
     private String direccion;
     private LocalDate fechaNacimiento;
     private LocalDate fechaIngreso;
@@ -21,37 +21,18 @@ public class Empleado {
 
 
     public Empleado() {
+        super();
     }
 
-    public Empleado(Integer id, String codigoEmpleado, String nombre, String apellidos, String dni, String telefono, String correo, String direccion, LocalDate fechaNacimiento, LocalDate fechaIngreso, String fotoUrl, Estado estado, Integer diasVacacionesDisponibles) {
-        this.id = id;
+    public Empleado(String codigoEmpleado, String nombres, String apellidos, String dni, LocalDate fechaNacimiento, LocalDate fechaIngreso) {
         this.codigoEmpleado = codigoEmpleado;
-        this.nombre = nombre;
+        this.nombres = nombres;
         this.apellidos = apellidos;
         this.dni = dni;
-        this.telefono = telefono;
-        this.correo = correo;
-        this.direccion = direccion;
         this.fechaNacimiento = fechaNacimiento;
         this.fechaIngreso = fechaIngreso;
-        this.fotoUrl = fotoUrl;
-        this.estado = estado;
-        this.diasVacacionesDisponibles = diasVacacionesDisponibles;
     }
 
-    public Empleado(Integer id, String codigoEmpleado, String nombre, String apellidos, String dni, String telefono, String correo, String direccion, LocalDate fechaNacimiento, LocalDate fechaIngreso, String fotoUrl) {
-        this.id = id;
-        this.codigoEmpleado = codigoEmpleado;
-        this.nombre = nombre;
-        this.apellidos = apellidos;
-        this.dni = dni;
-        this.telefono = telefono;
-        this.correo = correo;
-        this.direccion = direccion;
-        this.fechaNacimiento = fechaNacimiento;
-        this.fechaIngreso = fechaIngreso;
-        this.fotoUrl = fotoUrl;
-    }
 
     public Integer getId() {
         return id;
@@ -69,12 +50,12 @@ public class Empleado {
         this.codigoEmpleado = codigoEmpleado;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getNombres() {
+        return nombres;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
     }
 
     public String getApellidos() {
@@ -99,14 +80,6 @@ public class Empleado {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
-    }
-
-    public String getCorreo() {
-        return correo;
-    }
-
-    public void setCorreo(String correo) {
-        this.correo = correo;
     }
 
     public String getDireccion() {

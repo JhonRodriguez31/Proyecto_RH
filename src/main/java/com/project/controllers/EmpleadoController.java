@@ -1,115 +1,162 @@
 package com.project.controllers;
 
-import com.project.services.ImageService;
-import com.project.services.impl.ImageServiceImpl;
+
+import com.project.common.util.NotificacionService;
+import com.project.models.Empleado;
+import com.project.services.EmpleadoService;
+import com.project.services.impl.EmpleadoServiceImpl;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.stage.FileChooser;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
 
-import java.io.File;
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
 
-public class EmpleadoController {
-    @FXML
-    private ImageView fotoPreview;
+public class EmpleadoController implements Initializable {
+    private EmpleadoService empleadoService;
 
-    @FXML
-    private Button btnSeleccionarFoto;
 
     @FXML
-    private Button btnEliminarFoto;
+    private TableView<Empleado> empleadosTable;
+    @FXML
+    private TableColumn<Empleado, String> colCodigo;
 
     @FXML
-    private Button btnSubirFoto;
+    private TableColumn<Empleado, String> colNombre;
 
     @FXML
-    private Label statusLabel;
+    private TableColumn<Empleado, String> colApellidos;
 
-    private final ImageService imagenService;
-    private File archivoSeleccionado;
-    private String urlFotoSubida;
+    @FXML
+    private TableColumn<Empleado, String> colDNI;
 
-    public EmpleadoController() {
-        this.imagenService = new ImageServiceImpl();
+    @FXML
+    private TableColumn<Empleado, String> colTelefono;
+    @FXML
+    private Button btnAgregar;
+
+    @FXML
+    private Button btnEditar;
+
+    @FXML
+    private Button btnEliminar;
+
+    @FXML
+    private Button btnRecargar;
+
+    // Search
+    @FXML
+    private TextField searchField;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        empleadoService = new EmpleadoServiceImpl();
+        configurarColumnas();
+        cargarEmpleados();
+        searchField.textProperty().addListener((obs, old, nuevo) -> {
+            filtrarEmpleados(nuevo);
+        });
+
+        btnRecargar.setOnAction(e -> cargarEmpleados());
+        btnAgregar.setOnAction(e -> abrirDialogoNuevoEmpleado());
+        btnEditar.setOnAction(e -> editarEmpleadoSeleccionado());
+        btnEliminar.setOnAction(e -> eliminarEmpleadoSeleccionado());
+
     }
 
-    @FXML
-    public void seleccionarFoto() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Seleccionar foto de empleado");
-        fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("Imágenes", "*.png", "*.jpg", "*.jpeg")
+
+    private void configurarColumnas() {
+        colCodigo.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getCodigoEmpleado())
         );
+        colNombre.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getNombres())
+        );
+        colApellidos.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getApellidos())
+        );
+        colDNI.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getDni())
+        );
+        colTelefono.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getTelefono())
+        );
+    }
 
-        archivoSeleccionado = fileChooser.showOpenDialog(btnSeleccionarFoto.getScene().getWindow());
 
-        if (archivoSeleccionado != null) {
-            try {
-                Image preview = new Image(archivoSeleccionado.toURI().toString());
-                fotoPreview.setImage(preview);
-                statusLabel.setText("✓ Imagen seleccionada: " + archivoSeleccionado.getName());
-                System.out.println("[INFO] Imagen seleccionada: " + archivoSeleccionado.getAbsolutePath());
-            } catch (
-                    Exception e) {
-                statusLabel.setText("✗ Error al cargar preview: " + e.getMessage());
-                System.out.println("[ERROR] Error al cargar preview: " + e.getMessage());
-            }
-        } else {
-            statusLabel.setText("Selección cancelada");
+    private void cargarEmpleados() {
+        try {
+            List<Empleado> empleados = empleadoService.obtenerEmpleados();
+            ObservableList<Empleado> observableList = FXCollections.observableArrayList(empleados);
+            empleadosTable.setItems(observableList);
+        } catch (
+                Exception e) {
+            e.printStackTrace();
+            NotificacionService.error("Error al cargar empleados" + e.getMessage());
         }
     }
 
+    private void filtrarEmpleados(String filtro) {
+        List<Empleado> empleados = empleadoService.obtenerEmpleados();
+        ObservableList<Empleado> filtrados = FXCollections.observableArrayList();
+
+        if (filtro == null || filtro.isEmpty()) {
+            filtrados.addAll(empleados);
+        } else {
+            String filtroLower = filtro.toLowerCase();
+            for (Empleado emp : empleados) {
+                if (emp.getNombres().toLowerCase().contains(filtroLower) ||
+                        emp.getApellidos().toLowerCase().contains(filtroLower) ||
+                        emp.getDni().toLowerCase().contains(filtroLower)) {
+                    filtrados.add(emp);
+                }
+            }
+        }
+
+        empleadosTable.setItems(filtrados);
+    }
+
     @FXML
-    public void subirFoto() {
-        if (archivoSeleccionado == null) {
-            statusLabel.setText("✗ Selecciona una imagen primero");
-            System.out.println("[WARN] No hay imagen seleccionada");
+    private void abrirDialogoNuevoEmpleado() {
+        NotificacionService.info("Agregar nuevo empleado (por implementar)");
+    }
+
+    @FXML
+    private void editarEmpleadoSeleccionado() {
+        Empleado seleccionado = empleadosTable.getSelectionModel().getSelectedItem();
+        if (seleccionado == null) {
+            NotificacionService.advertencia("Selecciona un empleado para editar");
+            return;
+        }
+        NotificacionService.info("Editar empleado: " + seleccionado.getNombres());
+    }
+
+    @FXML
+    private void eliminarEmpleadoSeleccionado() {
+        Empleado seleccionado = empleadosTable.getSelectionModel().getSelectedItem();
+        if (seleccionado == null) {
+            NotificacionService.advertencia("Selecciona un empleado para eliminar");
             return;
         }
 
-        statusLabel.setText("⏳ Subiendo imagen...");
+        Alert confirma = new Alert(Alert.AlertType.CONFIRMATION);
+        confirma.setTitle("Confirmar eliminación");
+        confirma.setHeaderText("¿Eliminar a " + seleccionado.getNombres() + "?");
+        confirma.setContentText("Esta acción no se puede deshacer");
 
-        new Thread(() -> {
+        if (confirma.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
             try {
-                urlFotoSubida = imagenService.subirImagen(archivoSeleccionado);
-
-                // Mostrar URL en consola
-                System.out.println("════════════════════════════════════════");
-                System.out.println("[SUCCESS] Imagen subida exitosamente");
-                System.out.println("════════════════════════════════════════");
-                System.out.println("URL Final: " + urlFotoSubida);
-                System.out.println("════════════════════════════════════════");
-
-                // Actualizar UI en thread principal
-                javafx.application.Platform.runLater(() -> {
-                    statusLabel.setText("✓ URL: " + urlFotoSubida);
-                });
-
-            } catch (
-                    IllegalArgumentException e) {
-                System.out.println("[ERROR] Validación: " + e.getMessage());
-                javafx.application.Platform.runLater(() -> {
-                    statusLabel.setText("✗ Error: " + e.getMessage());
-                });
+                empleadoService.eliminarEmpleado(seleccionado.getId());
+                NotificacionService.exito("Empleado eliminado");
+                cargarEmpleados();
             } catch (
                     Exception e) {
-                System.out.println("[ERROR] Error al subir: " + e.getMessage());
-                e.printStackTrace();
-                javafx.application.Platform.runLater(() -> {
-                    statusLabel.setText("✗ Error al subir: " + e.getMessage());
-                });
+                NotificacionService.error("Error al eliminar: " + e.getMessage());
             }
-        }).start();
-    }
-
-    @FXML
-    public void eliminarFoto() {
-        fotoPreview.setImage(null);
-        archivoSeleccionado = null;
-        urlFotoSubida = null;
-        statusLabel.setText("Selecciona una imagen...");
-        System.out.println("[INFO] Imagen y URL eliminadas");
+        }
     }
 }

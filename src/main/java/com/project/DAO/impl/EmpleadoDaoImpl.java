@@ -55,25 +55,32 @@ public class EmpleadoDaoImpl implements EmpleadoDao {
 
 
     @Override
-    public void registrarEmpleado(Empleado empleado) {
-        String query = "INSERT INTO Empleado (codigo_empleado, nombres, apellidos, dni, telefono, correo, direccion, fecha_nacimiento, fecha_ingreso, foto_url, estado, dias_vacaciones_disponibles) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public void registrarEmpleado(Empleado empleado, Integer usuarioId) {
+        String query = "INSERT INTO dbo.Empleado " +
+                "(codigo_empleado, nombres, apellidos, dni, telefono, " +
+                "direccion, fecha_nacimiento, fecha_ingreso, foto_url, estado, " +
+                "dias_vacaciones_disponibles, fecha_creacion, creado_por) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query);
         ) {
             stmt.setString(1, empleado.getCodigoEmpleado());
-            stmt.setString(2, empleado.getNombre());
+            stmt.setString(2, empleado.getNombres());
             stmt.setString(3, empleado.getApellidos());
             stmt.setString(4, empleado.getDni());
             stmt.setString(5, empleado.getTelefono());
-            stmt.setString(6, empleado.getCorreo());
             stmt.setString(7, empleado.getDireccion());
-            stmt.setDate(8, java.sql.Date.valueOf(empleado.getFechaNacimiento()));
-            stmt.setDate(9, java.sql.Date.valueOf(empleado.getFechaIngreso()));
+            stmt.setDate(8, Date.valueOf(empleado.getFechaNacimiento()));
+            stmt.setDate(9, Date.valueOf(empleado.getFechaIngreso()));
             stmt.setString(10, empleado.getFotoUrl());
             stmt.setString(11, empleado.getEstado().name());
             stmt.setInt(12, empleado.getDiasVacacionesDisponibles());
+
+            // Auditoría
+            stmt.setObject(13, Timestamp.valueOf(empleado.getFechaCreacion()));
+            stmt.setInt(14, usuarioId);
 
             int filasAfectadas = stmt.executeUpdate();
             if (filasAfectadas == 0) {
@@ -104,8 +111,31 @@ public class EmpleadoDaoImpl implements EmpleadoDao {
     }
 
     @Override
-    public void actualizarEmpleado(Integer id, Empleado empleado) {
+    public void actualizarEmpleado(Empleado empleado, Integer usuarioId) {
+        String query = "UPDATE dbo.Empleado SET " +
+                "nombres = ?, apellidos = ?, telefono = ?, " +
+                "direccion = ?, foto_url = ?, estado = ?, " +
+                "fecha_actualizacion = SYSDATETIME(), " +
+                "actualizado_por = ? " +
+                "WHERE id = ?";
 
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, empleado.getNombres());
+            stmt.setString(2, empleado.getApellidos());
+            stmt.setString(3, empleado.getTelefono());
+            stmt.setString(5, empleado.getDireccion());
+            stmt.setString(6, empleado.getFotoUrl());
+            stmt.setString(7, empleado.getEstado().name());
+            stmt.setInt(8, usuarioId);
+            stmt.setInt(9, empleado.getId());
+
+            stmt.executeUpdate();
+        } catch (
+                SQLException e) {
+            throw new RuntimeException("Error al actualizar empleado", e);
+        }
     }
 
 
@@ -116,11 +146,10 @@ public class EmpleadoDaoImpl implements EmpleadoDao {
 
         empleado.setId(rs.getInt("id"));
         empleado.setCodigoEmpleado(rs.getString("codigo_empleado"));
-        empleado.setNombre(rs.getString("nombres"));
+        empleado.setNombres(rs.getString("nombres"));
         empleado.setApellidos(rs.getString("apellidos"));
         empleado.setDni(rs.getString("dni"));
         empleado.setTelefono(rs.getString("telefono"));
-        empleado.setCorreo(rs.getString("correo"));
         empleado.setDireccion(rs.getString("direccion"));
         empleado.setFechaNacimiento(sqlDateFecNacimiento.toLocalDate());
         empleado.setFechaIngreso(sqlDateFecIngreso.toLocalDate());

@@ -33,7 +33,7 @@
                 <Label text="RRHH Sistema"
                        styleClass="brand-title"/>
                 <Label text="Empleado"
-                       styleClass="role-badge role-user"/>
+                       styleClass="role-badge role-usuario"/>
 
                 <Region minHeight="14"/>
 
@@ -129,19 +129,19 @@
                         maxHeight="1"/>
                 <Region minHeight="10"/>
 
-                <HBox styleClass="user-card"
+                <HBox styleClass="usuario-card"
                       alignment="CENTER_LEFT"
                       spacing="12">
                     <StackPane
-                            styleClass="user-avatar">
+                            styleClass="usuario-avatar">
                         <Label text="U"
                                styleClass="avatar-initial"/>
                     </StackPane>
                     <VBox spacing="2">
-                        <Label text="user"
-                               styleClass="user-name"/>
+                        <Label text="usuario"
+                               styleClass="usuario-name"/>
                         <Label text="Empleado"
-                               styleClass="user-role-text"/>
+                               styleClass="usuario-role-text"/>
                     </VBox>
                 </HBox>
 

@@ -18,7 +18,6 @@
                 left="20"/>
     </padding>
 
-    <!-- Sección de Foto -->
     <Label text="Subir Foto de Empleado"
            styleClass="section-title"/>
 

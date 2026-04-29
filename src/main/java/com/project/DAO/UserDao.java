@@ -1,10 +1,14 @@
 package com.project.DAO;
 
-import com.project.models.User;
+import com.project.models.Usuario;
 
 import java.util.List;
 
 public interface UserDao {
 
-    List<User> getAllUsers();
+    List<Usuario> getAllUsers();
+
+    void crearUsuario(Usuario usuario);
+
+    Usuario obtenerPorUsername(String userName);
 }
