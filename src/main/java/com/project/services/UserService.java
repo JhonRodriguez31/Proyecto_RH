@@ -1,9 +1,9 @@
 package com.project.services;
 
-import com.project.models.User;
+import com.project.models.Usuario;
 
 import java.util.List;
 
 public interface UserService {
-    List<User> getAllUsers();
+    List<Usuario> getAllUsers();
 }

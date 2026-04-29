@@ -2,7 +2,7 @@ package com.project.services.impl;
 
 import com.project.DAO.UserDao;
 import com.project.DAO.impl.UserDaoImpl;
-import com.project.models.User;
+import com.project.models.Usuario;
 import com.project.services.UserService;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public List<User> getAllUsers() {
+    public List<Usuario> getAllUsers() {
         return userDao.getAllUsers();
     }
 }

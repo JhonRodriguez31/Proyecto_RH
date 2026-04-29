@@ -10,7 +10,7 @@ import java.util.List;
 public class EmpleadoServiceImpl implements EmpleadoService {
     private final EmpleadoDao empleadoDao;
 
-    public EmpleadoServiceImpl(EmpleadoDao empleadoDao) {
+    public EmpleadoServiceImpl() {
         this.empleadoDao = new EmpleadoDaoImpl();
     }
 
@@ -24,12 +24,18 @@ public class EmpleadoServiceImpl implements EmpleadoService {
         return empleadoDao.obtenerEmpleado(id);
     }
 
+
     @Override
-    public void registrarEmpleado(Empleado empleado) {
+    public void actualizarEmpleado(Empleado empleado, Integer usuarioId) {
+
+    }
+
+    @Override
+    public void registrarEmpleado(Empleado empleado, Integer usuariId) {
 //        if (empleado.getCodigoEmpleado() == null || empleado.getCodigoEmpleado().isBlank()) {
 //            throw new IllegalArgumentException("El nombre es obligatorio");
 //        }
-        if (empleado.getNombre() == null || empleado.getNombre().isBlank()) {
+        if (empleado.getNombres() == null || empleado.getNombres().isBlank()) {
             throw new IllegalArgumentException("El nombre es obligatorio");
         }
         if (empleado.getApellidos() == null || empleado.getApellidos().isBlank()) {
@@ -43,7 +49,7 @@ public class EmpleadoServiceImpl implements EmpleadoService {
         }
 
 
-        empleadoDao.registrarEmpleado(empleado);
+        empleadoDao.registrarEmpleado(empleado, usuariId);
     }
 
     @Override

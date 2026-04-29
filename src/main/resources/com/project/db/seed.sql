@@ -1,14 +1,14 @@
-INSERT INTO dbo.Empleado (codigo_empleado, nombres, apellidos, dni, telefono, correo, direccion, fecha_nacimiento, fecha_ingreso, estado, dias_vacaciones_disponibles) VALUES
-('EMP001', 'Juan', 'Perez', '71234567', '987654321', 'juan.perez@empresa.com', 'Av. Lima 123', '1990-05-15', '2020-01-10', 'ACTIVO', 15),
-('EMP002', 'Maria', 'Gomez', '72345678', '987654322', 'maria.gomez@empresa.com', 'Calle Arequipa 456', '1988-11-20', '2019-03-15', 'ACTIVO', 10),
-('EMP003', 'Carlos', 'Ruiz', '73456789', '987654323', 'carlos.ruiz@empresa.com', 'Jr. Trujillo 789', '1992-02-10', '2021-06-01', 'ACTIVO', 20),
-('EMP004', 'Ana', 'Torres', '74567890', '987654324', 'ana.torres@empresa.com', 'Av. Piura 321', '1995-08-25', '2022-01-15', 'ACTIVO', 5),
-('EMP005', 'Luis', 'Flores', '75678901', '987654325', 'luis.flores@empresa.com', 'Calle Cusco 654', '1985-12-05', '2018-09-20', 'ACTIVO', 25),
-('EMP006', 'Rosa', 'Vargas', '76789012', '987654326', 'rosa.vargas@empresa.com', 'Jr. Tacna 987', '1993-04-30', '2021-11-01', 'ACTIVO', 12),
-('EMP007', 'Jorge', 'Castro', '77890123', '987654327', 'jorge.castro@empresa.com', 'Av. Ica 147', '1991-07-18', '2020-08-10', 'ACTIVO', 18),
-('EMP008', 'Diana', 'Rios', '78901234', '987654328', 'diana.rios@empresa.com', 'Calle Loreto 258', '1996-09-12', '2023-02-01', 'ACTIVO', 0),
-('EMP009', 'Pedro', 'Mendoza', '79012345', '987654329', 'pedro.mendoza@empresa.com', 'Jr. Puno 369', '1989-10-22', '2017-05-15', 'ACTIVO', 30),
-('EMP010', 'Lucia', 'Silva', '70123456', '987654330', 'lucia.silva@empresa.com', 'Av. Junin 753', '1994-03-08', '2022-07-20', 'ACTIVO', 8);
+INSERT INTO dbo.Empleado (codigo_empleado, nombres, apellidos, dni, telefono, direccion, fecha_nacimiento, fecha_ingreso, estado, dias_vacaciones_disponibles) VALUES
+('EMP001', 'Juan', 'Perez', '71234567', '987654321',  'Av. Lima 123', '1990-05-15', '2020-01-10', 'ACTIVO', 15),
+('EMP002', 'Maria', 'Gomez', '72345678', '987654322',  'Calle Arequipa 456', '1988-11-20', '2019-03-15', 'ACTIVO', 10),
+('EMP003', 'Carlos', 'Ruiz', '73456789', '987654323',  'Jr. Trujillo 789', '1992-02-10', '2021-06-01', 'ACTIVO', 20),
+('EMP004', 'Ana', 'Torres', '74567890', '987654324',  'Av. Piura 321', '1995-08-25', '2022-01-15', 'ACTIVO', 5),
+('EMP005', 'Luis', 'Flores', '75678901', '987654325',  'Calle Cusco 654', '1985-12-05', '2018-09-20', 'ACTIVO', 25),
+('EMP006', 'Rosa', 'Vargas', '76789012', '987654326',  'Jr. Tacna 987', '1993-04-30', '2021-11-01', 'ACTIVO', 12),
+('EMP007', 'Jorge', 'Castro', '77890123', '987654327', 'Av. Ica 147', '1991-07-18', '2020-08-10', 'ACTIVO', 18),
+('EMP008', 'Diana', 'Rios', '78901234', '987654328', 'Calle Loreto 258', '1996-09-12', '2023-02-01', 'ACTIVO', 0),
+('EMP009', 'Pedro', 'Mendoza', '79012345', '987654329',  'Jr. Puno 369', '1989-10-22', '2017-05-15', 'ACTIVO', 30),
+('EMP010', 'Lucia', 'Silva', '70123456', '987654330',  'Av. Junin 753', '1994-03-08', '2022-07-20', 'ACTIVO', 8);
 GO
 
 -- 2. Contrato
@@ -26,31 +26,17 @@ INSERT INTO dbo.Contrato (empleado_id, cargo, area, tipo_contrato, fecha_inicio,
 GO
 
 -- 3. DocumentoEmpleado
-INSERT INTO dbo.DocumentoEmpleado (empleado_id, nombre_archivo, tipo_archivo, archivo_url) VALUES
-(1, 'DNI_Juan_Perez.pdf', 'DNI', 'https://storage.empresa.com/docs/dni_juan.pdf'),
-(2, 'CV_Maria_Gomez.pdf', 'CV', 'https://storage.empresa.com/docs/cv_maria.pdf'),
-(3, 'Contrato_Carlos.pdf', 'CONTRATO', 'https://storage.empresa.com/docs/contrato_carlos.pdf'),
-(4, 'Antecedentes_Ana.pdf', 'ANTECEDENTES', 'https://storage.empresa.com/docs/antecedentes_ana.pdf'),
-(5, 'DNI_Luis_Flores.pdf', 'DNI', 'https://storage.empresa.com/docs/dni_luis.pdf'),
-(6, 'Portafolio_Rosa.pdf', 'OTROS', 'https://storage.empresa.com/docs/portafolio_rosa.pdf'),
-(7, 'Certificado_Jorge.pdf', 'CERTIFICADO', 'https://storage.empresa.com/docs/cert_jorge.pdf'),
-(8, 'Constancia_Diana.pdf', 'CONSTANCIA', 'https://storage.empresa.com/docs/const_diana.pdf'),
-(9, 'Titulo_Pedro.pdf', 'TITULO', 'https://storage.empresa.com/docs/titulo_pedro.pdf'),
-(10, 'DNI_Lucia_Silva.pdf', 'DNI', 'https://storage.empresa.com/docs/dni_lucia.pdf');
-GO
-
--- 4. Usuario
-INSERT INTO dbo.Usuario (empleado_id, rol, auth_uid, username, email) VALUES
-(1, 'ADMIN', 'uid_001', 'jperez', 'juan.perez@empresa.com'),
-(2, 'USER', 'uid_002', 'mgomez', 'maria.gomez@empresa.com'),
-(3, 'USER', 'uid_003', 'cruiz', 'carlos.ruiz@empresa.com'),
-(4, 'HR', 'uid_004', 'atorres', 'ana.torres@empresa.com'),
-(5, 'MANAGER', 'uid_005', 'lflores', 'luis.flores@empresa.com'),
-(6, 'USER', 'uid_006', 'rvargas', 'rosa.vargas@empresa.com'),
-(7, 'IT', 'uid_007', 'jcastro', 'jorge.castro@empresa.com'),
-(8, 'USER', 'uid_008', 'drios', 'diana.rios@empresa.com'),
-(9, 'FINANCE', 'uid_009', 'pmendoza', 'pedro.mendoza@empresa.com'),
-(10, 'USER', 'uid_010', 'lsilva', 'lucia.silva@empresa.com');
+INSERT INTO dbo.DocumentoEmpleado (empleado_id, nombre_archivo, tipo_archivo) VALUES
+(1, 'DNI_Juan_Perez.pdf', 'DNI'),
+(2, 'CV_Maria_Gomez.pdf', 'CV'),
+(3, 'Contrato_Carlos.pdf', 'CONTRATO' ),
+(4, 'Antecedentes_Ana.pdf', 'ANTECEDENTES'),
+(5, 'DNI_Luis_Flores.pdf', 'DNI'),
+(6, 'Portafolio_Rosa.pdf', 'OTROS'),
+(7, 'Certificado_Jorge.pdf', 'CERTIFICADO'),
+(8, 'Constancia_Diana.pdf', 'CONSTANCIA'),
+(9, 'Titulo_Pedro.pdf', 'TITULO'),
+(10, 'DNI_Lucia_Silva.pdf', 'DNI');
 GO
 
 -- 5. Vacacion

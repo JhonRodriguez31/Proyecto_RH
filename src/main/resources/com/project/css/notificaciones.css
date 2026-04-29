@@ -1,0 +1,52 @@
+.alert {
+    -fx-padding: 16;
+}
+
+.alert .header-panel {
+    -fx-padding: 12 0 12 0;
+}
+
+.alert .title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.alert .content {
+    -fx-padding: 12 0 12 0;
+    -fx-font-size: 14px;
+}
+
+/* Éxito (verde) */
+.alert.information .graphic {
+    -fx-graphic: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%234caf50" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>');
+}
+
+/* Error (rojo) */
+.alert.error .graphic {
+    -fx-graphic: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23f44336" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m1 15h-2v-2h2v2m0-4h-2V7h2v6z"/></svg>');
+}
+
+/* Advertencia (naranja) */
+.alert.warning .graphic {
+    -fx-graphic: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23ff9800" d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>');
+}
+
+/* Botones */
+.alert .button-bar {
+    -fx-padding: 16 0 0 0;
+}
+
+.alert .button-bar .button {
+    -fx-padding: 8 24 8 24;
+    -fx-font-size: 14px;
+    -fx-border-radius: 4;
+}
+
+.alert .button-bar .button:default {
+    -fx-background-color: #1976d2;
+    -fx-text-fill: white;
+}
+
+.alert .button-bar .button:default:hover {
+    -fx-background-color: #1565c0;
+}

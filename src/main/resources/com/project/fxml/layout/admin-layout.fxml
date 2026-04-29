@@ -12,7 +12,7 @@
 
 <VBox fx:id="rootContainer"
       styleClass="app-shell"
-      stylesheets="@../../css/layout.css"
+      stylesheets="@../../css/theme.css, @../../css/layout.css"
       xmlns="http://javafx.com/javafx/21"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.project.layout.AdminLayoutController">
@@ -143,19 +143,19 @@
                         maxHeight="1"/>
                 <Region minHeight="10"/>
 
-                <HBox styleClass="user-card"
+                <HBox styleClass="usuario-card"
                       alignment="CENTER_LEFT"
                       spacing="12">
                     <StackPane
-                            styleClass="user-avatar">
+                            styleClass="usuario-avatar">
                         <Label text="A"
                                styleClass="avatar-initial"/>
                     </StackPane>
                     <VBox spacing="2">
                         <Label text="admin"
-                               styleClass="user-name"/>
+                               styleClass="usuario-name"/>
                         <Label text="Administrador"
-                               styleClass="user-role-text"/>
+                               styleClass="usuario-role-text"/>
                     </VBox>
                 </HBox>
 

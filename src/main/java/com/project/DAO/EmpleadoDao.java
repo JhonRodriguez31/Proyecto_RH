@@ -9,9 +9,9 @@ public interface EmpleadoDao {
 
     Empleado obtenerEmpleado(Integer id);
 
-    void registrarEmpleado(Empleado empleado);
+    void registrarEmpleado(Empleado empleado, Integer usuarioId);
 
     void eliminarEmpleado(Integer id);
 
-    void actualizarEmpleado(Integer id, Empleado empleado);
+    void actualizarEmpleado(Empleado empleado, Integer usuarioId);
 }

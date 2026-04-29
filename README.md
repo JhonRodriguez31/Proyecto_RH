@@ -102,7 +102,7 @@ public class EnvConfig {
 String host = EnvConfig.get("DB_HOST");
 String port = EnvConfig.get("DB_PORT");
 String db = EnvConfig.get("DB_NAME");
-String user = EnvConfig.get("DB_USER");
+String usuario = EnvConfig.get("DB_USER");
 String pass = EnvConfig.get("DB_PASSWORD");
 ```
 
