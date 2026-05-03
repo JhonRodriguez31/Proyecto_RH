@@ -1,205 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.kordamp.ikonli.javafx.*?>
 
-<HBox fx:id="authRoot"
-      styleClass="auth-root"
-      stylesheets="@../../css/auth-layout.css"
-      xmlns="http://javafx.com/javafx/21"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.project.controllers.AuthController">
+<HBox fx:id="authRoot" styleClass="auth-root" stylesheets="@../../css/auth-layout.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.controllers.AuthController">
 
-    <VBox styleClass="auth-left-panel"
-          prefWidth="460"
-          minWidth="460"
-          spacing="16"
-          alignment="CENTER">
+    <VBox alignment="CENTER" minWidth="460" prefWidth="460" spacing="16" styleClass="auth-left-panel">
         <padding>
-            <Insets top="40"
-                    right="40"
-                    bottom="40"
-                    left="40"/>
+            <Insets bottom="40" left="40" right="40" top="40" />
         </padding>
 
-        <FontIcon
-                iconLiteral="mdi2s-shield-account-outline"
-                styleClass="auth-brand-icon"/>
+        <FontIcon iconLiteral="mdi2s-shield-account-outline" styleClass="auth-brand-icon" />
 
-        <Label text="PlanillaCore"
-               styleClass="auth-brand-title"/>
+        <Label styleClass="auth-brand-title" text="PlanillaCore" />
 
-        <Label text="Sistema de Gestión de Recursos Humanos"
-               styleClass="auth-brand-subtitle"/>
+        <Label styleClass="auth-brand-subtitle" text="Sistema de Gestión de Recursos Humanos" />
 
-        <Region styleClass="auth-brand-divider"
-                maxWidth="200"
-                prefHeight="1"
-                maxHeight="1"/>
+        <Region maxHeight="1" maxWidth="200" prefHeight="1" styleClass="auth-brand-divider" />
 
-        <Region minHeight="8"/>
+        <Region minHeight="8" />
 
         <HBox styleClass="auth-brand-feature-row">
-            <FontIcon
-                    iconLiteral="mdi2a-account-group-outline"
-                    styleClass="auth-feature-icon"/>
-            <Label text="Gestión integral de empleados"
-                   styleClass="auth-feature-text"/>
+            <FontIcon iconLiteral="mdi2a-account-group-outline" styleClass="auth-feature-icon" />
+            <Label styleClass="auth-feature-text" text="Gestión integral de empleados" />
         </HBox>
 
         <HBox styleClass="auth-brand-feature-row">
-            <FontIcon
-                    iconLiteral="mdi2c-calendar-check-outline"
-                    styleClass="auth-feature-icon"/>
-            <Label text="Control de asistencias y vacaciones"
-                   styleClass="auth-feature-text"/>
+            <FontIcon iconLiteral="mdi2c-calendar-check-outline" styleClass="auth-feature-icon" />
+            <Label styleClass="auth-feature-text" text="Control de asistencias y vacaciones" />
         </HBox>
 
         <HBox styleClass="auth-brand-feature-row">
-            <FontIcon
-                    iconLiteral="mdi2c-cash-multiple"
-                    styleClass="auth-feature-icon"/>
-            <Label text="Administración de planilla"
-                   styleClass="auth-feature-text"/>
+            <FontIcon iconLiteral="mdi2c-cash-multiple" styleClass="auth-feature-icon" />
+            <Label styleClass="auth-feature-text" text="Administración de planilla" />
         </HBox>
 
         <HBox styleClass="auth-brand-feature-row">
-            <FontIcon
-                    iconLiteral="mdi2c-chart-bar"
-                    styleClass="auth-feature-icon"/>
-            <Label text="Dashboard analítico en tiempo real"
-                   styleClass="auth-feature-text"/>
+            <FontIcon iconLiteral="mdi2c-chart-bar" styleClass="auth-feature-icon" />
+            <Label styleClass="auth-feature-text" text="Dashboard analítico en tiempo real" />
         </HBox>
 
-        <Region VBox.vgrow="ALWAYS"/>
+        <Region VBox.vgrow="ALWAYS" />
 
-        <Label text="v1.0.0"
-               styleClass="auth-version-badge"/>
+        <Label styleClass="auth-version-badge" text="v1.0.0" />
     </VBox>
 
-    <StackPane
-            styleClass="auth-right-panel"
-            HBox.hgrow="ALWAYS">
+    <StackPane styleClass="auth-right-panel" HBox.hgrow="ALWAYS">
 
-        <VBox alignment="CENTER"
-              spacing="16">
+        <VBox alignment="CENTER" spacing="16">
 
-            <VBox styleClass="auth-card"
-                  spacing="4">
+            <VBox spacing="4" styleClass="auth-card">
 
-                <Label text="Iniciar Sesión"
-                       styleClass="auth-card-title"/>
-                <Label text="Ingresa tus credenciales para acceder al sistema"
-                       styleClass="auth-card-subtitle"/>
+                <Label styleClass="auth-card-title" text="Iniciar Sesión" />
+                <Label styleClass="auth-card-subtitle" text="Ingresa tus credenciales para acceder al sistema" />
 
-                <HBox fx:id="errorBox"
-                      styleClass="auth-error-box"
-                      visible="false"
-                      managed="false">
-                    <FontIcon
-                            iconLiteral="mdi2a-alert-circle-outline"
-                            styleClass="auth-error-icon"/>
-                    <Label fx:id="errorLabel"
-                           text="Credenciales inválidas"
-                           styleClass="auth-error-text"/>
+                <HBox fx:id="errorBox" managed="false" styleClass="auth-error-box" visible="false">
+                    <FontIcon iconLiteral="mdi2a-alert-circle-outline" styleClass="auth-error-icon" />
+                    <Label fx:id="errorLabel" styleClass="auth-error-text" text="Credenciales inválidas" />
                 </HBox>
 
-                <Label text="USUARIO"
-                       styleClass="auth-field-label"/>
+                <Label styleClass="auth-field-label" text="DNI" />
                 <HBox styleClass="auth-input-wrapper">
-                    <FontIcon
-                            iconLiteral="mdi2a-account-outline"
-                            styleClass="auth-input-icon"/>
-                    <TextField
-                            fx:id="usernameField"
-                            promptText="Ingresa tu usuario"
-                            styleClass="auth-text-field"
-                            HBox.hgrow="ALWAYS"/>
+                    <FontIcon iconLiteral="mdi2a-account-outline" styleClass="auth-input-icon" />
+                    <TextField fx:id="usernameField" promptText="Ingresa tu DNI" styleClass="auth-text-field" HBox.hgrow="ALWAYS" />
                 </HBox>
 
-                <Label text="CONTRASEÑA"
-                       styleClass="auth-field-label"/>
+                <Label styleClass="auth-field-label" text="CONTRASEÑA" />
                 <HBox styleClass="auth-input-wrapper">
-                    <FontIcon
-                            iconLiteral="mdi2l-lock-outline"
-                            styleClass="auth-input-icon"/>
-                    <StackPane
-                            HBox.hgrow="ALWAYS"
-                            alignment="CENTER_LEFT">
-                        <PasswordField
-                                fx:id="passwordField"
-                                promptText="Ingresa tu contraseña"
-                                styleClass="auth-password-field"
-                                maxWidth="1.7976931348623157E308"/>
-                        <TextField
-                                fx:id="visiblePasswordField"
-                                promptText="Ingresa tu contraseña"
-                                styleClass="auth-text-field"
-                                visible="false"
-                                managed="false"
-                                maxWidth="1.7976931348623157E308"/>
+                    <FontIcon iconLiteral="mdi2l-lock-outline" styleClass="auth-input-icon" />
+                    <StackPane alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                        <PasswordField fx:id="passwordField" maxWidth="1.7976931348623157E308" promptText="Ingresa tu contraseña" styleClass="auth-password-field" />
+                        <TextField fx:id="visiblePasswordField" managed="false" maxWidth="1.7976931348623157E308" promptText="Ingresa tu contraseña" styleClass="auth-text-field" visible="false" />
                     </StackPane>
-                    <Button fx:id="togglePasswordBtn"
-                            styleClass="auth-toggle-password"
-                            onAction="#togglePasswordVisibility">
+                    <Button fx:id="togglePasswordBtn" onAction="#togglePasswordVisibility" styleClass="auth-toggle-password">
                         <graphic>
-                            <FontIcon
-                                    fx:id="togglePasswordIcon"
-                                    iconLiteral="mdi2e-eye-outline"
-                                    styleClass="auth-toggle-icon"/>
+                            <FontIcon fx:id="togglePasswordIcon" iconLiteral="mdi2e-eye-outline" styleClass="auth-toggle-icon" />
                         </graphic>
                     </Button>
                 </HBox>
 
-                <Region minHeight="8"/>
+                <Region minHeight="8" />
 
-                <Button fx:id="loginButton"
-                        text="Iniciar Sesión"
-                        maxWidth="Infinity"
-                        styleClass="auth-btn-primary"
-                        onAction="#handleLogin">
+                <Button fx:id="loginButton" maxWidth="Infinity" onAction="#handleLogin" styleClass="auth-btn-primary" text="Iniciar Sesión">
                     <graphic>
-                        <FontIcon
-                                iconLiteral="mdi2l-login"
-                                styleClass="auth-btn-icon"/>
+                        <FontIcon iconLiteral="mdi2l-login" styleClass="auth-btn-icon" />
                     </graphic>
                 </Button>
 
-                <Region minHeight="4"/>
-                <HBox alignment="CENTER"
-                      spacing="0">
-                    <Region styleClass="auth-divider-line"
-                            HBox.hgrow="ALWAYS"/>
-                    <Label text="o"
-                           styleClass="auth-divider-text"/>
-                    <Region styleClass="auth-divider-line"
-                            HBox.hgrow="ALWAYS"/>
+                <Region minHeight="4" />
+                <HBox alignment="CENTER" spacing="0">
+                    <Region styleClass="auth-divider-line" HBox.hgrow="ALWAYS" />
+                    <Label styleClass="auth-divider-text" text="o" />
+                    <Region styleClass="auth-divider-line" HBox.hgrow="ALWAYS" />
                 </HBox>
 
                 <HBox alignment="CENTER">
-                    <Button fx:id="resetPasswordBtn"
-                            text="Restablecer Contraseña"
-                            styleClass="auth-link-btn"
-                            onAction="#handleResetPassword">
+                    <Button fx:id="resetPasswordBtn" onAction="#handleResetPassword" styleClass="auth-link-btn" text="Restablecer Contraseña">
                         <graphic>
-                            <FontIcon
-                                    iconLiteral="mdi2l-lock-reset"
-                                    styleClass="auth-link-icon"/>
+                            <FontIcon iconLiteral="mdi2l-lock-reset" styleClass="auth-link-icon" />
                         </graphic>
                     </Button>
                 </HBox>
             </VBox>
 
-            <Label text="© 2026 PlanillaCore — Todos los derechos reservados"
-                   styleClass="auth-footer-text"/>
+            <Label styleClass="auth-footer-text" text="© 2026 PlanillaCore — Todos los derechos reservados" />
         </VBox>
     </StackPane>
 </HBox>

@@ -1,6 +1,8 @@
 package com.project.services.impl;
 
+import com.project.DAO.AuthDao;
 import com.project.DAO.UserDao;
+import com.project.DAO.impl.AuthDaoImpl;
 import com.project.DAO.impl.UserDaoImpl;
 import com.project.config.BcryptFactory;
 import com.project.models.Usuario;
@@ -9,9 +11,11 @@ import com.project.services.AuthService;
 public class AuthServiceImpl implements AuthService {
 
     private final UserDao userDao;
+    private final AuthDao authDao;
 
-    public AuthServiceImpl(UserDao userDao) {
-        this.userDao = new UserDaoImpl();
+    public AuthServiceImpl(AuthDao authDao, UserDao userDao) {
+        this.userDao = userDao;
+        this.authDao = authDao;
     }
 
     @Override
@@ -25,6 +29,10 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public Usuario login(String dni, String password) {
+        Usuario usuario = authDao.encontrarPorDni(dni);
+        if (usuario != null && BcryptFactory.verifyPasswors(password, usuario.getPassword())) {
+            return usuario;
+        }
         return null;
     }
 

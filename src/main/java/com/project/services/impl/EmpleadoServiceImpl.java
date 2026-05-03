@@ -10,9 +10,10 @@ import java.util.List;
 public class EmpleadoServiceImpl implements EmpleadoService {
     private final EmpleadoDao empleadoDao;
 
-    public EmpleadoServiceImpl() {
-        this.empleadoDao = new EmpleadoDaoImpl();
+    public EmpleadoServiceImpl(EmpleadoDao empleadoDao) {
+        this.empleadoDao = empleadoDao;
     }
+
 
     @Override
     public List<Empleado> obtenerEmpleados() {
