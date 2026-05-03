@@ -1,6 +1,10 @@
 package com.project.controllers;
 
 import com.project.MainApplication;
+import com.project.config.ServiceFactory;
+import com.project.models.Usuario;
+import com.project.services.AuthService;
+import com.project.services.impl.AuthServiceImpl;
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
@@ -21,7 +25,7 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import java.io.IOException;
 
 public class AuthController {
-
+    private AuthService authService = ServiceFactory.getAuthService();
     @FXML
     private HBox authRoot;
     @FXML
@@ -54,19 +58,19 @@ public class AuthController {
 
     @FXML
     private void handleLogin() {
-        String username = usernameField.getText().trim();
+        String dni = usernameField.getText().trim();
         String password = getPassword().trim();
 
-        if (username.isEmpty() || password.isEmpty()) {
+        if (dni.isEmpty() || password.isEmpty()) {
             showError("Por favor, completa todos los campos");
             return;
         }
 
-        boolean isAuthenticated = authenticate(username, password);
+        Usuario usuarioAutenticado = authenticate(dni, password);
 
-        if (isAuthenticated) {
+        if (usuarioAutenticado.getActivo()) {
             hideError();
-            boolean isAdmin = "admin".equalsIgnoreCase(username);
+            boolean isAdmin = "admin".equalsIgnoreCase(usuarioAutenticado.getRole().toString());
             navigateToLayout(isAdmin);
         } else {
             showError("Usuario o contraseña incorrectos");
@@ -119,10 +123,8 @@ public class AuthController {
         visiblePasswordField.clear();
     }
 
-    private boolean authenticate(String username, String password) {
-        // TODO: Replace with real DB authentication via services layer
-        return ("admin".equalsIgnoreCase(username) && "admin123".equals(password))
-                || ("user".equalsIgnoreCase(username) && "user123".equals(password));
+    private Usuario authenticate(String dni, String password) {
+        return authService.login(dni, password);
     }
 
     private void showError(String message) {
@@ -155,6 +157,7 @@ public class AuthController {
             crossfadeTo(newRoot, "Sistema de Recursos Humanos");
         } catch (
                 IOException e) {
+            e.printStackTrace();
             showError("Error al cargar el sistema: " + e.getMessage());
         }
     }

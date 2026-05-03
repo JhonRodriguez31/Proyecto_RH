@@ -2,6 +2,7 @@ package com.project.controllers;
 
 
 import com.project.common.util.NotificacionService;
+import com.project.config.ServiceFactory;
 import com.project.models.Empleado;
 import com.project.services.EmpleadoService;
 import com.project.services.impl.EmpleadoServiceImpl;
@@ -17,8 +18,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class EmpleadoController implements Initializable {
-    private EmpleadoService empleadoService;
-
+    EmpleadoService empleadoService = ServiceFactory.getEmpleadoService();
 
     @FXML
     private TableView<Empleado> empleadosTable;
@@ -54,7 +54,6 @@ public class EmpleadoController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        empleadoService = new EmpleadoServiceImpl();
         configurarColumnas();
         cargarEmpleados();
         searchField.textProperty().addListener((obs, old, nuevo) -> {
