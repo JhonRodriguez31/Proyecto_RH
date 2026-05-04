@@ -23,18 +23,18 @@ public class UserLayoutController extends BaseLayoutController {
 
     @Override
     protected void setupMenu() {
-        registerMenuButton(btnPanel, "user-panel", "/com/project/fxml/pages/placeholder-view.fxml");
+        registerMenuButton(btnPanel, "user-panel", "/com/project/fxml/pages/user/dashboard-view.fxml");
         registerMenuButton(btnDirectory, "user-directory", "/com/project/fxml/pages/placeholder-view.fxml");
         registerMenuButton(btnAttendance, "user-attendance", "/com/project/fxml/pages/placeholder-view.fxml");
         registerMenuButton(btnPayroll, "user-payroll", "/com/project/fxml/pages/placeholder-view.fxml");
-        registerMenuButton(btnVacation, "user-vacation", "/com/project/fxml/pages/placeholder-view.fxml");
-        registerMenuButton(btnBenefits, "user-benefits", "/com/project/fxml/pages/placeholder-view.fxml");
+        registerMenuButton(btnVacation, "user-vacation", "/com/project/fxml/pages/user/vacation-view.fxml");
+        registerMenuButton(btnBenefits, "user-benefits", "/com/project/fxml/pages/user/benefit-view.fxml");
     }
 
     @Override
     protected void goDefaultPage() {
         setActiveButton(btnPanel);
-        navigationService.navigate("user-panel", "/com/project/fxml/pages/placeholder-view.fxml");
+        navigationService.navigate("user-panel", "/com/project/fxml/pages/user/dashboard-view.fxml");
     }
 
     @Override
