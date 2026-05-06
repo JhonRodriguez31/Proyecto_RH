@@ -8,4 +8,7 @@ public interface AuthService {
     Usuario login(String dni, String password);
 
     void cambiarContraseña(Integer usuarioId, String newPassword);
+
+    Usuario obtenerUsuarioAutenticado();
+    void logout();
 }

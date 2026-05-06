@@ -59,6 +59,11 @@
             VBox.vgrow="ALWAYS">
         <columns>
             <TableColumn
+                    fx:id="colFoto"
+                    text="Foto"
+                    prefWidth="70"
+                    style="-fx-alignment: CENTER;"/>
+            <TableColumn
                     fx:id="colCodigo"
                     text="Código"
                     prefWidth="100"/>
@@ -78,6 +83,11 @@
                     fx:id="colTelefono"
                     text="Teléfono"
                     prefWidth="130"/>
+            <TableColumn
+                    fx:id="colAcciones"
+                    text="Acciones"
+                    prefWidth="140"
+                    style="-fx-alignment: CENTER;"/>
         </columns>
     </TableView>
 
@@ -85,29 +95,11 @@
     <HBox spacing="10"
           styleClass="actions-bar">
         <Button fx:id="btnAgregar"
-                text="Agregar"
+                text="Agregar Empleado"
                 styleClass="btn-primary">
             <graphic>
                 <FontIcon
                         iconLiteral="mdi2p-plus"
-                        styleClass="icon-btn"/>
-            </graphic>
-        </Button>
-        <Button fx:id="btnEditar"
-                text="Editar"
-                styleClass="btn-secondary">
-            <graphic>
-                <FontIcon
-                        iconLiteral="mdi2p-pencil"
-                        styleClass="icon-btn"/>
-            </graphic>
-        </Button>
-        <Button fx:id="btnEliminar"
-                text="Eliminar"
-                styleClass="btn-danger">
-            <graphic>
-                <FontIcon
-                        iconLiteral="mdi2t-trash-can"
                         styleClass="icon-btn"/>
             </graphic>
         </Button>
