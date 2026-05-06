@@ -16,7 +16,7 @@
 
         <Label styleClass="auth-brand-title" text="PlanillaCore" />
 
-        <Label styleClass="auth-brand-subtitle" text="Sistema de Gestión de Recursos Humanos" />
+        <Label contentDisplay="CENTER" prefHeight="18.0" prefWidth="255.0" styleClass="auth-brand-subtitle" text="Sistema de Gestión de Recursos Humanos" textOverrun="CENTER_ELLIPSIS" />
 
         <Region maxHeight="1" maxWidth="200" prefHeight="1" styleClass="auth-brand-divider" />
 
@@ -105,7 +105,7 @@
                 </HBox>
             </VBox>
 
-            <Label styleClass="auth-footer-text" text="© 2026 PlanillaCore — Todos los derechos reservados" />
+            <Label styleClass="auth-footer-text" text="© 2026 PlanillaCore — Todos los derechos reservados" textFill="WHITE" />
         </VBox>
     </StackPane>
 </HBox>

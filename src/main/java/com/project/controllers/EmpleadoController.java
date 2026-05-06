@@ -23,6 +23,8 @@ public class EmpleadoController implements Initializable {
     @FXML
     private TableView<Empleado> empleadosTable;
     @FXML
+    private TableColumn<Empleado, String> colFoto;
+    @FXML
     private TableColumn<Empleado, String> colCodigo;
 
     @FXML
@@ -40,10 +42,7 @@ public class EmpleadoController implements Initializable {
     private Button btnAgregar;
 
     @FXML
-    private Button btnEditar;
-
-    @FXML
-    private Button btnEliminar;
+    private TableColumn<Empleado, Void> colAcciones;
 
     @FXML
     private Button btnRecargar;
@@ -62,8 +61,6 @@ public class EmpleadoController implements Initializable {
 
         btnRecargar.setOnAction(e -> cargarEmpleados());
         btnAgregar.setOnAction(e -> abrirDialogoNuevoEmpleado());
-        btnEditar.setOnAction(e -> editarEmpleadoSeleccionado());
-        btnEliminar.setOnAction(e -> eliminarEmpleadoSeleccionado());
 
     }
 
@@ -84,6 +81,81 @@ public class EmpleadoController implements Initializable {
         colTelefono.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getTelefono())
         );
+
+        colFoto.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFotoUrl()));
+        colFoto.setCellFactory(col -> new javafx.scene.control.TableCell<Empleado, String>() {
+            private final javafx.scene.image.ImageView imageView = new javafx.scene.image.ImageView();
+            {
+                imageView.setFitWidth(30);
+                imageView.setFitHeight(30);
+                javafx.scene.shape.Circle clip = new javafx.scene.shape.Circle(15, 15, 15);
+                imageView.setClip(clip);
+            }
+
+            @Override
+            protected void updateItem(String url, boolean empty) {
+                super.updateItem(url, empty);
+                if (empty || url == null || url.trim().isEmpty()) {
+                    setGraphic(null);
+                } else {
+                    try {
+                        javafx.scene.image.Image image = new javafx.scene.image.Image(url, true);
+                        imageView.setImage(image);
+                        setGraphic(imageView);
+                        setAlignment(javafx.geometry.Pos.CENTER);
+                    } catch (Exception e) {
+                        setGraphic(null);
+                    }
+                }
+            }
+        });
+
+        colAcciones.setCellFactory(param -> new javafx.scene.control.TableCell<Empleado, Void>() {
+            private final Button btnVisualizar = new Button();
+            private final Button btnEditar = new Button();
+            private final Button btnEliminar = new Button();
+            private final javafx.scene.layout.HBox pane = new javafx.scene.layout.HBox(8, btnVisualizar, btnEditar, btnEliminar);
+
+            {
+                pane.setAlignment(javafx.geometry.Pos.CENTER);
+                
+                org.kordamp.ikonli.javafx.FontIcon viewIcon = new org.kordamp.ikonli.javafx.FontIcon("mdi2e-eye");
+                viewIcon.setIconSize(16);
+                btnVisualizar.setGraphic(viewIcon);
+                btnVisualizar.getStyleClass().addAll("btn-secondary");
+                btnVisualizar.setStyle("-fx-padding: 5; -fx-background-radius: 5; -fx-cursor: hand;");
+                btnVisualizar.setOnAction(e -> {
+                    Empleado emp = getTableView().getItems().get(getIndex());
+                    NotificacionService.info("Visualizar empleado: " + emp.getNombres());
+                });
+
+                org.kordamp.ikonli.javafx.FontIcon editIcon = new org.kordamp.ikonli.javafx.FontIcon("mdi2p-pencil");
+                editIcon.setIconSize(16);
+                btnEditar.setGraphic(editIcon);
+                btnEditar.getStyleClass().addAll("btn-primary");
+                btnEditar.setStyle("-fx-padding: 5; -fx-background-radius: 5; -fx-cursor: hand;");
+                btnEditar.setOnAction(e -> {
+                    Empleado emp = getTableView().getItems().get(getIndex());
+                    NotificacionService.info("Editar empleado: " + emp.getNombres());
+                });
+
+                org.kordamp.ikonli.javafx.FontIcon deleteIcon = new org.kordamp.ikonli.javafx.FontIcon("mdi2t-trash-can");
+                deleteIcon.setIconSize(16);
+                btnEliminar.setGraphic(deleteIcon);
+                btnEliminar.getStyleClass().addAll("btn-danger");
+                btnEliminar.setStyle("-fx-padding: 5; -fx-background-radius: 5; -fx-cursor: hand;");
+                btnEliminar.setOnAction(e -> {
+                    Empleado emp = getTableView().getItems().get(getIndex());
+                    eliminarEmpleado(emp);
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                setGraphic(empty ? null : pane);
+            }
+        });
     }
 
 
@@ -124,23 +196,8 @@ public class EmpleadoController implements Initializable {
         NotificacionService.info("Agregar nuevo empleado (por implementar)");
     }
 
-    @FXML
-    private void editarEmpleadoSeleccionado() {
-        Empleado seleccionado = empleadosTable.getSelectionModel().getSelectedItem();
-        if (seleccionado == null) {
-            NotificacionService.advertencia("Selecciona un empleado para editar");
-            return;
-        }
-        NotificacionService.info("Editar empleado: " + seleccionado.getNombres());
-    }
-
-    @FXML
-    private void eliminarEmpleadoSeleccionado() {
-        Empleado seleccionado = empleadosTable.getSelectionModel().getSelectedItem();
-        if (seleccionado == null) {
-            NotificacionService.advertencia("Selecciona un empleado para eliminar");
-            return;
-        }
+    private void eliminarEmpleado(Empleado seleccionado) {
+        if (seleccionado == null) return;
 
         Alert confirma = new Alert(Alert.AlertType.CONFIRMATION);
         confirma.setTitle("Confirmar eliminación");
@@ -152,8 +209,7 @@ public class EmpleadoController implements Initializable {
                 empleadoService.eliminarEmpleado(seleccionado.getId());
                 NotificacionService.exito("Empleado eliminado");
                 cargarEmpleados();
-            } catch (
-                    Exception e) {
+            } catch (Exception e) {
                 NotificacionService.error("Error al eliminar: " + e.getMessage());
             }
         }

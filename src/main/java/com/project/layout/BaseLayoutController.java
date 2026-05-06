@@ -1,14 +1,19 @@
 package com.project.layout;
 
 import com.project.common.util.NavigationService;
+import com.project.config.ServiceFactory;
+import com.project.services.AuthService;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.animation.Interpolator;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
@@ -17,9 +22,12 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.kordamp.ikonli.javafx.FontIcon;
 
+import java.io.IOException;
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -37,6 +45,14 @@ public abstract class BaseLayoutController {
     protected VBox sidebar;
     @FXML
     protected Button menuButton;
+    @FXML
+    protected Label lblUsuarioNombre;
+    @FXML
+    protected Label lblUsuarioRol;
+    @FXML
+    protected Label lblAvatarInitial;
+    @FXML
+    protected javafx.scene.image.ImageView imgAvatar;
 
 
     protected NavigationService navigationService;
@@ -51,6 +67,63 @@ public abstract class BaseLayoutController {
         dateLabel.setText(LocalDate.now().format(formatter));
         setupMenu();
         goDefaultPage();
+        cargarDatosUsuario();
+    }
+
+    protected void cargarDatosUsuario() {
+        com.project.services.AuthService authService = com.project.config.ServiceFactory.getAuthService();
+        if (authService == null)
+            return;
+
+        com.project.models.Usuario usuario = authService.obtenerUsuarioAutenticado();
+        if (usuario != null) {
+            com.project.services.EmpleadoService empleadoService = com.project.config.ServiceFactory.getEmpleadoService();
+            if (empleadoService == null)
+                return;
+
+            com.project.models.Empleado empleado = null;
+            if (usuario.getEmpleadoId() != null) {
+                empleado = empleadoService.obtenerEmpleado(usuario.getEmpleadoId());
+            }
+
+            if (empleado != null) {
+                if (lblUsuarioNombre != null) {
+                    lblUsuarioNombre.setText(empleado.getNombres());
+                }
+                if (lblUsuarioRol != null) {
+                    lblUsuarioRol.setText(usuario.getRole().toString());
+                }
+                if (lblAvatarInitial != null && !empleado.getNombres().isEmpty()) {
+                    lblAvatarInitial.setText(empleado.getNombres().substring(0, 1).toUpperCase());
+                }
+                if (imgAvatar != null && empleado.getFotoUrl() != null && !empleado.getFotoUrl().trim().isEmpty()) {
+                    try {
+                        javafx.scene.image.Image image = new javafx.scene.image.Image(empleado.getFotoUrl(), true);
+                        imgAvatar.setImage(image);
+                        javafx.scene.shape.Circle clip = new javafx.scene.shape.Circle(18, 18, 18);
+                        imgAvatar.setClip(clip);
+                        if (lblAvatarInitial != null) {
+                            lblAvatarInitial.setVisible(false);
+                        }
+                    } catch (
+                            Exception e) {
+                        if (lblAvatarInitial != null) {
+                            lblAvatarInitial.setVisible(true);
+                        }
+                    }
+                }
+            } else {
+                if (lblUsuarioNombre != null) {
+                    lblUsuarioNombre.setText(usuario.getUserName());
+                }
+                if (lblUsuarioRol != null) {
+                    lblUsuarioRol.setText(usuario.getRole().toString());
+                }
+                if (lblAvatarInitial != null && usuario.getUserName() != null && !usuario.getUserName().isEmpty()) {
+                    lblAvatarInitial.setText(usuario.getUserName().substring(0, 1).toUpperCase());
+                }
+            }
+        }
     }
 
     protected abstract void setupMenu();
@@ -196,4 +269,35 @@ public abstract class BaseLayoutController {
 
     protected abstract VBox getRootContainer();
 
+
+    @FXML
+    protected void handleLogout() {
+        try {
+            AuthService authService = ServiceFactory.getAuthService();
+            if (authService != null) {
+                authService.logout();
+            }
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/project/fxml/auth/login.fxml"));
+
+            Parent loginRoot = loader.load();
+
+            Scene loginScene = new Scene(loginRoot, 1200, 700);
+
+            URL cssUrl = getClass().getResource("/com/project/css/auth-layout.css");
+
+            if (cssUrl != null) {
+                loginScene.getStylesheets().add(cssUrl.toExternalForm());
+            }
+            Stage stage = (Stage) getRootContainer().getScene().getWindow();
+
+            stage.setScene(loginScene);
+            stage.setTitle("Sistema de Recursos Humanos - Iniciar Sesion");
+            stage.centerOnScreen();
+        } catch (
+                IOException e) {
+            e.printStackTrace();
+            System.out.println("Errror al regresar a la pantalla de login");
+        }
+    }
 }
