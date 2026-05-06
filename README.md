@@ -180,7 +180,7 @@ String pass = EnvConfig.get("DB_PASSWORD");
 
 # Funcionalidades
 
-## Autenticacion y Autorizacion
+## Autenticación y Autorización
 ### Login
 ![Login](public/login.png)
 ### Recuperar Contraseña
