@@ -88,7 +88,8 @@
                 <Region maxHeight="1" minHeight="1" styleClass="sidebar-divider" />
                 <Region minHeight="10" />
 
-                <HBox alignment="CENTER_LEFT" spacing="12" styleClass="usuario-card">
+                <HBox alignment="CENTER_LEFT" spacing="12" styleClass="usuario-card"
+                      onMouseClicked="#navegarAPerfil" style="-fx-cursor: hand;">
                     <StackPane styleClass="usuario-avatar">
                         <Label fx:id="lblAvatarInitial" styleClass="avatar-initial" text="A" />
                         <ImageView fx:id="imgAvatar" fitHeight="36" fitWidth="36" />

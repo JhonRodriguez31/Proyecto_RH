@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import org.kordamp.ikonli.javafx.*?>
+
+<ScrollPane fitToWidth="true"
+            styleClass="profile-scroll"
+            stylesheets="@../../css/perfil.css"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.project.controllers.MiPerfilController">
+
+    <VBox spacing="20" styleClass="profile-container">
+        <padding>
+            <Insets top="24" right="24" bottom="24" left="24"/>
+        </padding>
+
+        <!-- Page Title -->
+        <Label text="Mi Perfil" styleClass="page-title"/>
+
+        <!-- ═══ Profile Header ═══ -->
+        <HBox spacing="24" alignment="CENTER_LEFT" styleClass="profile-header">
+            <padding>
+                <Insets top="24" right="28" bottom="24" left="28"/>
+            </padding>
+
+            <!-- Avatar -->
+            <VBox alignment="CENTER" spacing="10">
+                <StackPane styleClass="profile-avatar-wrapper">
+                    <ImageView fx:id="imgPerfil"
+                               fitWidth="110" fitHeight="110"
+                               preserveRatio="false"/>
+                    <Label fx:id="lblAvatarInicial"
+                           text="?"
+                           styleClass="profile-avatar-initial"/>
+                </StackPane>
+                <Button fx:id="btnCambiarFoto"
+                        text="Cambiar Foto"
+                        styleClass="btn-change-photo"
+                        onAction="#seleccionarFoto">
+                    <graphic>
+                        <FontIcon iconLiteral="mdi2c-camera"
+                                  styleClass="icon-camera"/>
+                    </graphic>
+                </Button>
+                <Label fx:id="lblUploadStatus"
+                       text=""
+                       styleClass="upload-status"/>
+            </VBox>
+
+            <!-- Name / Role -->
+            <VBox spacing="6" alignment="CENTER_LEFT">
+                <Label fx:id="lblNombreCompleto"
+                       text="Nombre Completo"
+                       styleClass="profile-name"/>
+                <Label fx:id="lblCargoArea"
+                       text="Cargo — Área"
+                       styleClass="profile-subtitle"/>
+                <HBox spacing="8">
+                    <padding>
+                        <Insets top="4"/>
+                    </padding>
+                    <Label fx:id="lblRolBadge"
+                           text="USER"
+                           styleClass="profile-badge role-badge"/>
+                    <Label fx:id="lblEstadoBadge"
+                           text="ACTIVO"
+                           styleClass="profile-badge status-badge"/>
+                </HBox>
+            </VBox>
+        </HBox>
+
+        <!-- ═══ Content: Two columns ═══ -->
+        <HBox spacing="20">
+
+            <!-- ── Left Column ── -->
+            <VBox spacing="16" HBox.hgrow="ALWAYS">
+
+                <!-- Personal Info Card -->
+                <VBox styleClass="profile-card">
+                    <HBox styleClass="card-header"
+                          alignment="CENTER_LEFT" spacing="8">
+                        <FontIcon iconLiteral="mdi2a-account-outline"
+                                  styleClass="card-header-icon"/>
+                        <Label text="Información Personal"
+                               styleClass="card-title"/>
+                    </HBox>
+                    <GridPane styleClass="card-grid" hgap="16" vgap="10">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="40"/>
+                            <ColumnConstraints percentWidth="60"/>
+                        </columnConstraints>
+                        <Label text="Código" styleClass="field-label"
+                               GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                        <Label fx:id="lblCodigo" text="—" styleClass="field-value"
+                               GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                        <Label text="DNI" styleClass="field-label"
+                               GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                        <Label fx:id="lblDni" text="—" styleClass="field-value"
+                               GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                        <Label text="Fecha Nacimiento" styleClass="field-label"
+                               GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                        <Label fx:id="lblFechaNacimiento" text="—" styleClass="field-value"
+                               GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                        <Label text="Fecha Ingreso" styleClass="field-label"
+                               GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                        <Label fx:id="lblFechaIngreso" text="—" styleClass="field-value"
+                               GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                        <Label text="Días Vacaciones" styleClass="field-label"
+                               GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                        <Label fx:id="lblDiasVacaciones" text="—" styleClass="field-value"
+                               GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                    </GridPane>
+                </VBox>
+
+                <!-- Account Info Card -->
+                <VBox styleClass="profile-card">
+                    <HBox styleClass="card-header"
+                          alignment="CENTER_LEFT" spacing="8">
+                        <FontIcon iconLiteral="mdi2s-shield-account-outline"
+                                  styleClass="card-header-icon"/>
+                        <Label text="Información de Cuenta"
+                               styleClass="card-title"/>
+                    </HBox>
+                    <GridPane styleClass="card-grid" hgap="16" vgap="10">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="40"/>
+                            <ColumnConstraints percentWidth="60"/>
+                        </columnConstraints>
+                        <Label text="Usuario" styleClass="field-label"
+                               GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                        <Label fx:id="lblUsername" text="—" styleClass="field-value"
+                               GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                        <Label text="Email" styleClass="field-label"
+                               GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                        <Label fx:id="lblEmail" text="—" styleClass="field-value"
+                               GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                        <Label text="Último Acceso" styleClass="field-label"
+                               GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                        <Label fx:id="lblUltimoAcceso" text="—" styleClass="field-value"
+                               GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                    </GridPane>
+                </VBox>
+            </VBox>
+
+            <!-- ── Right Column ── -->
+            <VBox spacing="16" HBox.hgrow="ALWAYS">
+
+                <!-- Contact Info Card (EDITABLE) -->
+                <VBox styleClass="profile-card editable-card">
+                    <HBox styleClass="card-header"
+                          alignment="CENTER_LEFT" spacing="8">
+                        <FontIcon iconLiteral="mdi2p-phone-outline"
+                                  styleClass="card-header-icon"/>
+                        <Label text="Información de Contacto"
+                               styleClass="card-title"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <FontIcon iconLiteral="mdi2p-pencil-outline"
+                                  styleClass="editable-hint"/>
+                    </HBox>
+                    <VBox spacing="14">
+                        <padding>
+                            <Insets top="16" right="18" bottom="18" left="18"/>
+                        </padding>
+                        <VBox spacing="6">
+                            <Label text="Teléfono" styleClass="field-label"/>
+                            <TextField fx:id="txtTelefono"
+                                       promptText="Ingresa tu teléfono"
+                                       styleClass="profile-field"/>
+                        </VBox>
+                        <VBox spacing="6">
+                            <Label text="Dirección" styleClass="field-label"/>
+                            <TextField fx:id="txtDireccion"
+                                       promptText="Ingresa tu dirección"
+                                       styleClass="profile-field"/>
+                        </VBox>
+                    </VBox>
+                </VBox>
+
+                <!-- Employment Info Card -->
+                <VBox styleClass="profile-card">
+                    <HBox styleClass="card-header"
+                          alignment="CENTER_LEFT" spacing="8">
+                        <FontIcon iconLiteral="mdi2b-briefcase-outline"
+                                  styleClass="card-header-icon"/>
+                        <Label text="Información Laboral"
+                               styleClass="card-title"/>
+                    </HBox>
+                    <GridPane styleClass="card-grid" hgap="16" vgap="10">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="40"/>
+                            <ColumnConstraints percentWidth="60"/>
+                        </columnConstraints>
+                        <Label text="Cargo" styleClass="field-label"
+                               GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                        <Label fx:id="lblCargo" text="—" styleClass="field-value"
+                               GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                        <Label text="Área" styleClass="field-label"
+                               GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                        <Label fx:id="lblArea" text="—" styleClass="field-value"
+                               GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                        <Label text="Tipo Contrato" styleClass="field-label"
+                               GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                        <Label fx:id="lblTipoContrato" text="—" styleClass="field-value"
+                               GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                        <Label text="Sueldo Base" styleClass="field-label"
+                               GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                        <Label fx:id="lblSueldoBase" text="—" styleClass="field-value"
+                               GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                        <Label text="Sistema Pensión" styleClass="field-label"
+                               GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                        <Label fx:id="lblSistemaPension" text="—" styleClass="field-value"
+                               GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+                        <Label text="Inicio Contrato" styleClass="field-label"
+                               GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                        <Label fx:id="lblInicioContrato" text="—" styleClass="field-value"
+                               GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+                        <Label text="Fin Contrato" styleClass="field-label"
+                               GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                        <Label fx:id="lblFinContrato" text="—" styleClass="field-value"
+                               GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+                    </GridPane>
+                </VBox>
+            </VBox>
+        </HBox>
+
+        <!-- ═══ Action Bar ═══ -->
+        <HBox alignment="CENTER_RIGHT" spacing="14">
+            <padding>
+                <Insets top="4"/>
+            </padding>
+            <Label fx:id="lblEstadoGuardado" text="" styleClass="status-label-success"/>
+            <Button fx:id="btnGuardar"
+                    text="Guardar Cambios"
+                    styleClass="btn-save"
+                    onAction="#guardarCambios">
+                <graphic>
+                    <FontIcon iconLiteral="mdi2c-content-save-outline"
+                              iconColor="white" iconSize="16"/>
+                </graphic>
+            </Button>
+        </HBox>
+    </VBox>
+</ScrollPane>
