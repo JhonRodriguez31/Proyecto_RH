@@ -1,6 +1,7 @@
 package com.project.controllers;
 
 import com.project.config.ServiceFactory;
+import com.project.layout.BaseLayoutController;
 import com.project.models.PerfilEmpleadoDTO;
 import com.project.models.Usuario;
 import com.project.services.AuthService;
@@ -203,14 +204,33 @@ public class MiPerfilController {
                 }
                 archivoFotoSeleccionado = null;
 
+                // Notificar al layout para que refresque el avatar del sidebar
+                BaseLayoutController.notificarPerfilActualizado();
+
                 Platform.runLater(() -> {
                     lblEstadoGuardado.setText("✓ Cambios guardados correctamente");
                     lblEstadoGuardado.getStyleClass().setAll("status-label-success");
                 });
 
             } catch (Exception e) {
+                // NUNCA tragarse una excepción sin loguearla
+                System.err.println("════════════════════════════════════════");
+                System.err.println("[ERROR] Fallo al guardar perfil:");
+                System.err.println("  Tipo: " + e.getClass().getName());
+                System.err.println("  Mensaje: " + e.getMessage());
+                if (e.getCause() != null) {
+                    System.err.println("  Causa: " + e.getCause().getClass().getName() + " → " + e.getCause().getMessage());
+                }
+                System.err.println("════════════════════════════════════════");
+                e.printStackTrace();
+
+                String errorMsg = e.getMessage() != null ? e.getMessage() : e.getClass().getSimpleName();
+                if (e.getCause() != null && e.getCause().getMessage() != null) {
+                    errorMsg = e.getCause().getMessage();
+                }
+                String finalMsg = errorMsg;
                 Platform.runLater(() -> {
-                    lblEstadoGuardado.setText("✗ Error: " + e.getMessage());
+                    lblEstadoGuardado.setText("✗ Error: " + finalMsg);
                     lblEstadoGuardado.getStyleClass().setAll("status-label-error");
                 });
             }

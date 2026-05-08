@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 public class ImageServiceImpl implements ImageService {
     private static final String BACKEND_URL = EnvConfig.get("BACKEND_URL");
@@ -30,8 +31,7 @@ public class ImageServiceImpl implements ImageService {
                 .POST(HttpRequest.BodyPublishers.ofByteArray(body))
                 .build();
 
-        var response = httpClient.send(request,
-                java.net.http.HttpResponse.BodyHandlers.ofString());
+        var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
         if (response.statusCode() != 200) {
             throw new RuntimeException("Error al subir imagen: " + response.body());
