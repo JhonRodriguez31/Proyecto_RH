@@ -2,15 +2,19 @@ package com.project.config;
 
 import com.project.DAO.AuthDao;
 import com.project.DAO.EmpleadoDao;
+import com.project.DAO.PerfilDao;
 import com.project.DAO.UserDao;
 import com.project.DAO.impl.AuthDaoImpl;
 import com.project.DAO.impl.EmpleadoDaoImpl;
+import com.project.DAO.impl.PerfilDaoImpl;
 import com.project.DAO.impl.UserDaoImpl;
 import com.project.services.AuthService;
 import com.project.services.EmpleadoService;
+import com.project.services.PerfilService;
 import com.project.services.UserService;
 import com.project.services.impl.AuthServiceImpl;
 import com.project.services.impl.EmpleadoServiceImpl;
+import com.project.services.impl.PerfilServiceImpl;
 import com.project.services.impl.UserServiceImpl;
 import com.project.services.ReportService;
 import com.project.services.impl.ReportServiceImpl;
@@ -25,6 +29,11 @@ public class ServiceFactory {
     //    User
     private static UserDao userDao;
     private static UserService userService;
+
+    //    Perfil
+    private static PerfilDao perfilDao;
+    private static PerfilService perfilService;
+
     //    Report
     private static ReportService reportService;
 
@@ -71,6 +80,21 @@ public class ServiceFactory {
             userService = new UserServiceImpl(getUserDao());
         }
         return userService;
+    }
+
+
+    public static PerfilDao getPerfilDao() {
+        if (perfilDao == null) {
+            perfilDao = new PerfilDaoImpl();
+        }
+        return perfilDao;
+    }
+
+    public static PerfilService getPerfilService() {
+        if (perfilService == null) {
+            perfilService = new PerfilServiceImpl(getPerfilDao());
+        }
+        return perfilService;
     }
 
     public static ReportService getReportService() {

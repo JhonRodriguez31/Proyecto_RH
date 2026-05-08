@@ -2,7 +2,10 @@ package com.project.layout;
 
 import com.project.common.util.NavigationService;
 import com.project.config.ServiceFactory;
+import com.project.models.Empleado;
+import com.project.models.Usuario;
 import com.project.services.AuthService;
+import com.project.services.EmpleadoService;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -17,11 +20,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.kordamp.ikonli.javafx.FontIcon;
@@ -71,17 +76,17 @@ public abstract class BaseLayoutController {
     }
 
     protected void cargarDatosUsuario() {
-        com.project.services.AuthService authService = com.project.config.ServiceFactory.getAuthService();
+        AuthService authService = ServiceFactory.getAuthService();
         if (authService == null)
             return;
 
-        com.project.models.Usuario usuario = authService.obtenerUsuarioAutenticado();
+        Usuario usuario = authService.obtenerUsuarioAutenticado();
         if (usuario != null) {
-            com.project.services.EmpleadoService empleadoService = com.project.config.ServiceFactory.getEmpleadoService();
+            EmpleadoService empleadoService = ServiceFactory.getEmpleadoService();
             if (empleadoService == null)
                 return;
 
-            com.project.models.Empleado empleado = null;
+            Empleado empleado = null;
             if (usuario.getEmpleadoId() != null) {
                 empleado = empleadoService.obtenerEmpleado(usuario.getEmpleadoId());
             }
@@ -98,9 +103,9 @@ public abstract class BaseLayoutController {
                 }
                 if (imgAvatar != null && empleado.getFotoUrl() != null && !empleado.getFotoUrl().trim().isEmpty()) {
                     try {
-                        javafx.scene.image.Image image = new javafx.scene.image.Image(empleado.getFotoUrl(), true);
+                        Image image = new Image(empleado.getFotoUrl(), true);
                         imgAvatar.setImage(image);
-                        javafx.scene.shape.Circle clip = new javafx.scene.shape.Circle(18, 18, 18);
+                        Circle clip = new Circle(18, 18, 18);
                         imgAvatar.setClip(clip);
                         if (lblAvatarInitial != null) {
                             lblAvatarInitial.setVisible(false);
@@ -268,6 +273,15 @@ public abstract class BaseLayoutController {
     }
 
     protected abstract VBox getRootContainer();
+
+    @FXML
+    protected void navegarAPerfil() {
+        // Deseleccionar todos los botones del menú
+        for (Button b : menuButtons) {
+            b.getStyleClass().remove("menu-item-active");
+        }
+        navigationService.navigate("mi-perfil", "/com/project/fxml/pages/mi-perfil-view.fxml");
+    }
 
 
     @FXML
