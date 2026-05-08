@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <style>
+        @page {
+            margin: 1cm;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #2c3e50;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+        }
+        .header {
+            background-color: #3f4a7a;
+            color: white;
+            padding: 20px;
+            text-align: left;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .header p {
+            margin: 5px 0 0 0;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        .container {
+            padding: 0 20px;
+        }
+        .meta-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 12px;
+            color: #7f8c8d;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        th {
+            background-color: #f8f9fa;
+            color: #3f4a7a;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+        }
+        tr:nth-child(even) {
+            background-color: #fcfcfc;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 10px;
+            color: #bdc3c7;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Sistema de Gestión de RRHH</h1>
+        <p>Reporte Maestro de Empleados</p>
+    </div>
+
+    <div class="container">
+        <div class="meta-info">
+            <span>Generado por: Administrador</span>
+            <span style="float: right;">Fecha de Emisión: {{FECHA}}</span>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>DNI</th>
+                    <th>Nombres</th>
+                    <th>Apellidos</th>
+                    <th>Teléfono</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{ROWS}}
+            </tbody>
+        </table>
+
+        <div class="footer">
+            © 2026 Proyecto RH - Documento Oficial de Uso Interno
+        </div>
+    </div>
+</body>
+</html>

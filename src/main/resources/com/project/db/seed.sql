@@ -1,3 +1,6 @@
+
+
+GO
 INSERT INTO dbo.Empleado (codigo_empleado, nombres, apellidos, dni, telefono, direccion, fecha_nacimiento, fecha_ingreso, estado, dias_vacaciones_disponibles) VALUES
 ('EMP001', 'Juan', 'Perez', '71234567', '987654321',  'Av. Lima 123', '1990-05-15', '2020-01-10', 'ACTIVO', 15),
 ('EMP002', 'Maria', 'Gomez', '72345678', '987654322',  'Calle Arequipa 456', '1988-11-20', '2019-03-15', 'ACTIVO', 10),
@@ -26,17 +29,17 @@ INSERT INTO dbo.Contrato (empleado_id, cargo, area, tipo_contrato, fecha_inicio,
 GO
 
 -- 3. DocumentoEmpleado
-INSERT INTO dbo.DocumentoEmpleado (empleado_id, nombre_archivo, tipo_archivo) VALUES
-(1, 'DNI_Juan_Perez.pdf', 'DNI'),
-(2, 'CV_Maria_Gomez.pdf', 'CV'),
-(3, 'Contrato_Carlos.pdf', 'CONTRATO' ),
-(4, 'Antecedentes_Ana.pdf', 'ANTECEDENTES'),
-(5, 'DNI_Luis_Flores.pdf', 'DNI'),
-(6, 'Portafolio_Rosa.pdf', 'OTROS'),
-(7, 'Certificado_Jorge.pdf', 'CERTIFICADO'),
-(8, 'Constancia_Diana.pdf', 'CONSTANCIA'),
-(9, 'Titulo_Pedro.pdf', 'TITULO'),
-(10, 'DNI_Lucia_Silva.pdf', 'DNI');
+INSERT INTO dbo.DocumentoEmpleado (empleado_id, nombre_archivo, tipo_archivo, archivo_url) VALUES
+(1, 'DNI_Juan_Perez.pdf', 'DNI', '/uploads/docs/dni_juan.pdf'),
+(2, 'CV_Maria_Gomez.pdf', 'CV', '/uploads/docs/cv_maria.pdf'),
+(3, 'Contrato_Carlos.pdf', 'CONTRATO', '/uploads/docs/contrato_carlos.pdf'),
+(4, 'Antecedentes_Ana.pdf', 'ANTECEDENTES', '/uploads/docs/ant_ana.pdf'),
+(5, 'DNI_Luis_Flores.pdf', 'DNI', '/uploads/docs/dni_luis.pdf'),
+(6, 'Portafolio_Rosa.pdf', 'OTROS', '/uploads/docs/port_rosa.pdf'),
+(7, 'Certificado_Jorge.pdf', 'CERTIFICADO', '/uploads/docs/cert_jorge.pdf'),
+(8, 'Constancia_Diana.pdf', 'CONSTANCIA', '/uploads/docs/const_diana.pdf'),
+(9, 'Titulo_Pedro.pdf', 'TITULO', '/uploads/docs/titulo_pedro.pdf'),
+(10, 'DNI_Lucia_Silva.pdf', 'DNI', '/uploads/docs/dni_lucia.pdf');
 GO
 
 -- 5. Vacacion

@@ -1,120 +1,202 @@
-.employee-container {
-    -fx-background-color: -fx-bg-primary;
+/* Base de la Vista */
+.employee-root {
+    -fx-background-color: transparent;
+}
+
+/* Forzar Colores de Texto Adaptativos */
+.employee-root .label, 
+.employee-root .text {
     -fx-text-fill: -fx-text-primary;
 }
 
-.section-title {
-    -fx-font-size: 18;
+/* Títulos con contraste máximo */
+.page-title {
+    -fx-font-size: 28;
     -fx-font-weight: bold;
     -fx-text-fill: -fx-text-primary;
+    -fx-font-family: "Segoe UI Semibold", "System";
 }
 
-.search-bar {
+.page-subtitle {
+    -fx-font-size: 14;
+    -fx-text-fill: -fx-text-secondary;
+}
+
+/* --- BARRA DE HERRAMIENTAS --- */
+.toolbar-card {
+    -fx-background-color: -fx-bg-secondary;
+    -fx-padding: 15 20;
+    -fx-background-radius: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 8); /* Sombra más fuerte para modo oscuro */
     -fx-border-color: -app-border-color;
     -fx-border-width: 1;
-    -fx-border-radius: 4;
-    -fx-padding: 8;
-    -fx-background-color: -fx-bg-secondary;
+    -fx-border-radius: 15;
 }
 
-.search-field {
-    -fx-font-size: 13;
-    -fx-text-fill: -fx-text-primary;
-    -fx-control-inner-background: -fx-bg-primary;
-    -fx-padding: 8;
+.theme-light .toolbar-card {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 15, 0, 0, 8);
 }
 
-.search-icon {
-    -fx-fill: -fx-text-secondary;
-}
-
-.empleados-table {
+.search-container {
     -fx-background-color: -fx-bg-primary;
-    -fx-control-inner-background: -fx-bg-primary;
-    -fx-text-fill: -fx-text-primary;
-}
-
-.empleados-table .table-row-cell {
-    -fx-padding: 0;
-    -fx-text-fill: -fx-text-primary;
+    -fx-background-radius: 25;
     -fx-border-color: -app-border-color;
-    -fx-border-width: 0 0 1 0;
+    -fx-border-radius: 25;
+    -fx-padding: 5 15;
 }
 
-.empleados-table .table-row-cell:hover {
-    -fx-background-color: #e3f2fd;
-    -fx-text-fill: -fx-text-primary;
-}
-
-.empleados-table .table-row-cell:selected {
-    -fx-background-color: -fx-primary;
-    -fx-text-fill: -fx-text-light;
-}
-
-.empleados-table .column-header {
-    -fx-background-color: -fx-bg-secondary;
-    -fx-text-fill: -fx-text-primary;
-    -fx-border-color: -app-border-color;
-    -fx-font-weight: bold;
-}
-
-/* Botones */
-.btn-primary {
-    -fx-background-color: -fx-primary;
-    -fx-text-fill: -fx-text-light;
-    -fx-padding: 8 16 8 16;
-    -fx-font-size: 13;
-    -fx-border-radius: 4;
-    -fx-cursor: hand;
-}
-
-.btn-primary:hover {
-    -fx-background-color: -fx-primary-dark;
-}
-
-.btn-secondary {
-    -fx-background-color: -fx-secondary;
-    -fx-text-fill: -fx-text-light;
-    -fx-padding: 8 16 8 16;
-    -fx-font-size: 13;
-    -fx-border-radius: 4;
-}
-
-.btn-secondary:hover {
-    -fx-background-color: #5a6268;
-}
-
-.btn-danger {
-    -fx-background-color: -fx-danger;
-    -fx-text-fill: -fx-text-light;
-    -fx-padding: 8 16 8 16;
-    -fx-font-size: 13;
-    -fx-border-radius: 4;
-}
-
-.btn-danger:hover {
-    -fx-background-color: #c82333;
-}
-
-.btn-icon {
-    -fx-padding: 6;
+.search-input {
     -fx-background-color: transparent;
+    -fx-prompt-text-fill: -fx-text-secondary;
+    -fx-text-fill: -fx-text-primary;
+    -fx-font-size: 14;
+}
+
+/* --- TABLA TOTALMENTE ACOPLADA AL FONDO --- */
+.table-container-vintage {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-background-radius: 15;
+}
+
+.modern-table {
+    -fx-background-color: transparent;
+    -fx-control-inner-background: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.modern-table .viewport {
+    -fx-background-color: transparent;
+}
+
+.modern-table .column-header-background {
+    -fx-background-color: -fx-bg-secondary;
+    -fx-background-radius: 15 15 0 0;
+    -fx-border-color: transparent transparent -app-border-color transparent;
+}
+
+.modern-table .column-header {
+    -fx-background-color: transparent;
+    -fx-size: 50;
+}
+
+.modern-table .column-header .label {
+    -fx-text-fill: -fx-text-primary;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.modern-table .table-cell {
+    -fx-text-fill: -fx-text-primary; 
+    -fx-alignment: CENTER_LEFT;
+    -fx-font-size: 13;
+    -fx-padding: 0 10;
+    -fx-border-color: transparent transparent -app-border-color transparent;
+}
+
+.modern-table .table-row-cell {
+    -fx-background-color: transparent;
+    -fx-cell-size: 55;
+}
+
+/* Hover y Selección */
+.modern-table .table-row-cell:filled:hover {
+    -fx-background-color: rgba(93, 109, 185, 0.15);
+}
+
+.modern-table .table-row-cell:filled:selected {
+    -fx-background-color: -fx-primary;
+}
+
+.modern-table .table-row-cell:filled:selected .table-cell {
+    -fx-text-fill: white;
+}
+
+/* --- BOTONES CON ALTO CONTRASTE --- */
+
+.btn-primary-vintage {
+    -fx-background-color: linear-gradient(to bottom right, #7b8de6, -fx-primary); /* Más brillante para destacar */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 12 25;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(93, 109, 185, 0.6), 12, 0, 0, 4); /* Resplandor */
     -fx-cursor: hand;
 }
 
-.btn-icon:hover {
+.theme-light .btn-primary-vintage {
+    -fx-background-color: linear-gradient(to bottom right, -fx-primary, -fx-primary-dark);
+    -fx-effect: dropshadow(gaussian, rgba(93, 109, 185, 0.3), 10, 0, 0, 4);
+}
+
+.btn-primary-vintage:hover {
+    -fx-translate-y: -2;
+    -fx-brightness: 1.1;
+}
+
+.btn-edit-vintage {
+    -fx-background-color: rgba(93, 109, 185, 0.1);
+    -fx-border-color: #8b96d6; /* Azul más claro para que resalte en negro */
+    -fx-border-radius: 8;
+    -fx-text-fill: #8b96d6;
+    -fx-font-weight: bold;
+    -fx-padding: 8 22;
+}
+
+.theme-light .btn-edit-vintage {
+    -fx-background-color: transparent;
+    -fx-border-color: -fx-primary;
+    -fx-text-fill: -fx-primary;
+}
+
+.btn-edit-vintage:hover {
+    -fx-background-color: -fx-primary;
+    -fx-text-fill: white;
+}
+
+.btn-delete-vintage {
+    -fx-background-color: rgba(220, 53, 69, 0.1);
+    -fx-border-color: #ff5f6d; /* Rojo neón suave */
+    -fx-border-radius: 8;
+    -fx-text-fill: #ff5f6d;
+    -fx-font-weight: bold;
+    -fx-padding: 8 22;
+}
+
+.theme-light .btn-delete-vintage {
+    -fx-background-color: transparent;
+    -fx-border-color: -fx-danger;
+    -fx-text-fill: -fx-danger;
+}
+
+.btn-delete-vintage:hover {
+    -fx-background-color: -fx-danger;
+    -fx-text-fill: white;
+}
+
+.btn-action-vintage {
+    -fx-background-color: #3d3d3d; /* Fondo visible en modo oscuro */
+    -fx-background-radius: 10;
+    -fx-border-color: #555555;
+    -fx-border-radius: 10;
+    -fx-padding: 10;
+}
+
+.theme-light .btn-action-vintage {
     -fx-background-color: -fx-bg-secondary;
-    -fx-border-radius: 4;
-}
-
-.info-label {
-    -fx-text-fill: -fx-text-secondary;
-    -fx-font-size: 12;
-}
-
-.actions-bar {
-    -fx-padding: 12;
     -fx-border-color: -app-border-color;
-    -fx-border-width: 1 0 0 0;
-    -fx-background-color: -fx-bg-secondary;
+}
+
+.btn-action-vintage .ikonli-font-icon {
+    -fx-icon-color: white;
+}
+
+.theme-light .btn-action-vintage .ikonli-font-icon {
+    -fx-icon-color: -fx-primary;
+}
+
+.btn-action-vintage:hover {
+    -fx-background-color: -fx-primary;
+    -fx-border-color: -fx-primary;
 }

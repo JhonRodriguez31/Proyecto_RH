@@ -28,7 +28,16 @@ public class EmpleadoServiceImpl implements EmpleadoService {
 
     @Override
     public void actualizarEmpleado(Empleado empleado, Integer usuarioId) {
-
+        if (empleado.getNombres() == null || empleado.getNombres().isBlank()) {
+            throw new IllegalArgumentException("El nombre es obligatorio");
+        }
+        if (empleado.getApellidos() == null || empleado.getApellidos().isBlank()) {
+            throw new IllegalArgumentException("El apellido es obligatorio");
+        }
+        if (empleado.getDni() == null || empleado.getDni().isBlank()) {
+            throw new IllegalArgumentException("El DNI es obligatorio");
+        }
+        empleadoDao.actualizarEmpleado(empleado, usuarioId);
     }
 
     @Override
