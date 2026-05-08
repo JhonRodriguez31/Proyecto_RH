@@ -54,7 +54,6 @@
         </HBox>
     </HBox>
 
-    <!-- TABLA CENTRAL -->
     <StackPane VBox.vgrow="ALWAYS" styleClass="table-container-vintage">
         <TableView fx:id="empleadosTable" styleClass="modern-table">
             <columns>
@@ -73,6 +72,7 @@
     <!-- FOOTER: Info y Acciones de Edición -->
     <HBox alignment="CENTER_LEFT" styleClass="footer-bar">
         <Label fx:id="lblSeleccionados" text="Listo para gestionar" styleClass="status-label"/>
+
         <Region HBox.hgrow="ALWAYS"/>
         <HBox spacing="12">
             <Button fx:id="btnEditar" text="EDITAR" styleClass="btn-edit-vintage">

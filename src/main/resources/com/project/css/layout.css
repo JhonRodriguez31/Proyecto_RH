@@ -667,3 +667,7 @@
     -fx-shape: " ";
     -fx-padding: 0;
 }
+
+.usuario-name {
+    color: white;
+}

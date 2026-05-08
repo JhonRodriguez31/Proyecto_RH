@@ -40,6 +40,24 @@ https://github.com/JhonRodriguez31/Proyecto_RH.git
 
 ---
 
+### 🔹 Crear archivo .env
+
+Crear archivo .env o clonar el .env.template y reenombrar a .env
+
+```bash
+DB_HOST=
+DB_PORT=
+DB_NAME=
+DB_USER=
+DB_PASSWORD=
+DB_ENCRYPT=true
+DB_TRUST_SERVER_CERTIFICATE=true
+BACKEND_URL=
+PASSWORD_TEMPORAL=
+```
+
+---
+
 ### 🔹 Crear ramas
 
 Cada integrante creó su propia rama para trabajar de forma independiente:
@@ -47,17 +65,46 @@ Cada integrante creó su propia rama para trabajar de forma independiente:
 ```bash
 git checkout -b nombre-rama
 ```
+
 # Arquitectura del Proyecto
 
 ## Enfoque general
 
-Este proyecto se desarrollará como una **aplicación de escritorio en JavaFX**, organizada de forma **modular por funcionalidad**, con el objetivo de aprender y aplicar correctamente los principios de la **Programación Orientada a Objetos (POO)**.
+Este proyecto se desarrollará como una
+*
+*aplicación
+de
+escritorio
+en
+JavaFX
+**, organizada de forma
+*
+*modular
+por
+funcionalidad
+**, con el objetivo de aprender y aplicar correctamente los principios de la
+*
+*Programación
+Orientada
+a
+Objetos (
+POO)
+**.
 
 La arquitectura propuesta combina:
 
-- **MVC** para la interfaz gráfica
-- **Service** para la lógica de negocio
-- **DAO** para el acceso a base de datos
+-
+*
+*MVC
+** para la interfaz gráfica
+-
+*
+*Service
+** para la lógica de negocio
+-
+*
+*DAO
+** para el acceso a base de datos
 
 De esta manera, se evita mezclar la interfaz, la lógica y la persistencia en una sola clase.
 
@@ -70,7 +117,6 @@ La estructura general del sistema será:
 ```text
 View -> Controller -> Service -> DAO -> Base de Datos
 ```
-
 
 ---
 
@@ -131,3 +177,12 @@ String pass = EnvConfig.get("DB_PASSWORD");
 - Maven
 - JDBC
 - SQLServer
+
+# Funcionalidades
+
+## Autenticación y Autorización
+### Login
+![Login](public/login.png)
+### Recuperar Contraseña
+![Recuperar Contraseña](public/recuperar.png)
+---
