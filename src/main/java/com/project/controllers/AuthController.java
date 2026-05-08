@@ -68,7 +68,8 @@ public class AuthController {
 
         Usuario usuarioAutenticado = authenticate(dni, password);
 
-        if (usuarioAutenticado.getActivo()) {
+        if (usuarioAutenticado != null && usuarioAutenticado.getActivo()) {
+            com.project.common.util.SessionManager.login(usuarioAutenticado);
             hideError();
             boolean isAdmin = "admin".equalsIgnoreCase(usuarioAutenticado.getRole().toString());
             navigateToLayout(isAdmin);

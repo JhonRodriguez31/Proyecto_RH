@@ -71,24 +71,28 @@ public class EmpleadoDaoImpl implements EmpleadoDao {
             stmt.setString(3, empleado.getApellidos());
             stmt.setString(4, empleado.getDni());
             stmt.setString(5, empleado.getTelefono());
-            stmt.setString(7, empleado.getDireccion());
-            stmt.setDate(8, Date.valueOf(empleado.getFechaNacimiento()));
-            stmt.setDate(9, Date.valueOf(empleado.getFechaIngreso()));
-            stmt.setString(10, empleado.getFotoUrl());
-            stmt.setString(11, empleado.getEstado().name());
-            stmt.setInt(12, empleado.getDiasVacacionesDisponibles());
-
-            // Auditoría
-            stmt.setObject(13, Timestamp.valueOf(empleado.getFechaCreacion()));
-            stmt.setInt(14, usuarioId);
+            stmt.setString(6, empleado.getDireccion());
+            stmt.setDate(7, Date.valueOf(empleado.getFechaNacimiento()));
+            stmt.setDate(8, Date.valueOf(empleado.getFechaIngreso()));
+            stmt.setString(9, empleado.getFotoUrl());
+            stmt.setString(10, empleado.getEstado().name());
+            stmt.setInt(11, empleado.getDiasVacacionesDisponibles());
+            stmt.setObject(12, Timestamp.valueOf(empleado.getFechaCreacion()));
+            stmt.setInt(13, usuarioId);
 
             int filasAfectadas = stmt.executeUpdate();
             if (filasAfectadas == 0) {
                 throw new BaseDatosException("Error al crear empleado", null);
             }
-        } catch (
-                SQLException e) {
-            throw new BaseDatosException("Error al crear empleado", e);
+        } catch (SQLException e) {
+            if (e.getErrorCode() == 2627 || e.getErrorCode() == 2601) {
+                if (e.getMessage().contains("dni")) {
+                    throw new BaseDatosException("El DNI '" + empleado.getDni() + "' ya está registrado.", e);
+                } else if (e.getMessage().contains("codigo_empleado")) {
+                    throw new BaseDatosException("El Código '" + empleado.getCodigoEmpleado() + "' ya está registrado.", e);
+                }
+            }
+            throw new BaseDatosException("Error al crear empleado: " + e.getMessage(), e);
         }
     }
 
@@ -125,16 +129,18 @@ public class EmpleadoDaoImpl implements EmpleadoDao {
             stmt.setString(1, empleado.getNombres());
             stmt.setString(2, empleado.getApellidos());
             stmt.setString(3, empleado.getTelefono());
-            stmt.setString(5, empleado.getDireccion());
-            stmt.setString(6, empleado.getFotoUrl());
-            stmt.setString(7, empleado.getEstado().name());
-            stmt.setInt(8, usuarioId);
-            stmt.setInt(9, empleado.getId());
+            stmt.setString(4, empleado.getDireccion());
+            stmt.setString(5, empleado.getFotoUrl());
+            stmt.setString(6, empleado.getEstado().name());
+            stmt.setInt(7, usuarioId);
+            stmt.setInt(8, empleado.getId());
 
             stmt.executeUpdate();
-        } catch (
-                SQLException e) {
-            throw new RuntimeException("Error al actualizar empleado", e);
+        } catch (SQLException e) {
+            if (e.getErrorCode() == 2627 || e.getErrorCode() == 2601) {
+                throw new BaseDatosException("Ya existe otro empleado con el mismo DNI o Código.", e);
+            }
+            throw new RuntimeException("Error al actualizar empleado: " + e.getMessage(), e);
         }
     }
 
