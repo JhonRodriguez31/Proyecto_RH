@@ -1,4 +1,5 @@
 .root {
+    /* DEFAULT: DARK MODE (Absence of .theme-light) */
     -fx-primary: #5d6db9;
     -fx-primary-dark: #3f4a7a;
     -fx-primary-light: #8b96d6;
@@ -9,25 +10,26 @@
     -fx-warning: #ffc107;
     -fx-info: #17a2b8;
 
-    -fx-bg-primary: #ffffff;
-    -fx-bg-secondary: #f8f9fa;
-    -fx-bg-tertiary: #e9ecef;
-
-    -fx-text-primary: #212529;
-    -fx-text-secondary: #6c757d;
-    -fx-text-light: #ffffff;
-
-    -app-border-color: #dee2e6;
-    -fx-border-focus: -fx-primary;
-}
-
-.dark-mode {
     -fx-bg-primary: #1e1e1e;
     -fx-bg-secondary: #2d2d2d;
     -fx-bg-tertiary: #3d3d3d;
 
     -fx-text-primary: #ffffff;
     -fx-text-secondary: #b0b0b0;
+    -fx-text-light: #ffffff;
 
     -app-border-color: #404040;
+    -fx-border-focus: -fx-primary;
+}
+
+.theme-light {
+    /* OVERRIDE: LIGHT MODE */
+    -fx-bg-primary: #ffffff;
+    -fx-bg-secondary: #f8f9fa;
+    -fx-bg-tertiary: #e9ecef;
+
+    -fx-text-primary: #000000;
+    -fx-text-secondary: #444444;
+
+    -app-border-color: #dee2e6;
 }
