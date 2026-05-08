@@ -111,6 +111,27 @@
                         styleClass="icon-btn"/>
             </graphic>
         </Button>
+        <Region prefWidth="20"/>
+        <Separator orientation="VERTICAL"/>
+        <Region prefWidth="10"/>
+        <Button fx:id="btnReporteGeneral"
+                text="Reporte General"
+                styleClass="btn-secondary">
+            <graphic>
+                <FontIcon
+                        iconLiteral="mdi2f-file-document-outline"
+                        styleClass="icon-btn"/>
+            </graphic>
+        </Button>
+        <Button fx:id="btnFichaPdf"
+                text="Ficha PDF"
+                styleClass="btn-secondary">
+            <graphic>
+                <FontIcon
+                        iconLiteral="mdi2c-card-account-details-outline"
+                        styleClass="icon-btn"/>
+            </graphic>
+        </Button>
         <Region HBox.hgrow="ALWAYS"/>
         <Label text="0 empleados seleccionados"
                fx:id="lblSeleccionados"

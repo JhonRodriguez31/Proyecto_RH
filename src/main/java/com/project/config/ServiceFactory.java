@@ -12,6 +12,8 @@ import com.project.services.UserService;
 import com.project.services.impl.AuthServiceImpl;
 import com.project.services.impl.EmpleadoServiceImpl;
 import com.project.services.impl.UserServiceImpl;
+import com.project.services.ReportService;
+import com.project.services.impl.ReportServiceImpl;
 
 public class ServiceFactory {
     //    Empleado
@@ -23,6 +25,8 @@ public class ServiceFactory {
     //    User
     private static UserDao userDao;
     private static UserService userService;
+    //    Report
+    private static ReportService reportService;
 
     public static EmpleadoDao getEmpleadoDao() {
         if (empleadoDao == null) {
@@ -67,6 +71,13 @@ public class ServiceFactory {
             userService = new UserServiceImpl(getUserDao());
         }
         return userService;
+    }
+
+    public static ReportService getReportService() {
+        if (reportService == null) {
+            reportService = new ReportServiceImpl();
+        }
+        return reportService;
     }
 
 
