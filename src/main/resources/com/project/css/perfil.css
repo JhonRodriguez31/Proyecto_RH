@@ -197,3 +197,125 @@
     -fx-font-size: 11px;
     -fx-text-fill: #9ca3af;
 }
+
+/* ═══════════════════════════════════════════
+   LIGHT THEME OVERRIDES
+   ═══════════════════════════════════════════ */
+
+.theme-light .profile-scroll .scroll-bar:vertical .thumb {
+    -fx-background-color: rgba(0, 0, 0, 0.12);
+}
+
+.theme-light .page-title {
+    -fx-text-fill: #0f172a;
+}
+
+/* ── Header ── */
+.theme-light .profile-header {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e2e8f0;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.06), 8, 0, 0, 2);
+}
+
+.theme-light .profile-name {
+    -fx-text-fill: #0f172a;
+}
+
+.theme-light .profile-subtitle {
+    -fx-text-fill: #64748b;
+}
+
+/* ── Badges ── */
+.theme-light .role-badge {
+    -fx-background-color: rgba(99, 102, 241, 0.1);
+    -fx-text-fill: #4f46e5;
+}
+
+.theme-light .status-badge {
+    -fx-background-color: rgba(22, 163, 74, 0.1);
+    -fx-text-fill: #16a34a;
+}
+
+/* ── Change Photo Button ── */
+.theme-light .btn-change-photo {
+    -fx-background-color: rgba(99, 102, 241, 0.1);
+    -fx-text-fill: #4f46e5;
+}
+
+.theme-light .btn-change-photo:hover {
+    -fx-background-color: rgba(99, 102, 241, 0.2);
+}
+
+.theme-light .icon-camera {
+    -fx-icon-color: #4f46e5;
+}
+
+/* ── Cards ── */
+.theme-light .profile-card {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e2e8f0;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.04), 6, 0, 0, 2);
+}
+
+.theme-light .card-header {
+    -fx-border-color: transparent transparent #f1f5f9 transparent;
+}
+
+.theme-light .card-header-icon {
+    -fx-icon-color: #6366f1;
+}
+
+.theme-light .card-title {
+    -fx-text-fill: #334155;
+}
+
+.theme-light .field-label {
+    -fx-text-fill: #94a3b8;
+}
+
+.theme-light .field-value {
+    -fx-text-fill: #1e293b;
+}
+
+/* ── Editable Card ── */
+.theme-light .editable-card {
+    -fx-border-color: rgba(99, 102, 241, 0.2);
+}
+
+.theme-light .editable-hint {
+    -fx-icon-color: rgba(99, 102, 241, 0.5);
+}
+
+.theme-light .profile-field {
+    -fx-background-color: #f8fafc;
+    -fx-text-fill: #1e293b;
+    -fx-prompt-text-fill: #94a3b8;
+    -fx-border-color: #e2e8f0;
+}
+
+.theme-light .profile-field:focused {
+    -fx-border-color: #6366f1;
+    -fx-background-color: #f0f0ff;
+}
+
+/* ── Save Button (gradient stays the same, works on both themes) ── */
+.theme-light .btn-save {
+    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.2), 8, 0, 0, 2);
+}
+
+.theme-light .btn-save:hover {
+    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.35), 12, 0, 0, 3);
+}
+
+/* ── Status Labels ── */
+.theme-light .status-label-success {
+    -fx-text-fill: #16a34a;
+}
+
+.theme-light .status-label-error {
+    -fx-text-fill: #dc2626;
+}
+
+.theme-light .upload-status {
+    -fx-text-fill: #64748b;
+}

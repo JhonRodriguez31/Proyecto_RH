@@ -65,6 +65,19 @@ public abstract class BaseLayoutController {
     protected boolean darkMode = true;
     protected boolean sidebarCollapsed = false;
 
+    // ── Observer: permite que otros controladores notifiquen cambios ──
+    private static Runnable onPerfilActualizado;
+
+    /**
+     * Notifica al layout que el perfil del usuario cambió
+     * (foto, nombre, etc.) para que refresque el sidebar.
+     */
+    public static void notificarPerfilActualizado() {
+        if (onPerfilActualizado != null) {
+            javafx.application.Platform.runLater(onPerfilActualizado);
+        }
+    }
+
     @FXML
     public void initialize() {
         navigationService = new NavigationService(contentHost);
@@ -73,6 +86,9 @@ public abstract class BaseLayoutController {
         setupMenu();
         goDefaultPage();
         cargarDatosUsuario();
+
+        // Registrar este controlador como listener de cambios de perfil
+        onPerfilActualizado = this::cargarDatosUsuario;
     }
 
     protected void cargarDatosUsuario() {
