@@ -1,22 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import javafx.geometry.Insets?>
-<VBox spacing="10"
-      styleClass="page-placeholder"
-      xmlns="http://javafx.com/javafx/21"
-      xmlns:fx="http://javafx.com/fxml/1">
-    <padding>
-        <Insets top="22"
-                right="22"
-                bottom="22"
-                left="22"/>
-    </padding>
-    <Label text="Control de asistencias"
-           styleClass="placeholder-title"/>
+<VBox spacing="10" style="-fx-padding: 20;" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.project.controllers.AsistenciaController">
+
+    <Label text="Control de Asistencias"
+           style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: -fx-text-primary;"/>
+
+    <HBox spacing="10">
+        <Label text="ID Empleado:" style="-fx-text-fill: -fx-text-primary;"/>
+        <TextField fx:id="txtEmpleadoId" promptText="Ingresa el ID del empleado"/>
+    </HBox>
+
+    <HBox spacing="10">
+        <Label text="Motivo:" style="-fx-text-fill: -fx-text-primary;"/>
+        <TextField fx:id="txtMotivo" promptText="Ingresa el motivo (para justificar)"/>
+    </HBox>
+
+    <HBox spacing="10">
+        <Button text="Registrar Entrada" onAction="#registrarEntrada"
+                style="-fx-background-color: #2E75B6; -fx-text-fill: white;"/>
+        <Button text="Registrar Salida" onAction="#registrarSalida"
+                style="-fx-background-color: #2E75B6; -fx-text-fill: white;"/>
+        <Button text="Ver Historial" onAction="#verHistorial"
+                style="-fx-background-color: #2E75B6; -fx-text-fill: white;"/>
+        <Button text="Justificar" onAction="#justificarAsistencia"
+                style="-fx-background-color: #F0A500; -fx-text-fill: white;"/>
+    </HBox>
+
+    <Label fx:id="lblMensaje" style="-fx-text-fill: green;"/>
+
+    <TableView fx:id="tablaAsistencia" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colEmpleadoId" text="ID Empleado" prefWidth="100"/>
+            <TableColumn fx:id="colFecha" text="Fecha" prefWidth="120"/>
+            <TableColumn fx:id="colHoraEntrada" text="Hora Entrada" prefWidth="150"/>
+            <TableColumn fx:id="colHoraSalida" text="Hora Salida" prefWidth="150"/>
+            <TableColumn fx:id="colEstado" text="Estado" prefWidth="120"/>
+            <TableColumn fx:id="colMinutosTardanza" text="Min. Tardanza" prefWidth="120"/>
+        </columns>
+    </TableView>
+
 </VBox>

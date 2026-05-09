@@ -1,5 +1,9 @@
 package com.project.config;
 
+import com.project.DAO.AsistenciaDao;
+import com.project.DAO.impl.AsistenciaDaoImpl;
+import com.project.services.AsistenciaService;
+import com.project.services.impl.AsistenciaServiceImpl;
 import com.project.DAO.AuthDao;
 import com.project.DAO.EmpleadoDao;
 import com.project.DAO.PerfilDao;
@@ -102,6 +106,23 @@ public class ServiceFactory {
             reportService = new ReportServiceImpl();
         }
         return reportService;
+    }
+    // Asistencia
+    private static AsistenciaDao asistenciaDao;
+    private static AsistenciaService asistenciaService;
+
+    public static AsistenciaDao getAsistenciaDao() {
+        if (asistenciaDao == null) {
+            asistenciaDao = new AsistenciaDaoImpl();
+        }
+        return asistenciaDao;
+    }
+
+    public static AsistenciaService getAsistenciaService() {
+        if (asistenciaService == null) {
+            asistenciaService = new AsistenciaServiceImpl(getAsistenciaDao());
+        }
+        return asistenciaService;
     }
 
 
