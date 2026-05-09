@@ -10,11 +10,12 @@ import com.project.services.AuthService;
 
 public class AuthServiceImpl implements AuthService {
 
-    private final UserDao userDao;
+
     private final AuthDao authDao;
+    private Usuario usuarioAutenticado;
 
     public AuthServiceImpl(AuthDao authDao, UserDao userDao) {
-        this.userDao = userDao;
+//        this.userDao = userDao;
         this.authDao = authDao;
     }
 
@@ -31,9 +32,20 @@ public class AuthServiceImpl implements AuthService {
     public Usuario login(String dni, String password) {
         Usuario usuario = authDao.encontrarPorDni(dni);
         if (usuario != null && BcryptFactory.verifyPasswors(password, usuario.getPassword())) {
+            this.usuarioAutenticado = usuario;
             return usuario;
+
         }
         return null;
+    }
+
+    public Usuario obtenerUsuarioAutenticado() {
+        return usuarioAutenticado;
+    }
+
+    @Override
+    public void logout() {
+        this.usuarioAutenticado = null;
     }
 
     @Override

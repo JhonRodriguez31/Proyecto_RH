@@ -1,0 +1,321 @@
+/* ═══════════════════════════════════════════
+   Mi Perfil — Estilos
+   ═══════════════════════════════════════════ */
+
+.profile-scroll {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+.profile-scroll .viewport {
+    -fx-background-color: transparent;
+}
+
+.profile-scroll .scroll-bar:vertical .thumb {
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+    -fx-background-radius: 4;
+}
+
+.profile-container {
+    -fx-background-color: transparent;
+}
+
+/* ── Page Title ── */
+.page-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #e8eaed;
+}
+
+/* ── Profile Header ── */
+.profile-header {
+    -fx-background-color: rgba(255, 255, 255, 0.04);
+    -fx-background-radius: 16;
+    -fx-border-color: rgba(255, 255, 255, 0.06);
+    -fx-border-radius: 16;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 8, 0, 0, 2);
+}
+
+/* ── Avatar ── */
+.profile-avatar-wrapper {
+    -fx-min-width: 110;
+    -fx-min-height: 110;
+    -fx-max-width: 110;
+    -fx-max-height: 110;
+    -fx-background-color: linear-gradient(to bottom right, #6366f1, #8b5cf6);
+    -fx-background-radius: 55;
+}
+
+.profile-avatar-initial {
+    -fx-font-size: 42px;
+    -fx-font-weight: 700;
+    -fx-text-fill: white;
+}
+
+.btn-change-photo {
+    -fx-background-color: rgba(99, 102, 241, 0.15);
+    -fx-text-fill: #a5b4fc;
+    -fx-background-radius: 8;
+    -fx-padding: 6 14;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+}
+
+.btn-change-photo:hover {
+    -fx-background-color: rgba(99, 102, 241, 0.3);
+}
+
+.icon-camera {
+    -fx-icon-color: #a5b4fc;
+    -fx-icon-size: 14;
+}
+
+.profile-name {
+    -fx-font-size: 26px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #f1f3f5;
+}
+
+.profile-subtitle {
+    -fx-font-size: 15px;
+    -fx-text-fill: #9ca3af;
+}
+
+.profile-badge {
+    -fx-padding: 3 12;
+    -fx-background-radius: 12;
+    -fx-font-size: 11px;
+    -fx-font-weight: 700;
+}
+
+.role-badge {
+    -fx-background-color: rgba(99, 102, 241, 0.2);
+    -fx-text-fill: #a5b4fc;
+}
+
+.status-badge {
+    -fx-background-color: rgba(34, 197, 94, 0.2);
+    -fx-text-fill: #86efac;
+}
+
+/* ── Cards ── */
+.profile-card {
+    -fx-background-color: rgba(255, 255, 255, 0.04);
+    -fx-background-radius: 14;
+    -fx-border-color: rgba(255, 255, 255, 0.06);
+    -fx-border-radius: 14;
+    -fx-padding: 0;
+}
+
+.card-header {
+    -fx-padding: 14 18;
+    -fx-border-color: transparent transparent rgba(255, 255, 255, 0.06) transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.card-header-icon {
+    -fx-icon-color: #818cf8;
+    -fx-icon-size: 18;
+}
+
+.card-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #c9cdd3;
+}
+
+.card-grid {
+    -fx-padding: 16 18;
+}
+
+.field-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #6b7280;
+    -fx-font-weight: 600;
+}
+
+.field-value {
+    -fx-font-size: 13px;
+    -fx-text-fill: #d1d5db;
+}
+
+/* ── Editable Card ── */
+.editable-card {
+    -fx-border-color: rgba(99, 102, 241, 0.15);
+}
+
+.editable-hint {
+    -fx-icon-color: rgba(99, 102, 241, 0.4);
+    -fx-icon-size: 14;
+}
+
+.profile-field {
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+    -fx-text-fill: #e8eaed;
+    -fx-prompt-text-fill: #6b7280;
+    -fx-border-color: rgba(255, 255, 255, 0.1);
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 10 14;
+    -fx-font-size: 13px;
+}
+
+.profile-field:focused {
+    -fx-border-color: #6366f1;
+    -fx-background-color: rgba(99, 102, 241, 0.08);
+}
+
+/* ── Save Button ── */
+.btn-save {
+    -fx-background-color: linear-gradient(to right, #6366f1, #8b5cf6);
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: 700;
+    -fx-padding: 12 32;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.3), 8, 0, 0, 2);
+}
+
+.btn-save:hover {
+    -fx-background-color: linear-gradient(to right, #4f46e5, #7c3aed);
+    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.5), 12, 0, 0, 3);
+}
+
+.status-label-success {
+    -fx-text-fill: #86efac;
+    -fx-font-size: 13px;
+}
+
+.status-label-error {
+    -fx-text-fill: #fca5a5;
+    -fx-font-size: 13px;
+}
+
+/* ── Upload status ── */
+.upload-status {
+    -fx-font-size: 11px;
+    -fx-text-fill: #9ca3af;
+}
+
+/* ═══════════════════════════════════════════
+   LIGHT THEME OVERRIDES
+   ═══════════════════════════════════════════ */
+
+.theme-light .profile-scroll .scroll-bar:vertical .thumb {
+    -fx-background-color: rgba(0, 0, 0, 0.12);
+}
+
+.theme-light .page-title {
+    -fx-text-fill: #0f172a;
+}
+
+/* ── Header ── */
+.theme-light .profile-header {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e2e8f0;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.06), 8, 0, 0, 2);
+}
+
+.theme-light .profile-name {
+    -fx-text-fill: #0f172a;
+}
+
+.theme-light .profile-subtitle {
+    -fx-text-fill: #64748b;
+}
+
+/* ── Badges ── */
+.theme-light .role-badge {
+    -fx-background-color: rgba(99, 102, 241, 0.1);
+    -fx-text-fill: #4f46e5;
+}
+
+.theme-light .status-badge {
+    -fx-background-color: rgba(22, 163, 74, 0.1);
+    -fx-text-fill: #16a34a;
+}
+
+/* ── Change Photo Button ── */
+.theme-light .btn-change-photo {
+    -fx-background-color: rgba(99, 102, 241, 0.1);
+    -fx-text-fill: #4f46e5;
+}
+
+.theme-light .btn-change-photo:hover {
+    -fx-background-color: rgba(99, 102, 241, 0.2);
+}
+
+.theme-light .icon-camera {
+    -fx-icon-color: #4f46e5;
+}
+
+/* ── Cards ── */
+.theme-light .profile-card {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e2e8f0;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.04), 6, 0, 0, 2);
+}
+
+.theme-light .card-header {
+    -fx-border-color: transparent transparent #f1f5f9 transparent;
+}
+
+.theme-light .card-header-icon {
+    -fx-icon-color: #6366f1;
+}
+
+.theme-light .card-title {
+    -fx-text-fill: #334155;
+}
+
+.theme-light .field-label {
+    -fx-text-fill: #94a3b8;
+}
+
+.theme-light .field-value {
+    -fx-text-fill: #1e293b;
+}
+
+/* ── Editable Card ── */
+.theme-light .editable-card {
+    -fx-border-color: rgba(99, 102, 241, 0.2);
+}
+
+.theme-light .editable-hint {
+    -fx-icon-color: rgba(99, 102, 241, 0.5);
+}
+
+.theme-light .profile-field {
+    -fx-background-color: #f8fafc;
+    -fx-text-fill: #1e293b;
+    -fx-prompt-text-fill: #94a3b8;
+    -fx-border-color: #e2e8f0;
+}
+
+.theme-light .profile-field:focused {
+    -fx-border-color: #6366f1;
+    -fx-background-color: #f0f0ff;
+}
+
+/* ── Save Button (gradient stays the same, works on both themes) ── */
+.theme-light .btn-save {
+    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.2), 8, 0, 0, 2);
+}
+
+.theme-light .btn-save:hover {
+    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.35), 12, 0, 0, 3);
+}
+
+/* ── Status Labels ── */
+.theme-light .status-label-success {
+    -fx-text-fill: #16a34a;
+}
+
+.theme-light .status-label-error {
+    -fx-text-fill: #dc2626;
+}
+
+.theme-light .upload-status {
+    -fx-text-fill: #64748b;
+}

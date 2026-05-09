@@ -1,3 +1,23 @@
+USE PlanillaCoreDB;
+GO
+
+-- 1. Eliminar tablas si existen (orden inverso de jerarquía)
+DROP TABLE IF EXISTS dbo.PagoPlanilla;
+DROP TABLE IF EXISTS dbo.PlanillaDetalle;
+DROP TABLE IF EXISTS dbo.Planilla;
+DROP TABLE IF EXISTS dbo.Concepto;
+DROP TABLE IF EXISTS dbo.EmpleadoBeneficio;
+DROP TABLE IF EXISTS dbo.Beneficio;
+DROP TABLE IF EXISTS dbo.Asistencia;
+DROP TABLE IF EXISTS dbo.Vacacion;
+DROP TABLE IF EXISTS dbo.DocumentoEmpleado;
+DROP TABLE IF EXISTS dbo.Contrato;
+DROP TABLE IF EXISTS dbo.Usuario;
+DROP TABLE IF EXISTS dbo.Empleado;
+GO
+
+
+
 IF NOT EXISTS (SELECT name
                FROM sys.databases
                WHERE

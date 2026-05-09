@@ -27,11 +27,11 @@ public class AdminLayoutController extends BaseLayoutController {
     protected void setupMenu() {
         registerMenuButton(btnDashboard, "admin-dashboard", "/com/project/fxml/pages/admin/dashboard-view.fxml");
         registerMenuButton(btnEmployees, "admin-employees", "/com/project/fxml/pages/admin/employee-view.fxml");
-        registerMenuButton(btnAttendance, "admin-attendance", "/com/project/fxml/pages/placeholder-view.fxml");
-        registerMenuButton(btnPayroll, "admin-payroll", "/com/project/fxml/pages/placeholder-view.fxml");
+        registerMenuButton(btnAttendance, "admin-attendance", "/com/project/fxml/pages/admin/attendance-view.fxml");
+        registerMenuButton(btnPayroll, "admin-payroll", "/com/project/fxml/pages/admin/payroll-view.fxml");
         registerMenuButton(btnVacation, "admin-vacation", "/com/project/fxml/pages/admin/vacation-view.fxml");
         registerMenuButton(btnBenefits, "admin-benefits", "/com/project/fxml/pages/admin/benefit-view.fxml");
-        registerMenuButton(btnAudit, "admin-audit", "/com/project/fxml/pages/placeholder-view.fxml");
+//        registerMenuButton(btnAudit, "admin-audit", "/com/project/fxml/pages/placeholder-view.fxml");
     }
 
     @Override

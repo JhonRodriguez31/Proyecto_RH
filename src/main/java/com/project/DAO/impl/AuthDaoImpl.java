@@ -26,7 +26,9 @@ public class AuthDaoImpl implements AuthDao {
                 if (resultSet.next()) {
                     Usuario usuario = new Usuario();
                     usuario.setId(resultSet.getInt("id"));
+                    usuario.setEmpleadoId(resultSet.getInt("empleado_id"));
                     usuario.setUserName(resultSet.getString("username"));
+                    usuario.setEmail(resultSet.getString("email"));
                     usuario.setPassword(resultSet.getString("password"));
                     usuario.setRole(Role.valueOf(resultSet.getString("rol")));
                     usuario.setActivo(resultSet.getBoolean("activo"));
