@@ -15,6 +15,7 @@ module com.project.projectpoo {
     requires java.net.http;
     requires com.google.gson;
     requires jbcrypt;
+	requires javafx.graphics;
 
     opens com.project to javafx.fxml;
     opens com.project.layout to javafx.fxml;

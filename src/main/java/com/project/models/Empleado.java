@@ -129,4 +129,9 @@ public class Empleado extends EntidadAuditable {
     public void setDiasVacacionesDisponibles(Integer diasVacacionesDisponibles) {
         this.diasVacacionesDisponibles = diasVacacionesDisponibles;
     }
+    
+    @Override
+    public String toString() {
+        return nombres + " " + apellidos;
+    }
 }

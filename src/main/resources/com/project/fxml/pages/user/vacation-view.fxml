@@ -1,22 +1,116 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<?import javafx.geometry.Insets?>
-<VBox spacing="10"
-      styleClass="page-placeholder"
+<VBox spacing="16"
+      stylesheets="@../../../css/empleado.css"
       xmlns="http://javafx.com/javafx/21"
-      xmlns:fx="http://javafx.com/fxml/1">
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.project.controllers.VacacionUserController">
+
     <padding>
-        <Insets top="22"
-                right="22"
-                bottom="22"
-                left="22"/>
+        <Insets top="22" right="22" bottom="22" left="22"/>
     </padding>
-    <Label text="Vacaciones"
-           styleClass="placeholder-title"/>
+
+    <!-- ENCABEZADO -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Mis Vacaciones" styleClass="section-title"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label fx:id="lblDiasDisponibles"
+               text="Días disponibles: --"
+               style="-fx-font-size:14px; -fx-font-weight:bold;
+                      -fx-text-fill:#2563EB; -fx-background-color:#EFF6FF;
+                      -fx-padding:6 14; -fx-background-radius:20;"/>
+        <Button styleClass="btn-icon" onAction="#recargar">
+            <graphic><FontIcon iconLiteral="mdi2r-refresh" styleClass="icon-btn"/></graphic>
+            <tooltip><Tooltip text="Recargar"/></tooltip>
+        </Button>
+    </HBox>
+
+    <!-- CONTENIDO PRINCIPAL: tabla + formulario lado a lado -->
+    <HBox spacing="16" VBox.vgrow="ALWAYS">
+
+        <!-- TABLA MIS SOLICITUDES -->
+        <VBox spacing="8" HBox.hgrow="ALWAYS">
+            <Label text="Mis solicitudes"
+                   style="-fx-font-size:15px; -fx-font-weight:bold;"/>
+            <TableView fx:id="tablaMisVacaciones"
+                       VBox.vgrow="ALWAYS"
+                       styleClass="empleados-table">
+                <columns>
+                    <TableColumn fx:id="colFechaSolicitud" text="Solicitado"  prefWidth="110"/>
+                    <TableColumn fx:id="colFechaInicio"    text="Inicio"      prefWidth="100"/>
+                    <TableColumn fx:id="colFechaFin"       text="Fin"         prefWidth="100"/>
+                    <TableColumn fx:id="colDias"           text="Días"        prefWidth="60"/>
+                    <TableColumn fx:id="colEstado"         text="Estado"      prefWidth="110"/>
+                    <TableColumn fx:id="colObservacion"    text="Observación" prefWidth="200"/>
+                </columns>
+                <placeholder>
+                    <Label text="Aún no tienes solicitudes de vacaciones"/>
+                </placeholder>
+            </TableView>
+        </VBox>
+
+        <!-- FORMULARIO NUEVA SOLICITUD -->
+        <VBox spacing="14" prefWidth="300"
+              style="-fx-background-color:white;
+                     -fx-padding:20;
+                     -fx-background-radius:12;
+                     -fx-border-radius:12;
+                     -fx-border-color:#E5E7EB;">
+
+            <Label text="Nueva solicitud"
+                   style="-fx-font-size:16px; -fx-font-weight:bold;"/>
+            <Separator/>
+
+            <VBox spacing="4">
+                <Label text="Fecha de inicio *"
+                       style="-fx-font-size:13px; -fx-text-fill:#4B5563;"/>
+                <DatePicker fx:id="dpFechaInicio" maxWidth="Infinity"/>
+            </VBox>
+
+            <VBox spacing="4">
+                <Label text="Fecha de fin *"
+                       style="-fx-font-size:13px; -fx-text-fill:#4B5563;"/>
+                <DatePicker fx:id="dpFechaFin" maxWidth="Infinity"/>
+            </VBox>
+
+            <Label fx:id="lblDiasCalculados"
+                   text="Días a solicitar: --"
+                   style="-fx-font-size:13px; -fx-text-fill:#2563EB;
+                          -fx-font-weight:bold;"/>
+
+            <VBox spacing="4">
+                <Label text="Observación (opcional)"
+                       style="-fx-font-size:13px; -fx-text-fill:#4B5563;"/>
+                <TextArea fx:id="txObservacion"
+                          prefRowCount="3"
+                          wrapText="true"
+                          promptText="Motivo o comentario adicional..."/>
+            </VBox>
+
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <Button fx:id="btnSolicitar"
+                    text="Enviar solicitud"
+                    maxWidth="Infinity"
+                    prefHeight="40"
+                    style="-fx-background-color:#2563EB;
+                           -fx-text-fill:white;
+                           -fx-font-weight:bold;
+                           -fx-font-size:14px;
+                           -fx-background-radius:8;"
+                    onAction="#solicitarVacacion">
+                <graphic>
+                    <FontIcon iconLiteral="mdi2s-send"
+                              style="-fx-icon-color:white; -fx-icon-size:15;"/>
+                </graphic>
+            </Button>
+
+        </VBox>
+    </HBox>
+
 </VBox>
