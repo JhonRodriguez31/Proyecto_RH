@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<HBox spacing="20"
+      style="-fx-background-color: #F5F7FB; -fx-padding: 24;"
+      xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.project.controllers.PlanillaGenerarController">
+
+    <!-- ══ COLUMNA IZQUIERDA: FORMULARIO ══════════════════════ -->
+    <VBox spacing="18" prefWidth="600"
+          style="-fx-background-color:white;
+                 -fx-padding:24;
+                 -fx-background-radius:12;
+                 -fx-border-radius:12;
+                 -fx-border-color:#E5E7EB;">
+
+        <Label text="Generar Planilla"
+               style="-fx-font-size:22px; -fx-font-weight:bold;"/>
+        <Label text="Completa los datos y presiona Calcular para previsualizar."
+               style="-fx-font-size:13px; -fx-text-fill:#6B7280;"/>
+
+        <!-- Empleado -->
+        <VBox spacing="4">
+            <Label text="Empleado *" style="-fx-font-size:13px; -fx-text-fill:#4B5563;"/>
+            <ComboBox fx:id="cbEmpleado" maxWidth="Infinity" promptText="Seleccionar empleado"/>
+        </VBox>
+
+        <!-- Periodo -->
+        <HBox spacing="12">
+            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                <Label text="Mes *" style="-fx-font-size:13px; -fx-text-fill:#4B5563;"/>
+                <ComboBox fx:id="cbMes" maxWidth="Infinity"/>
+            </VBox>
+            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                <Label text="Año *" style="-fx-font-size:13px; -fx-text-fill:#4B5563;"/>
+                <ComboBox fx:id="cbAnio" maxWidth="Infinity"/>
+            </VBox>
+        </HBox>
+
+        <!-- Deducciones opcionales -->
+        <HBox spacing="12">
+            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                <Label text="Minutos de tardanza" style="-fx-font-size:13px; -fx-text-fill:#4B5563;"/>
+                <TextField fx:id="txtMinutosTardanza" promptText="0"/>
+            </VBox>
+            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                <Label text="Días de falta" style="-fx-font-size:13px; -fx-text-fill:#4B5563;"/>
+                <TextField fx:id="txtDiasFalta" promptText="0"/>
+            </VBox>
+        </HBox>
+
+        <Button text="Calcular Planilla"
+                maxWidth="Infinity"
+                prefHeight="40"
+                style="-fx-background-color:#2563EB;
+                       -fx-text-fill:white;
+                       -fx-font-weight:bold;
+                       -fx-font-size:14px;
+                       -fx-background-radius:8;"
+                onAction="#calcular">
+            <graphic><FontIcon iconLiteral="mdi2c-calculator" style="-fx-icon-color:white; -fx-icon-size:16;"/></graphic>
+        </Button>
+
+        <Separator/>
+
+        <!-- Tabla de detalle -->
+        <Label text="Detalle calculado"
+               style="-fx-font-size:15px; -fx-font-weight:bold;"/>
+
+        <TableView fx:id="tablaDetalle" prefHeight="220" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="colConcepto"    text="Concepto"     prefWidth="130"/>
+                <TableColumn fx:id="colTipo"        text="Tipo"         prefWidth="90"/>
+                <TableColumn fx:id="colDescripcion" text="Descripción"  prefWidth="220"/>
+                <TableColumn fx:id="colMonto"       text="Monto"        prefWidth="100"/>
+            </columns>
+            <placeholder>
+                <Label text="Presiona Calcular para ver el detalle"/>
+            </placeholder>
+        </TableView>
+
+    </VBox>
+
+    <!-- ══ COLUMNA DERECHA: RESUMEN Y GUARDAR ══════════════════ -->
+    <VBox spacing="16" prefWidth="260"
+          style="-fx-background-color:white;
+                 -fx-padding:24;
+                 -fx-background-radius:12;
+                 -fx-border-radius:12;
+                 -fx-border-color:#E5E7EB;">
+
+        <Label text="Resumen"
+               style="-fx-font-size:20px; -fx-font-weight:bold;"/>
+
+        <Separator/>
+
+        <HBox>
+            <Label text="Total Ingresos" style="-fx-font-size:13px;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="lblIngresos" text="S/ 0.00"
+                   style="-fx-font-size:14px; -fx-font-weight:bold; -fx-text-fill:#16A34A;"/>
+        </HBox>
+
+        <HBox>
+            <Label text="Total Descuentos" style="-fx-font-size:13px;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="lblDescuentos" text="S/ 0.00"
+                   style="-fx-font-size:14px; -fx-font-weight:bold; -fx-text-fill:#DC2626;"/>
+        </HBox>
+
+        <Separator/>
+
+        <!-- Neto -->
+        <VBox spacing="6" alignment="CENTER"
+              style="-fx-background-color:#0F172A;
+                     -fx-padding:20;
+                     -fx-background-radius:12;">
+            <Label text="Neto a Pagar" style="-fx-text-fill:white; -fx-font-size:14px;"/>
+            <Label fx:id="lblNeto" text="S/ 0.00"
+                   style="-fx-text-fill:white; -fx-font-size:28px; -fx-font-weight:bold;"/>
+        </VBox>
+
+        <Region VBox.vgrow="ALWAYS"/>
+
+        <Button fx:id="btnGuardar"
+                text="Guardar Planilla"
+                maxWidth="Infinity"
+                prefHeight="44"
+                style="-fx-background-color:#16A34A;
+                       -fx-text-fill:white;
+                       -fx-font-size:15px;
+                       -fx-font-weight:bold;
+                       -fx-background-radius:8;"
+                onAction="#guardarPlanilla">
+            <graphic><FontIcon iconLiteral="mdi2c-content-save" style="-fx-icon-color:white; -fx-icon-size:16;"/></graphic>
+        </Button>
+
+        <Button text="Cancelar"
+                maxWidth="Infinity"
+                prefHeight="38"
+                style="-fx-background-color:white;
+                       -fx-border-color:#D1D5DB;
+                       -fx-background-radius:8;
+                       -fx-border-radius:8;"
+                onAction="#cerrar"/>
+
+    </VBox>
+
+</HBox>
