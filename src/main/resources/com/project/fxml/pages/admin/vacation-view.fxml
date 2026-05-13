@@ -1,22 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<?import javafx.geometry.Insets?>
-<VBox spacing="10"
-      styleClass="page-placeholder"
+<VBox spacing="16"
+      stylesheets="@../../../css/empleado.css"
       xmlns="http://javafx.com/javafx/21"
-      xmlns:fx="http://javafx.com/fxml/1">
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.project.controllers.VacacionAdminController">
+
     <padding>
-        <Insets top="22"
-                right="22"
-                bottom="22"
-                left="22"/>
+        <Insets top="22" right="22" bottom="22" left="22"/>
     </padding>
-    <Label text="Vacaciones"
-           styleClass="placeholder-title"/>
+
+    <!-- ══ ENCABEZADO ══════════════════════════════════════════ -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Gestión de Vacaciones" styleClass="section-title"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="btnRecargar" styleClass="btn-icon" onAction="#recargar">
+            <graphic><FontIcon iconLiteral="mdi2r-refresh" styleClass="icon-btn"/></graphic>
+            <tooltip><Tooltip text="Recargar"/></tooltip>
+        </Button>
+    </HBox>
+
+    <!-- ══ FILTROS + BOTONES ══════════════════════════════════ -->
+    <HBox spacing="12" alignment="CENTER_LEFT">
+        <Label text="Filtrar por estado:" style="-fx-font-size:13px;"/>
+        <ComboBox fx:id="cbFiltroEstado" prefWidth="160"/>
+
+        <Region HBox.hgrow="ALWAYS"/>
+
+        <Button fx:id="btnAprobar"
+                text="✔ Aprobar"
+                disable="true"
+                style="-fx-background-color:#16A34A;
+                       -fx-text-fill:white;
+                       -fx-font-weight:bold;
+                       -fx-background-radius:8;
+                       -fx-padding:8 18;"
+                onAction="#aprobarVacacion"/>
+
+        <Button fx:id="btnRechazar"
+                text="✖ Rechazar"
+                disable="true"
+                style="-fx-background-color:#DC2626;
+                       -fx-text-fill:white;
+                       -fx-font-weight:bold;
+                       -fx-background-radius:8;
+                       -fx-padding:8 18;"
+                onAction="#rechazarVacacion"/>
+    </HBox>
+
+    <!-- ══ TABLA ══════════════════════════════════════════════ -->
+    <TableView fx:id="tablaVacaciones"
+               VBox.vgrow="ALWAYS"
+               styleClass="empleados-table">
+        <columns>
+            <TableColumn fx:id="colEmpleado"       text="Empleado"          prefWidth="200"/>
+            <TableColumn fx:id="colFechaSolicitud"  text="Fecha solicitud"   prefWidth="130"/>
+            <TableColumn fx:id="colFechaInicio"     text="Inicio"            prefWidth="110"/>
+            <TableColumn fx:id="colFechaFin"        text="Fin"               prefWidth="110"/>
+            <TableColumn fx:id="colDias"            text="Días"              prefWidth="70"/>
+            <TableColumn fx:id="colEstado"          text="Estado"            prefWidth="110"/>
+            <TableColumn fx:id="colObservacion"     text="Observación"       prefWidth="250"/>
+        </columns>
+        <placeholder>
+            <Label text="No hay solicitudes de vacaciones"/>
+        </placeholder>
+    </TableView>
+
+    <!-- ══ LEYENDA ════════════════════════════════════════════ -->
+    <HBox spacing="20" alignment="CENTER_LEFT">
+        <Label text="●" style="-fx-text-fill:#D97706; -fx-font-size:16px;"/>
+        <Label text="PENDIENTE" style="-fx-font-size:12px;"/>
+        <Label text="●" style="-fx-text-fill:#16A34A; -fx-font-size:16px;"/>
+        <Label text="APROBADA" style="-fx-font-size:12px;"/>
+        <Label text="●" style="-fx-text-fill:#DC2626; -fx-font-size:16px;"/>
+        <Label text="RECHAZADA" style="-fx-font-size:12px;"/>
+    </HBox>
+
 </VBox>
