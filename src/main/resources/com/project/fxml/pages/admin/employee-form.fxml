@@ -7,13 +7,13 @@
 
 <VBox spacing="20"
       styleClass="form-container"
-      stylesheets="@../../../css/theme.css"
+      stylesheets="@../../../css/theme.css, @../../../css/styles.css"
       xmlns="http://javafx.com/javafx/21"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.project.controllers.EmpleadoFormController">
 
     <padding>
-        <Insets top="25" right="25" bottom="25" left="25"/>
+        <Insets top="30" right="30" bottom="30" left="30"/>
     </padding>
 
     <VBox spacing="5">
@@ -21,63 +21,66 @@
         <Label text="Complete la información del empleado" styleClass="form-subtitle"/>
     </VBox>
 
-    <GridPane hgap="15" vgap="15">
+    <GridPane hgap="18" vgap="18">
         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50" />
         </columnConstraints>
 
-        <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="0">
-            <Label text="Código"/>
-            <TextField fx:id="txtCodigo" promptText="EMP-001"/>
+        <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="0">
+            <Label text="Código de Empleado"/>
+            <TextField fx:id="txtCodigo" promptText="Auto-generado" editable="false"
+                       style="-fx-opacity: 0.7;"/>
         </VBox>
 
-        <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="0">
-            <Label text="DNI"/>
-            <TextField fx:id="txtDni" promptText="77777777"/>
+        <VBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="0">
+            <Label text="DNI (8 dígitos)"/>
+            <TextField fx:id="txtDni" promptText="Ej: 71234567"/>
         </VBox>
 
-        <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="1">
+        <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="1">
             <Label text="Nombres"/>
-            <TextField fx:id="txtNombres" promptText="Juan"/>
+            <TextField fx:id="txtNombres" promptText="Ej: Juan Carlos"/>
         </VBox>
 
-        <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
+        <VBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="1">
             <Label text="Apellidos"/>
-            <TextField fx:id="txtApellidos" promptText="Pérez"/>
+            <TextField fx:id="txtApellidos" promptText="Ej: Pérez López"/>
         </VBox>
 
-        <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="2">
-            <Label text="Teléfono"/>
-            <TextField fx:id="txtTelefono" promptText="999888777"/>
+        <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="2">
+            <Label text="Teléfono (9 dígitos)"/>
+            <TextField fx:id="txtTelefono" promptText="Ej: 987654321"/>
         </VBox>
 
-        <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="2">
+        <VBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="2">
             <Label text="Estado"/>
             <ComboBox fx:id="cbEstado" maxWidth="Infinity"/>
         </VBox>
 
-        <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="3">
-            <Label text="Fecha Nacimiento"/>
+        <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="3">
+            <Label text="Fecha de Nacimiento"/>
             <DatePicker fx:id="dpFechaNacimiento" maxWidth="Infinity"/>
         </VBox>
 
-        <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="3">
-            <Label text="Fecha Ingreso"/>
+        <VBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <Label text="Fecha de Ingreso"/>
             <DatePicker fx:id="dpFechaIngreso" maxWidth="Infinity"/>
         </VBox>
 
-        <VBox spacing="5" GridPane.columnSpan="2" GridPane.rowIndex="4">
+        <VBox spacing="6" GridPane.columnSpan="2" GridPane.rowIndex="4">
             <Label text="Dirección"/>
-            <TextField fx:id="txtDireccion" promptText="Av. Siempre Viva 123"/>
+            <TextField fx:id="txtDireccion" promptText="Ej: Av. Javier Prado 1234, Lima"/>
         </VBox>
     </GridPane>
 
-    <HBox spacing="10" alignment="CENTER_RIGHT">
+    <Region VBox.vgrow="ALWAYS"/>
+
+    <HBox spacing="12" alignment="CENTER_RIGHT">
         <Button fx:id="btnCancelar" text="Cancelar" styleClass="btn-secondary"/>
-        <Button fx:id="btnGuardar" text="Guardar Cambios" styleClass="btn-primary">
+        <Button fx:id="btnGuardar" text="Guardar Empleado" styleClass="btn-primary">
             <graphic>
-                <FontIcon iconLiteral="mdi2c-check" styleClass="icon-btn"/>
+                <FontIcon iconLiteral="mdi2c-check" style="-fx-icon-color: white; -fx-icon-size: 16;"/>
             </graphic>
         </Button>
     </HBox>

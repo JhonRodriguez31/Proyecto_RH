@@ -1,0 +1,156 @@
+.dashboard-container {
+    -fx-background-color: transparent;
+}
+
+.dashboard-title {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-text-primary;
+}
+
+.dashboard-subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: -fx-text-secondary;
+}
+
+.chart-card {
+    -fx-background-color: -fx-bg-secondary;
+    -fx-background-radius: 12;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 10, 0, 0, 2);
+}
+
+.chart-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-text-primary;
+    -fx-padding: 0 0 8 0;
+}
+
+/* ── Chart Styling ── */
+.chart-pie .chart-pie-label {
+    -fx-fill: -fx-text-primary;
+    -fx-font-size: 12px;
+}
+
+.chart-legend-item-text {
+    -fx-text-fill: -fx-text-primary;
+}
+
+.chart-legend-item-symbol {
+    -fx-background-radius: 4;
+}
+
+.axis {
+    -fx-tick-label-fill: -fx-text-secondary;
+}
+
+.axis-label {
+    -fx-text-fill: -fx-text-primary;
+    -fx-font-size: 12px;
+}
+
+.chart-bar {
+    -fx-bar-fill: #6c5ce7;
+}
+
+.default-color0.chart-bar {
+    -fx-bar-fill: #6c5ce7;
+}
+
+/* ── Pie Chart Colors ── */
+.default-color0.chart-pie {
+    -fx-pie-color: #6c5ce7;
+}
+.default-color1.chart-pie {
+    -fx-pie-color: #00b894;
+}
+.default-color2.chart-pie {
+    -fx-pie-color: #e17055;
+}
+.default-color3.chart-pie {
+    -fx-pie-color: #0984e3;
+}
+.default-color4.chart-pie {
+    -fx-pie-color: #fdcb6e;
+}
+.default-color5.chart-pie {
+    -fx-pie-color: #e84393;
+}
+.default-color6.chart-pie {
+    -fx-pie-color: #00cec9;
+}
+.default-color7.chart-pie {
+    -fx-pie-color: #d63031;
+}
+
+/* ── Form Styling ── */
+.form-container {
+    -fx-background-color: -fx-bg-primary;
+}
+
+.form-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-text-primary;
+}
+
+.form-subtitle {
+    -fx-font-size: 13px;
+    -fx-text-fill: -fx-text-secondary;
+}
+
+.form-container .label {
+    -fx-text-fill: -fx-text-primary;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+.form-container .text-field,
+.form-container .combo-box,
+.form-container .date-picker {
+    -fx-background-color: -fx-bg-secondary;
+    -fx-text-fill: -fx-text-primary;
+    -fx-border-color: -app-border-color;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 8 12;
+    -fx-font-size: 13px;
+}
+
+.form-container .text-field:focused,
+.form-container .combo-box:focused,
+.form-container .date-picker:focused {
+    -fx-border-color: -fx-primary;
+    -fx-effect: dropshadow(three-pass-box, rgba(93, 109, 185, 0.3), 6, 0, 0, 0);
+}
+
+.form-container .text-field .text {
+    -fx-fill: -fx-text-primary;
+}
+
+.btn-primary {
+    -fx-background-color: -fx-primary;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10 24;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-font-size: 13px;
+}
+
+.btn-primary:hover {
+    -fx-background-color: -fx-primary-dark;
+}
+
+.btn-secondary {
+    -fx-background-color: -fx-bg-tertiary;
+    -fx-text-fill: -fx-text-primary;
+    -fx-padding: 10 24;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-font-size: 13px;
+}
+
+.btn-secondary:hover {
+    -fx-background-color: -app-border-color;
+}

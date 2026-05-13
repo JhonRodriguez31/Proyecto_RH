@@ -3,10 +3,17 @@ package com.project.config;
 import io.github.cdimascio.dotenv.Dotenv;
 
 public class EnvConfig {
-    private static final Dotenv dotenv = Dotenv.configure()
-            .ignoreIfMalformed()
-            .ignoreIfMissing()
-            .load();
+    private static final Dotenv dotenv = initDotenv();
+
+    private static Dotenv initDotenv() {
+        if (new java.io.File(".env").exists()) {
+            return Dotenv.configure().load();
+        }
+        if (new java.io.File("Proyecto_RH/.env").exists()) {
+            return Dotenv.configure().directory("./Proyecto_RH").load();
+        }
+        return Dotenv.configure().ignoreIfMissing().load();
+    }
 
 
     private EnvConfig() {

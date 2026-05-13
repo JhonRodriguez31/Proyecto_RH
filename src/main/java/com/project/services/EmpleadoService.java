@@ -14,4 +14,6 @@ public interface EmpleadoService {
     void actualizarEmpleado(Empleado empleado, Integer usuarioId);
 
     void eliminarEmpleado(Integer id);
+
+    String generarSiguienteCodigo();
 }

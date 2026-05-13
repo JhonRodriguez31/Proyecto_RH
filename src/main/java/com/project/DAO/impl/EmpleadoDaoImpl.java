@@ -165,4 +165,19 @@ public class EmpleadoDaoImpl implements EmpleadoDao {
         return empleado;
     }
 
+    @Override
+    public String obtenerUltimoCodigo() {
+        String query = "SELECT MAX(codigo_empleado) FROM Empleado";
+        try (Connection conn = DatabaseConfig.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
