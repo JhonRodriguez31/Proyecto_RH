@@ -11,8 +11,17 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import javafx.scene.control.ScrollPane?>
 
-<VBox spacing="14" stylesheets="@../../../css/empleado.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.controllers.PlanillaPrincipalController">
+
+
+<ScrollPane fitToWidth="true"
+            stylesheets="@../../../css/empleado.css"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.project.controllers.PlanillaPrincipalController">
+<content>
+<VBox spacing="14">
 
     <padding>
         <Insets bottom="14" left="22" right="22" top="22" />
@@ -67,6 +76,7 @@
             <TableColumn fx:id="colFecha" prefWidth="145" text="Fecha generación" />
             <TableColumn fx:id="colSueldo" prefWidth="120" text="Sueldo base" />
             <TableColumn fx:id="colEstado" prefWidth="110" text="Estado" />
+            <TableColumn fx:id="colAcciones" text="Acciones" prefWidth="130"/>
         </columns>
         <placeholder><Label text="No hay planillas que coincidan con los filtros" /></placeholder>
     </TableView>
@@ -138,3 +148,5 @@
     </VBox>
 
 </VBox>
+</content>
+</ScrollPane>

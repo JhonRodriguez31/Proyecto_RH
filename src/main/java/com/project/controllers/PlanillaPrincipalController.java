@@ -14,11 +14,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.geometry.Insets;
 
 public class PlanillaPrincipalController implements Initializable {
 
@@ -31,6 +36,7 @@ public class PlanillaPrincipalController implements Initializable {
     @FXML private TableColumn<Planilla, String>  colFecha;
     @FXML private TableColumn<Planilla, String>  colEstado;
     @FXML private TableColumn<Planilla, String>  colSueldo;
+    @FXML private TableColumn<Planilla, String> colAcciones;
 
     // ── Filtros ───────────────────────────────────────────────
     @FXML private ComboBox<String> cbPeriodo;
@@ -104,6 +110,32 @@ public class PlanillaPrincipalController implements Initializable {
                 });
             }
         });
+        
+    
+    colAcciones.setCellFactory(col -> new TableCell<>() {
+        @Override
+        protected void updateItem(String val, boolean empty) {
+            super.updateItem(val, empty);
+            if (empty) { setGraphic(null); return; }
+
+            Planilla planilla = getTableView().getItems().get(getIndex());
+            
+            MenuButton menu = new MenuButton("⋮ Acciones");
+            menu.setMaxWidth(Double.MAX_VALUE);
+            menu.setPrefWidth(this.getTableColumn().getWidth() - 10);
+            menu.setStyle("-fx-background-color:#F3F4F6; -fx-border-color:#D1D5DB; -fx-background-radius:6;");
+
+            MenuItem editar   = new MenuItem("✏ Editar");
+            MenuItem eliminar = new MenuItem("🗑 Eliminar");
+
+         editar.setOnAction(e ->   editarPlanilla(planilla));
+            eliminar.setOnAction(e -> eliminarPlanillaSeleccionada());
+
+            menu.getItems().addAll(editar, eliminar);
+            setGraphic(menu);
+        }
+    });
+    
     }
 
     // ── Columnas INGRESOS ─────────────────────────────────────
@@ -334,9 +366,104 @@ public class PlanillaPrincipalController implements Initializable {
             }
         }
     }
+    
+    private void editarPlanilla(Planilla planilla) {
+        if ("PAGADA".equals(planilla.getEstado())) {
+            NotificacionService.error("No se puede editar una planilla ya pagada.");
+            return;
+        }
+
+        // Crear el dialog
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setTitle("Editar Planilla");
+        dialog.setHeaderText("Editando planilla de: " + planilla.getNombreEmpleado());
+
+        // Campos
+        ComboBox<String> cbMes = new ComboBox<>();
+        cbMes.getItems().addAll("01","02","03","04","05","06","07","08","09","10","11","12");
+
+        ComboBox<String> cbAnio = new ComboBox<>();
+        int anioActual = java.time.LocalDate.now().getYear();
+        cbAnio.getItems().addAll(
+            String.valueOf(anioActual - 1),
+            String.valueOf(anioActual),
+            String.valueOf(anioActual + 1)
+        );
+
+        String periodo = planilla.getPeriodo() != null ? planilla.getPeriodo().trim() : "";
+        String[] partes = periodo.split("-");
+        if (partes.length >= 2) {
+            cbAnio.setValue(partes[0]);
+            cbMes.setValue(partes[1]);
+        } else {
+            cbAnio.setValue(String.valueOf(java.time.LocalDate.now().getYear()));
+            cbMes.setValue(String.format("%02d", java.time.LocalDate.now().getMonthValue()));
+        }
+        
+        ComboBox<String> cbEstadoEdit = new ComboBox<>();
+        cbEstadoEdit.getItems().addAll("GENERADA", "PAGADA", "ANULADA");
+        cbEstadoEdit.setValue(planilla.getEstado()); 
+
+        TextField txtMinutos = new TextField("0");
+        TextField txtFaltas  = new TextField("0");
+        
+        
+        
+
+        // Layout del dialog
+        javafx.scene.layout.GridPane grid = new javafx.scene.layout.GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new javafx.geometry.Insets(20));
+
+        grid.add(new Label("Año:"),              0, 0);
+        grid.add(cbAnio,                         1, 0);
+        grid.add(new Label("Mes:"),              0, 1);
+        grid.add(cbMes,                          1, 1);
+        grid.add(new Label("Estado:"), 0, 2);
+        grid.add(cbEstadoEdit,         1, 2);
+        grid.add(new Label("Minutos tardanza:"), 0, 3);
+        grid.add(txtMinutos,                     1, 3);
+        grid.add(new Label("Días falta:"),       0, 4);
+        grid.add(txtFaltas,                      1, 4);
+
+        dialog.getDialogPane().setContent(grid);
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+
+        dialog.showAndWait().ifPresent(result -> {
+            if (result == ButtonType.OK) {
+                try {
+                    int minutos = Integer.parseInt(txtMinutos.getText().trim());
+                    int faltas  = Integer.parseInt(txtFaltas.getText().trim());
+                    String nuevoPeriodo = cbAnio.getValue() + "-" + cbMes.getValue();
+
+                    // Recalcular detalles
+                    List<PlanillaDetalle> nuevosDetalles = planillaService
+                            .calcularDetallesPreview(planilla.getEmpleado_id(), minutos, faltas);
+
+                    // Actualizar periodo y guardar
+                    planilla.setPeriodo(nuevoPeriodo);
+                    planilla.setEstado(cbEstadoEdit.getValue());
+                    planillaService.actualizarPlanilla(planilla, nuevosDetalles, 1);
+
+                    NotificacionService.exito("Planilla actualizada correctamente.");
+                    cargarPlanillas();
+
+                } catch (NumberFormatException e) {
+                    NotificacionService.advertencia("Minutos y días deben ser números enteros.");
+                } catch (Exception e) {
+                    NotificacionService.error("Error al actualizar: " + e.getMessage());
+                }
+            }
+        });
+    }
+    
+
 
     @FXML
     private void recargar() {
         cargarPlanillas();
     }
+    
+    
 }
