@@ -1,5 +1,6 @@
 SELECT * FROM dbo.Empleado;
-
+USE PlanillaCoreDB;
+GO
 CREATE OR ALTER VIEW dbo.vw_PerfilEmpleado AS
 SELECT
     e.id                          AS empleado_id,

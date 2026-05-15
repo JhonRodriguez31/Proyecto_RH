@@ -5,124 +5,135 @@
 <?import javafx.scene.layout.*?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<HBox spacing="20"
-      styleClass="planilla-root"
-      stylesheets="@../../../css/theme.css, @../../../css/styles.css, @../../../css/empleado.css, @../../../css/planilla.css"
-      xmlns="http://javafx.com/javafx/21"
-      xmlns:fx="http://javafx.com/fxml/1"
+<HBox spacing="20" styleClass="planilla-root" 
+      stylesheets="@../../../css/theme.css, @../../../css/styles.css, @../../../css/empleado.css, @../../../css/planilla.css" 
+      xmlns="http://javafx.com/javafx/21" 
+      xmlns:fx="http://javafx.com/fxml/1" 
       fx:controller="com.project.controllers.PlanillaGenerarController">
 
+    <padding>
+        <Insets top="24" right="24" bottom="24" left="24"/>
+    </padding>
+
     <!-- ══ COLUMNA IZQUIERDA: FORMULARIO ══════════════════════ -->
-    <VBox spacing="18" prefWidth="600" styleClass="planilla-card">
+    <VBox spacing="20" prefWidth="650" styleClass="planilla-card" HBox.hgrow="ALWAYS">
 
-        <VBox spacing="5">
-            <Label text="Generar Planilla" styleClass="planilla-title"/>
-            <Label text="Completa los datos y presiona Calcular para previsualizar." styleClass="planilla-subtitle"/>
+        <VBox spacing="6">
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <FontIcon iconLiteral="mdi2p-plus-box" iconSize="24" styleClass="icon-accent"/>
+                <Label text="Generar Nueva Planilla" styleClass="planilla-title"/>
+            </HBox>
+            <Label text="Selecciona el colaborador y el periodo para calcular sus haberes." styleClass="planilla-subtitle"/>
         </VBox>
 
-        <!-- Empleado -->
-        <VBox spacing="4" styleClass="form-container">
-            <Label text="Empleado *" styleClass="planilla-label"/>
-            <ComboBox fx:id="cbEmpleado" maxWidth="Infinity" promptText="Seleccionar empleado"/>
-        </VBox>
+        <Separator/>
 
-        <!-- Periodo -->
-        <HBox spacing="12" styleClass="form-container">
-            <VBox spacing="4" HBox.hgrow="ALWAYS">
+        <GridPane hgap="20" vgap="15">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="60" />
+                <ColumnConstraints percentWidth="20" />
+                <ColumnConstraints percentWidth="20" />
+            </columnConstraints>
+
+            <!-- Empleado -->
+            <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                <Label text="Colaborador *" styleClass="planilla-label"/>
+                <ComboBox fx:id="cbEmpleado" maxWidth="Infinity" promptText="Buscar empleado..."/>
+            </VBox>
+
+            <!-- Periodo -->
+            <VBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="0">
                 <Label text="Mes *" styleClass="planilla-label"/>
                 <ComboBox fx:id="cbMes" maxWidth="Infinity"/>
             </VBox>
-            <VBox spacing="4" HBox.hgrow="ALWAYS">
+            <VBox spacing="6" GridPane.columnIndex="2" GridPane.rowIndex="0">
                 <Label text="Año *" styleClass="planilla-label"/>
                 <ComboBox fx:id="cbAnio" maxWidth="Infinity"/>
             </VBox>
-        </HBox>
 
-        <!-- Deducciones opcionales -->
-        <HBox spacing="12" styleClass="form-container">
-            <VBox spacing="4" HBox.hgrow="ALWAYS">
-                <Label text="Minutos de tardanza" styleClass="planilla-label"/>
+            <!-- Deducciones opcionales -->
+            <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                <Label text="Tardanzas (minutos)" styleClass="planilla-label"/>
                 <TextField fx:id="txtMinutosTardanza" promptText="0"/>
             </VBox>
-            <VBox spacing="4" HBox.hgrow="ALWAYS">
-                <Label text="Días de falta" styleClass="planilla-label"/>
+            <VBox spacing="6" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                <Label text="Inasistencias (días)" styleClass="planilla-label"/>
                 <TextField fx:id="txtDiasFalta" promptText="0"/>
             </VBox>
-        </HBox>
+        </GridPane>
 
-        <Button text="Calcular Planilla"
+        <Button text="CALCULAR PREVISUALIZACIÓN"
                 maxWidth="Infinity"
-                prefHeight="40"
+                prefHeight="45"
                 styleClass="btn-calc"
                 onAction="#calcular">
-            <graphic><FontIcon iconLiteral="mdi2c-calculator" style="-fx-icon-color:white; -fx-icon-size:16;"/></graphic>
+            <graphic><FontIcon iconLiteral="mdi2c-calculator" style="-fx-icon-color:white; -fx-icon-size:18;"/></graphic>
         </Button>
 
-        <Separator/>
-
-        <!-- Tabla de detalle -->
-        <Label text="Detalle calculado" styleClass="planilla-title" style="-fx-font-size: 15px;"/>
-
-        <StackPane VBox.vgrow="ALWAYS" styleClass="table-container-vintage">
-            <TableView fx:id="tablaDetalle" prefHeight="220" styleClass="modern-table">
-                <columns>
-                    <TableColumn fx:id="colConcepto"    text="Concepto"     prefWidth="130"/>
-                    <TableColumn fx:id="colTipo"        text="Tipo"         prefWidth="90"/>
-                    <TableColumn fx:id="colDescripcion" text="Descripción"  prefWidth="220"/>
-                    <TableColumn fx:id="colMonto"       text="Monto"        prefWidth="100"/>
-                </columns>
-                <placeholder>
-                    <Label text="Presiona Calcular para ver el detalle" styleClass="planilla-subtitle"/>
-                </placeholder>
-            </TableView>
-        </StackPane>
-
+        <VBox spacing="10" VBox.vgrow="ALWAYS">
+            <Label text="Detalle de Conceptos" styleClass="planilla-title" style="-fx-font-size: 14px;"/>
+            <StackPane VBox.vgrow="ALWAYS">
+                <TableView fx:id="tablaDetalle" styleClass="modern-table">
+                    <columns>
+                        <TableColumn fx:id="colConcepto"    text="Concepto"     prefWidth="150"/>
+                        <TableColumn fx:id="colTipo"        text="Tipo"         prefWidth="100"/>
+                        <TableColumn fx:id="colDescripcion" text="Descripción"  prefWidth="250"/>
+                        <TableColumn fx:id="colMonto"       text="Monto"        prefWidth="110"/>
+                    </columns>
+                    <placeholder>
+                        <Label text="Realiza el cálculo para visualizar los montos" styleClass="planilla-subtitle"/>
+                    </placeholder>
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                    </columnResizePolicy>
+                </TableView>
+            </StackPane>
+        </VBox>
     </VBox>
 
-    <!-- ══ COLUMNA DERECHA: RESUMEN Y GUARDAR ══════════════════ -->
-    <VBox spacing="16" prefWidth="260" styleClass="planilla-card">
-
-        <Label text="Resumen" styleClass="planilla-title" style="-fx-font-size: 20px;"/>
-
-        <Separator/>
-
-        <HBox>
-            <Label text="Total Ingresos" styleClass="planilla-label"/>
-            <Region HBox.hgrow="ALWAYS"/>
-            <Label fx:id="lblIngresos" text="S/ 0.00" styleClass="text-ingreso" style="-fx-font-size: 14px;"/>
-        </HBox>
-
-        <HBox>
-            <Label text="Total Descuentos" styleClass="planilla-label"/>
-            <Region HBox.hgrow="ALWAYS"/>
-            <Label fx:id="lblDescuentos" text="S/ 0.00" styleClass="text-descuento" style="-fx-font-size: 14px;"/>
-        </HBox>
+    <!-- ══ COLUMNA DERECHA: RESUMEN ══════════════════════════ -->
+    <VBox spacing="20" prefWidth="300" styleClass="planilla-card">
+        
+        <VBox spacing="4" alignment="CENTER">
+            <Label text="RESUMEN ECONÓMICO" styleClass="planilla-title" style="-fx-font-size: 14px;"/>
+        </VBox>
 
         <Separator/>
 
-        <!-- Neto -->
-        <VBox spacing="6" alignment="CENTER" styleClass="neto-panel">
-            <Label text="Neto a Pagar" styleClass="neto-panel-title"/>
-            <Label fx:id="lblNeto" text="S/ 0.00" styleClass="neto-panel-amount"/>
+        <VBox spacing="15">
+            <VBox spacing="4" styleClass="total-box-ingresos">
+                <Label text="Total Ingresos" styleClass="label-total-ingresos" style="-fx-font-weight: bold;"/>
+                <Label fx:id="lblIngresos" text="S/ 0.00" styleClass="text-ingreso" style="-fx-font-size: 18px;"/>
+            </VBox>
+
+            <VBox spacing="4" styleClass="total-box-descuentos">
+                <Label text="Total Descuentos" styleClass="label-total-descuentos" style="-fx-font-weight: bold;"/>
+                <Label fx:id="lblDescuentos" text="S/ 0.00" styleClass="text-descuento" style="-fx-font-size: 18px;"/>
+            </VBox>
+
+            <VBox spacing="8" alignment="CENTER" styleClass="neto-panel">
+                <Label text="NETO A PERCIBIR" styleClass="neto-panel-title" style="-fx-font-weight: bold;"/>
+                <Label fx:id="lblNeto" text="S/ 0.00" styleClass="neto-panel-amount" style="-fx-font-size: 32px;"/>
+            </VBox>
         </VBox>
 
         <Region VBox.vgrow="ALWAYS"/>
 
-        <Button fx:id="btnGuardar"
-                text="Guardar Planilla"
-                maxWidth="Infinity"
-                prefHeight="44"
-                styleClass="btn-save-success"
-                onAction="#guardarPlanilla">
-            <graphic><FontIcon iconLiteral="mdi2c-content-save" style="-fx-icon-color:white; -fx-icon-size:16;"/></graphic>
-        </Button>
+        <VBox spacing="10">
+            <Button fx:id="btnGuardar"
+                    text="GUARDAR PLANILLA"
+                    maxWidth="Infinity"
+                    prefHeight="50"
+                    styleClass="btn-save-success"
+                    onAction="#guardarPlanilla">
+                <graphic><FontIcon iconLiteral="mdi2c-content-save" style="-fx-icon-color:white; -fx-icon-size:20;"/></graphic>
+            </Button>
 
-        <Button text="Cancelar"
-                maxWidth="Infinity"
-                prefHeight="38"
-                styleClass="btn-outline"
-                onAction="#cerrar"/>
-
+            <Button text="CANCELAR"
+                    maxWidth="Infinity"
+                    prefHeight="40"
+                    styleClass="btn-outline"
+                    onAction="#cerrar"/>
+        </VBox>
     </VBox>
-
 </HBox>

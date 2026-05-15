@@ -259,3 +259,26 @@
 .theme-light .label-total-neto {
     -fx-text-fill: #1E40AF;
 }
+
+/* --- Estilos Adicionales para la Nueva Vista de Generación --- */
+.icon-accent { -fx-icon-color: -fx-primary; }
+
+/* Forzar colores de los ComboBox específicamente en este módulo */
+.planilla-root .combo-box .list-cell {
+    -fx-text-fill: -fx-text-primary;
+}
+
+.planilla-root .combo-box-popup .list-view {
+    -fx-background-color: -fx-bg-secondary;
+    -fx-border-color: -app-border-color;
+}
+
+.planilla-root .combo-box-popup .list-cell {
+    -fx-text-fill: -fx-text-primary;
+    -fx-background-color: transparent;
+}
+
+.planilla-root .combo-box-popup .list-cell:hover {
+    -fx-background-color: -fx-primary;
+    -fx-text-fill: white;
+}

@@ -24,12 +24,15 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -256,7 +259,17 @@ public class EmpleadoController implements Initializable {
                 NotificacionService.advertencia("No hay empleados para generar el reporte");
                 return;
             }
-            reportService.generarReporteEmpleados(empleados);
+
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Guardar Reporte de Empleados");
+            fileChooser.setInitialFileName("Lista_Empleados_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".pdf");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+            
+            File file = fileChooser.showSaveDialog(empleadosTable.getScene().getWindow());
+            
+            if (file != null) {
+                reportService.generarReporteEmpleados(empleados, file.getAbsolutePath());
+            }
         } catch (Exception e) {
             e.printStackTrace();
             NotificacionService.error("Error al generar reporte: " + e.getMessage());
@@ -272,7 +285,17 @@ public class EmpleadoController implements Initializable {
         }
 
         try {
-            reportService.generarFichaEmpleado(seleccionado);
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Guardar Ficha de Empleado");
+            String dni = (seleccionado.getDni() != null ? seleccionado.getDni() : "SINDNI");
+            fileChooser.setInitialFileName("Ficha_Empleado_" + dni + "_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".pdf");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+
+            File file = fileChooser.showSaveDialog(empleadosTable.getScene().getWindow());
+
+            if (file != null) {
+                reportService.generarFichaEmpleado(seleccionado, file.getAbsolutePath());
+            }
         } catch (Exception e) {
             e.printStackTrace();
             NotificacionService.error("Error al generar ficha: " + e.getMessage());
