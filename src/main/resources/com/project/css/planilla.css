@@ -1,0 +1,284 @@
+
+.planilla-root {
+    -fx-background-color: transparent;
+}
+
+.planilla-card {
+    -fx-background-color: -fx-bg-secondary;
+    -fx-padding: 24;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-border-color: -app-border-color;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 4);
+}
+
+.theme-light .planilla-card {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0, 0, 2);
+}
+
+.planilla-filter-bar {
+    -fx-background-color: -fx-bg-secondary;
+    -fx-padding: 12 16;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: -app-border-color;
+    -fx-border-width: 1;
+}
+
+/* --- Títulos y Textos --- */
+.planilla-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-text-primary;
+}
+
+.planilla-subtitle {
+    -fx-font-size: 13px;
+    -fx-text-fill: -fx-text-secondary;
+}
+
+.planilla-label {
+    -fx-font-size: 13px;
+    -fx-text-fill: -fx-text-secondary;
+}
+
+.theme-light .planilla-label {
+    -fx-text-fill: #4b5563; /* Gris más oscuro (Gray 600) para mejor contraste en blanco */
+}
+
+/* --- Forzar visibilidad en controles de formulario dentro de planilla --- */
+.form-container .label {
+    -fx-text-fill: -fx-text-primary;
+}
+
+.form-container .combo-box .list-cell,
+.form-container .combo-box .text-input {
+    -fx-text-fill: -fx-text-primary;
+}
+
+.form-container .text-field {
+    -fx-text-fill: -fx-text-primary;
+}
+
+/* --- Badges --- */
+.badge-info {
+    -fx-background-color: rgba(37, 99, 235, 0.1);
+    -fx-text-fill: #3b82f6;
+    -fx-padding: 3 12;
+    -fx-background-radius: 20;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.theme-light .badge-info {
+    -fx-background-color: #EFF6FF;
+    -fx-text-fill: #2563EB;
+}
+
+/* --- Totales (Resumen) --- */
+.total-box-ingresos {
+    -fx-background-color: rgba(22, 163, 74, 0.1);
+    -fx-padding: 8 18;
+    -fx-background-radius: 8 0 0 8;
+    -fx-border-color: rgba(22, 163, 74, 0.3);
+    -fx-border-width: 1;
+}
+
+.theme-light .total-box-ingresos {
+    -fx-background-color: #F0FDF4;
+    -fx-border-color: #BBF7D0;
+}
+
+.total-box-descuentos {
+    -fx-background-color: rgba(220, 38, 38, 0.1);
+    -fx-padding: 8 18;
+    -fx-border-color: rgba(220, 38, 38, 0.3);
+    -fx-border-width: 1 1 1 0;
+}
+
+.theme-light .total-box-descuentos {
+    -fx-background-color: #FEF2F2;
+    -fx-border-color: #FECACA;
+}
+
+.total-box-neto {
+    -fx-background-color: rgba(37, 99, 235, 0.1);
+    -fx-padding: 8 18;
+    -fx-background-radius: 0 8 8 0;
+    -fx-border-color: rgba(37, 99, 235, 0.3);
+    -fx-border-width: 1 1 1 0;
+}
+
+.theme-light .total-box-neto {
+    -fx-background-color: #EFF6FF;
+    -fx-border-color: #BFDBFE;
+}
+
+.text-ingreso {
+    -fx-text-fill: #4ade80;
+    -fx-font-weight: bold;
+}
+
+.theme-light .text-ingreso {
+    -fx-text-fill: #16A34A;
+}
+
+.text-descuento {
+    -fx-text-fill: #f87171;
+    -fx-font-weight: bold;
+}
+
+.theme-light .text-descuento {
+    -fx-text-fill: #DC2626;
+}
+
+.text-neto {
+    -fx-text-fill: #60a5fa;
+    -fx-font-weight: bold;
+}
+
+.theme-light .text-neto {
+    -fx-text-fill: #2563EB;
+}
+
+/* --- Panel de Neto a Pagar (Generar) --- */
+.neto-panel {
+    -fx-background-color: #1e293b; /* Slate 800 */
+    -fx-padding: 20;
+    -fx-background-radius: 12;
+}
+
+.theme-light .neto-panel {
+    -fx-background-color: #0F172A; /* Slate 900 */
+}
+
+.neto-panel-title {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}
+
+.neto-panel-amount {
+    -fx-text-fill: white;
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+}
+
+/* --- Botones Específicos de Planilla --- */
+.btn-calc {
+    -fx-background-color: #3b82f6;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+.btn-calc:hover { -fx-background-color: #2563eb; }
+
+.btn-save-success {
+    -fx-background-color: #22c55e;
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+.btn-save-success:hover { -fx-background-color: #16a34a; }
+.btn-save-success:disabled {
+    -fx-background-color: -fx-bg-tertiary;
+    -fx-text-fill: -fx-text-secondary;
+    -fx-opacity: 0.7;
+}
+
+.btn-outline {
+    -fx-background-color: transparent;
+    -fx-border-color: -app-border-color;
+    -fx-text-fill: -fx-text-primary;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-cursor: hand;
+}
+.btn-outline:hover {
+    -fx-background-color: -fx-bg-tertiary;
+}
+
+/* --- Mejoras de Distribución y Compactación --- */
+.compact-table {
+    -fx-font-size: 12px;
+}
+
+.compact-table .table-row-cell {
+    -fx-cell-size: 40;
+}
+
+.split-pane {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.split-pane *.split-pane-divider {
+    -fx-background-color: -app-border-color;
+    -fx-padding: 2 0;
+}
+
+.split-pane *.split-pane-divider:hover {
+    -fx-background-color: -fx-primary;
+}
+
+.details-scroll {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+.details-scroll .viewport {
+    -fx-background-color: transparent;
+}
+
+/* --- Etiquetas de Totales con Contraste --- */
+.label-total-ingresos {
+    -fx-text-fill: #86efac; /* Verde claro para modo oscuro */
+    -fx-font-size: 12px;
+}
+.theme-light .label-total-ingresos {
+    -fx-text-fill: #166534; /* Verde oscuro para modo claro */
+}
+
+.label-total-descuentos {
+    -fx-text-fill: #fca5a5; /* Rojo claro para modo oscuro */
+    -fx-font-size: 12px;
+}
+.theme-light .label-total-descuentos {
+    -fx-text-fill: #991B1B;
+}
+
+.label-total-neto {
+    -fx-text-fill: #93c5fd; /* Azul claro para modo oscuro */
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+.theme-light .label-total-neto {
+    -fx-text-fill: #1E40AF;
+}
+
+/* --- Estilos Adicionales para la Nueva Vista de Generación --- */
+.icon-accent { -fx-icon-color: -fx-primary; }
+
+/* Forzar colores de los ComboBox específicamente en este módulo */
+.planilla-root .combo-box .list-cell {
+    -fx-text-fill: -fx-text-primary;
+}
+
+.planilla-root .combo-box-popup .list-view {
+    -fx-background-color: -fx-bg-secondary;
+    -fx-border-color: -app-border-color;
+}
+
+.planilla-root .combo-box-popup .list-cell {
+    -fx-text-fill: -fx-text-primary;
+    -fx-background-color: transparent;
+}
+
+.planilla-root .combo-box-popup .list-cell:hover {
+    -fx-background-color: -fx-primary;
+    -fx-text-fill: white;
+}

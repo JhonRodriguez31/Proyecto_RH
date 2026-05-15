@@ -8,8 +8,10 @@ import com.project.models.PlanillaDetalle;
 import com.project.services.EmpleadoService;
 import com.project.services.impl.EmpleadoServiceImpl;
 import com.project.services.impl.PlanillaServiceImpl;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -27,6 +29,7 @@ public class PlanillaGenerarController implements Initializable {
 	        new EmpleadoServiceImpl(new EmpleadoDaoImpl());
 
     private final PlanillaServiceImpl planillaService = new PlanillaServiceImpl();
+    private boolean isWorking = false;
 
     // ── Selección ─────────────────────────────────────────────
     @FXML private ComboBox<Empleado> cbEmpleado;
@@ -64,8 +67,15 @@ public class PlanillaGenerarController implements Initializable {
     // ── Carga de combos ───────────────────────────────────────
 
     private void cargarEmpleados() {
-        try {
-            List<Empleado> empleados = empleadoService.obtenerEmpleados();
+        Task<List<Empleado>> task = new Task<>() {
+            @Override
+            protected List<Empleado> call() throws Exception {
+                return empleadoService.obtenerEmpleados();
+            }
+        };
+
+        task.setOnSucceeded(e -> {
+            List<Empleado> empleados = task.getValue();
             cbEmpleado.setItems(FXCollections.observableArrayList(empleados));
             // Mostrar nombre completo en el combo
             cbEmpleado.setCellFactory(lv -> new ListCell<>() {
@@ -76,9 +86,15 @@ public class PlanillaGenerarController implements Initializable {
                 }
             });
             cbEmpleado.setButtonCell(cbEmpleado.getCellFactory().call(null));
-        } catch (Exception e) {
-            NotificacionService.error("Error al cargar empleados: " + e.getMessage());
-        }
+        });
+
+        task.setOnFailed(e -> {
+            NotificacionService.error("Error al cargar empleados: " + task.getException().getMessage());
+        });
+
+        Thread backgroundThread = new Thread(task);
+        backgroundThread.setDaemon(true);
+        backgroundThread.start();
     }
 
     private void cargarPeriodos() {
@@ -126,6 +142,8 @@ public class PlanillaGenerarController implements Initializable {
 
     @FXML
     private void calcular() {
+        if (isWorking) return;
+
         Empleado empleado = cbEmpleado.getValue();
         if (empleado == null) {
             NotificacionService.advertencia("Selecciona un empleado."); return;
@@ -138,10 +156,18 @@ public class PlanillaGenerarController implements Initializable {
         int faltas  = parsearEntero(txtDiasFalta.getText(), "Días falta");
         if (minutos < 0 || faltas < 0) return;
 
-        try {
-            detallesPreview = planillaService.calcularDetallesPreview(
-                    empleado.getId(), minutos, faltas);
+        isWorking = true;
 
+        Task<List<PlanillaDetalle>> task = new Task<>() {
+            @Override
+            protected List<PlanillaDetalle> call() throws Exception {
+                return planillaService.calcularDetallesPreview(
+                        empleado.getId(), minutos, faltas);
+            }
+        };
+
+        task.setOnSucceeded(e -> {
+            detallesPreview = task.getValue();
             tablaDetalle.setItems(FXCollections.observableArrayList(detallesPreview));
 
             double ingresos   = detallesPreview.stream().filter(PlanillaDetalle::esIngreso)
@@ -155,18 +181,29 @@ public class PlanillaGenerarController implements Initializable {
             lblNeto.setText(String.format("S/ %.2f", neto));
 
             btnGuardar.setDisable(false);
+            isWorking = false;
+        });
 
-        } catch (IllegalStateException e) {
-            NotificacionService.advertencia(e.getMessage());
-        } catch (Exception e) {
-            NotificacionService.error("Error al calcular: " + e.getMessage());
-        }
+        task.setOnFailed(e -> {
+            Throwable ex = task.getException();
+            if (ex instanceof IllegalStateException) {
+                NotificacionService.advertencia(ex.getMessage());
+            } else {
+                NotificacionService.error("Error al calcular: " + ex.getMessage());
+            }
+            isWorking = false;
+        });
+
+        Thread backgroundThread = new Thread(task);
+        backgroundThread.setDaemon(true);
+        backgroundThread.start();
     }
 
     // ── Guardar ───────────────────────────────────────────────
 
     @FXML
     private void guardarPlanilla() {
+        if (isWorking) return;
 
         if (detallesPreview == null || detallesPreview.isEmpty()) {
             NotificacionService.advertencia("Primero calcula la planilla.");
@@ -180,35 +217,34 @@ public class PlanillaGenerarController implements Initializable {
         planilla.setEmpleado_id(empleado.getId());
         planilla.setPeriodo(periodo);
 
-        System.out.println("Empleado: " + planilla.getEmpleado_id());
-        System.out.println("Periodo: " + planilla.getPeriodo());
+        int minutos = parsearEntero(txtMinutosTardanza.getText(), "Minutos tardanza");
+        int faltas = parsearEntero(txtDiasFalta.getText(), "Días falta");
 
-        try {
-        	
-        	int minutos = parsearEntero(txtMinutosTardanza.getText(), "Minutos tardanza");
-        	int faltas = parsearEntero(txtDiasFalta.getText(), "Días falta");
+        isWorking = true;
 
-        	planillaService.generarPlanilla(planilla, minutos, faltas, 1);
-
-        	NotificacionService.exito("Planilla generada correctamente para el periodo " + periodo);
-        	cerrar();
-
-            /*// 👇 AQUÍ VA TU DEBUG + LLAMADA
-            Integer planillaId = planillaService.registrarPlanilla(planilla, detallesPreview, 1);
-
-            System.out.println("PLANILLA ID DEVUELTO: " + planillaId);
-
-            if (planillaId == null) {
-                throw new RuntimeException("No se generó ID de planilla");
+        Task<Void> task = new Task<>() {
+            @Override
+            protected Void call() throws Exception {
+                planillaService.generarPlanilla(planilla, minutos, faltas, 1);
+                return null;
             }
+        };
 
+        task.setOnSucceeded(e -> {
             NotificacionService.exito("Planilla generada correctamente para el periodo " + periodo);
-            cerrar();*/
+            cerrar();
+            isWorking = false;
+        });
 
-        } catch (Exception e) {
-            NotificacionService.error("Error al guardar: " + e.getMessage());
-            e.printStackTrace();
-        }
+        task.setOnFailed(e -> {
+            NotificacionService.error("Error al guardar: " + task.getException().getMessage());
+            task.getException().printStackTrace();
+            isWorking = false;
+        });
+
+        Thread backgroundThread = new Thread(task);
+        backgroundThread.setDaemon(true);
+        backgroundThread.start();
     }
     @FXML
     private void cerrar() {

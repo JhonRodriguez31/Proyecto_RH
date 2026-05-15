@@ -6,6 +6,8 @@ import com.project.common.enums.Estado;
 import java.time.LocalDate;
 
 public class Empleado extends EntidadAuditable {
+    public static final String DEFAULT_PHOTO_URL = "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-usuario-vector.jpg";
+
     private Integer id;
     private String codigoEmpleado;
     private String nombres;
@@ -15,7 +17,7 @@ public class Empleado extends EntidadAuditable {
     private String direccion;
     private LocalDate fechaNacimiento;
     private LocalDate fechaIngreso;
-    private String fotoUrl;
+    private String fotoUrl = DEFAULT_PHOTO_URL;
     private Estado estado;
     private Integer diasVacacionesDisponibles;
 
@@ -111,7 +113,11 @@ public class Empleado extends EntidadAuditable {
     }
 
     public void setFotoUrl(String fotoUrl) {
-        this.fotoUrl = fotoUrl;
+        if (fotoUrl != null && !fotoUrl.trim().isEmpty()) {
+            this.fotoUrl = fotoUrl;
+        } else {
+            this.fotoUrl = DEFAULT_PHOTO_URL;
+        }
     }
 
     public Estado getEstado() {

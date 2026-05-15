@@ -18,28 +18,11 @@ import java.util.List;
 
 public class ReportServiceImpl implements ReportService {
 
-    private static final String DOWNLOADS_DIR = System.getProperty("user.home") + File.separator + "Downloads";
-    private static final String BASE_DIR = DOWNLOADS_DIR + File.separator + "Guardar_Reportes";
-    private static final String GENERAL_DIR = BASE_DIR + File.separator + "General";
-    private static final String INDIVIDUAL_DIR = BASE_DIR + File.separator + "Individuales";
-
     public ReportServiceImpl() {
-        createDirectories();
-    }
-
-    private void createDirectories() {
-        String[] paths = {BASE_DIR, GENERAL_DIR, INDIVIDUAL_DIR};
-        for (String path : paths) {
-            File dir = new File(path);
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
-        }
     }
 
     @Override
-    public void generarReporteEmpleados(List<Empleado> empleados) throws Exception {
-        createDirectories(); // Ensure dirs exist
+    public void generarReporteEmpleados(List<Empleado> empleados, String outputPath) throws Exception {
         String template = loadTemplate("/com/project/templates/empleados_list.html");
         StringBuilder rows = new StringBuilder();
 
@@ -57,18 +40,13 @@ public class ReportServiceImpl implements ReportService {
                 .replace("{{FECHA}}", new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date()))
                 .replace("{{ROWS}}", rows.toString());
 
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String fileName = "Lista_Empleados_" + timeStamp + ".pdf";
-        String outputPath = GENERAL_DIR + File.separator + fileName;
-
         generatePdfFromHtml(htmlContent, outputPath);
-        NotificacionService.exito("Reporte general generado en: " + outputPath);
+        NotificacionService.exito("Reporte generado en: " + outputPath);
         openPdf(outputPath);
     }
 
     @Override
-    public void generarFichaEmpleado(Empleado empleado) throws Exception {
-        createDirectories(); // Ensure dirs exist
+    public void generarFichaEmpleado(Empleado empleado, String outputPath) throws Exception {
         String template = loadTemplate("/com/project/templates/empleado_detail.html");
 
         String htmlContent = template
@@ -78,11 +56,6 @@ public class ReportServiceImpl implements ReportService {
                 .replace("{{NOMBRES}}", empleado.getNombres() != null ? empleado.getNombres() : "")
                 .replace("{{APELLIDOS}}", empleado.getApellidos() != null ? empleado.getApellidos() : "")
                 .replace("{{TELEFONO}}", empleado.getTelefono() != null ? empleado.getTelefono() : "");
-
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String dni = (empleado.getDni() != null ? empleado.getDni() : "SINDNI");
-        String fileName = "Ficha_Empleado_" + dni + "_" + timeStamp + ".pdf";
-        String outputPath = INDIVIDUAL_DIR + File.separator + fileName;
 
         generatePdfFromHtml(htmlContent, outputPath);
         NotificacionService.exito("Ficha individual generada en: " + outputPath);

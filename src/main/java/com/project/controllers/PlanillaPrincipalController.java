@@ -4,8 +4,10 @@ import com.project.common.util.NotificacionService;
 import com.project.models.Planilla;
 import com.project.models.PlanillaDetalle;
 import com.project.services.impl.PlanillaServiceImpl;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -28,6 +30,7 @@ import javafx.geometry.Insets;
 public class PlanillaPrincipalController implements Initializable {
 
     private final PlanillaServiceImpl planillaService = new PlanillaServiceImpl();
+    private boolean isLoading = false;
 
     // ── Tabla principal ───────────────────────────────────────
     @FXML private TableView<Planilla>            tablaPlanillas;
@@ -201,14 +204,32 @@ public class PlanillaPrincipalController implements Initializable {
     // ── Carga de datos ────────────────────────────────────────
 
     private void cargarPlanillas() {
-        try {
-            todasLasPlanillas = planillaService.listarPlanillas();
+        if (isLoading) return;
+        isLoading = true;
+
+        Task<List<Planilla>> task = new Task<>() {
+            @Override
+            protected List<Planilla> call() throws Exception {
+                return planillaService.listarPlanillas();
+            }
+        };
+
+        task.setOnSucceeded(e -> {
+            todasLasPlanillas = task.getValue();
             poblarCombos(todasLasPlanillas);
             tablaPlanillas.setItems(FXCollections.observableArrayList(todasLasPlanillas));
             limpiarDetalle();
-        } catch (Exception e) {
-            NotificacionService.error("Error al cargar planillas: " + e.getMessage());
-        }
+            isLoading = false;
+        });
+
+        task.setOnFailed(e -> {
+            NotificacionService.error("Error al cargar planillas: " + task.getException().getMessage());
+            isLoading = false;
+        });
+
+        Thread backgroundThread = new Thread(task);
+        backgroundThread.setDaemon(true);
+        backgroundThread.start();
     }
 
     private void poblarCombos(List<Planilla> planillas) {
@@ -261,22 +282,16 @@ public class PlanillaPrincipalController implements Initializable {
     // ── Detalle separado por sección ──────────────────────────
 
     private void mostrarDetalle(Planilla planilla) {
-        try {
-            List<PlanillaDetalle> todos = planillaService.obtenerDetalles(planilla.getId());
-
-            System.out.println("TOTAL DETALLES: " + todos.size());
-
-            for (PlanillaDetalle d : todos) {
-                System.out.println(d.getConceptoNombre() + " | " + d.getMonto());
+        Task<List<PlanillaDetalle>> task = new Task<>() {
+            @Override
+            protected List<PlanillaDetalle> call() throws Exception {
+                return planillaService.obtenerDetalles(planilla.getId());
             }
+        };
 
-            /*List<PlanillaDetalle> ingresos = todos.stream()
-                    .filter(PlanillaDetalle::esIngreso).collect(Collectors.toList());
-            List<PlanillaDetalle> descuentos = todos.stream()
-                    .filter(d -> !d.esIngreso()).collect(Collectors.toList());
+        task.setOnSucceeded(e -> {
+            List<PlanillaDetalle> todos = task.getValue();
 
-            tablaIngresos.setItems(FXCollections.observableArrayList(ingresos));
-            tablaDescuentos.setItems(FXCollections.observableArrayList(descuentos));*/
             tablaIngresos.setItems(FXCollections.observableArrayList(
                     todos.stream().filter(d -> d.getMonto() > 0).collect(Collectors.toList())
             ));
@@ -285,11 +300,6 @@ public class PlanillaPrincipalController implements Initializable {
                     todos.stream().filter(d -> d.getMonto() < 0).collect(Collectors.toList())
             ));
 
-           /* double totalIng  = ingresos.stream()
-                    .mapToDouble(PlanillaDetalle::getMonto).sum();
-            double totalDesc = descuentos.stream()
-                    .mapToDouble(d -> Math.abs(d.getMonto())).sum();
-            double neto = totalIng - totalDesc;*/
             double totalIng = todos.stream()
                     .filter(d -> d.getMonto() > 0)
                     .mapToDouble(PlanillaDetalle::getMonto)
@@ -299,19 +309,22 @@ public class PlanillaPrincipalController implements Initializable {
                     .filter(d -> d.getMonto() < 0)
                     .mapToDouble(d -> Math.abs(d.getMonto()))
                     .sum();
-            double neto = totalIng -totalDesc;
+            double neto = totalIng - totalDesc;
 
             lblTotalIngresos.setText(String.format("S/ %.2f", totalIng));
             lblTotalDescuentos.setText(String.format("S/ %.2f", totalDesc));
             lblNeto.setText(String.format("S/ %.2f", neto));
             lblBadgePlanilla.setText(
                     planilla.getNombreEmpleado() + "  —  " + planilla.getPeriodo());
-            
-            
+        });
 
-        } catch (Exception e) {
-            NotificacionService.error("Error al cargar detalle: " + e.getMessage());
-        }
+        task.setOnFailed(e -> {
+            NotificacionService.error("Error al cargar detalle: " + task.getException().getMessage());
+        });
+
+        Thread backgroundThread = new Thread(task);
+        backgroundThread.setDaemon(true);
+        backgroundThread.start();
     }
 
     private void limpiarDetalle() {
@@ -344,6 +357,8 @@ public class PlanillaPrincipalController implements Initializable {
 
     @FXML
     private void eliminarPlanillaSeleccionada() {
+        if (isLoading) return;
+
         Planilla sel = tablaPlanillas.getSelectionModel().getSelectedItem();
         if (sel == null) {
             NotificacionService.advertencia("Selecciona una planilla para eliminar.");
@@ -357,13 +372,29 @@ public class PlanillaPrincipalController implements Initializable {
                 "¿Eliminar la planilla de " + sel.getNombreEmpleado()
                 + " — periodo " + sel.getPeriodo() + "?");
         if (ok) {
-            try {
-                planillaService.eliminarPlanilla(sel.getId());
+            isLoading = true;
+            Task<Void> task = new Task<>() {
+                @Override
+                protected Void call() throws Exception {
+                    planillaService.eliminarPlanilla(sel.getId());
+                    return null;
+                }
+            };
+
+            task.setOnSucceeded(e -> {
                 NotificacionService.exito("Planilla eliminada correctamente.");
+                isLoading = false;
                 cargarPlanillas();
-            } catch (Exception e) {
-                NotificacionService.error("Error al eliminar: " + e.getMessage());
-            }
+            });
+
+            task.setOnFailed(e -> {
+                NotificacionService.error("Error al eliminar: " + task.getException().getMessage());
+                isLoading = false;
+            });
+
+            Thread backgroundThread = new Thread(task);
+            backgroundThread.setDaemon(true);
+            backgroundThread.start();
         }
     }
     
