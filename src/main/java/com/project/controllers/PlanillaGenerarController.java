@@ -1,7 +1,9 @@
 package com.project.controllers;
 
+import com.project.DAO.impl.ConceptoDAOImpl;
 import com.project.DAO.impl.EmpleadoDaoImpl;
 import com.project.common.util.NotificacionService;
+import com.project.models.Concepto;
 import com.project.models.Empleado;
 import com.project.models.Planilla;
 import com.project.models.PlanillaDetalle;
@@ -262,4 +264,6 @@ public class PlanillaGenerarController implements Initializable {
             return -1;
         }
     }
+    
+
 }
