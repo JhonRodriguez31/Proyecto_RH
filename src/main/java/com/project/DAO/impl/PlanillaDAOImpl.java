@@ -65,11 +65,12 @@ public class PlanillaDAOImpl implements PlanillaDAO {
 
     @Override
     public void actualizar(Planilla p) {
-        String sql = "EXEC sp_PlanillaActualizarEstado ?, ?";
+        String sql = "EXEC sp_PlanillaActualizar ?,?, ?";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, p.getId());
-            stmt.setString(2, p.getEstado());
+            stmt.setString(2,p.getPeriodo());
+            stmt.setString(3, p.getEstado());
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw new BaseDatosException("Error al actualizar planilla", e);

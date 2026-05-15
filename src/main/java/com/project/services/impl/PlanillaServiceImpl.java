@@ -6,6 +6,7 @@ import com.project.DAO.PlanillaDetalleDAO;
 import com.project.DAO.impl.ContratoDAOImpl;
 import com.project.DAO.impl.PlanillaDAOImpl;
 import com.project.DAO.impl.PlanillaDetalleDAOImpl;
+import com.project.models.Concepto;
 import com.project.models.Contrato;
 import com.project.models.Planilla;
 import com.project.models.PlanillaDetalle;
@@ -211,6 +212,8 @@ public class PlanillaServiceImpl implements PlanillaService {
         planillaDAO.actualizar(planilla);
         detalleDAO.eliminarPorPlanilla(planilla.getId());
         for (PlanillaDetalle d : detalles) {
+        	d.setPlanilla_id(planilla.getId());
+        	
             detalleDAO.registrarDetalle(d);
         }
     }
