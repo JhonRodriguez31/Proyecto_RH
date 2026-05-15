@@ -1,6 +1,7 @@
 package com.project;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -34,6 +35,13 @@ public class MainApplication extends Application {
         stage.setScene(scene);
         stage.setResizable(true);
         stage.centerOnScreen();
+        
+        // Asegurar que todos los hilos en segundo plano y Timelines se detengan
+        stage.setOnCloseRequest(e -> {
+            Platform.exit();
+            System.exit(0);
+        });
+        
         stage.show();
     }
 

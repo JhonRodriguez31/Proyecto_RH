@@ -1,12 +1,5 @@
--- =============================================
--- Vista: vw_PerfilEmpleado
--- Combina Empleado + Usuario + Contrato activo
--- en una sola consulta para la pantalla Mi Perfil
--- =============================================
 SELECT * FROM dbo.Empleado;
 
-USE PlanillaCoreDB;
-GO
 CREATE OR ALTER VIEW dbo.vw_PerfilEmpleado AS
 SELECT
     e.id                          AS empleado_id,

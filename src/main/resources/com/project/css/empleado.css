@@ -200,3 +200,38 @@
     -fx-background-color: -fx-primary;
     -fx-border-color: -fx-primary;
 }
+
+/* --- IMAGE UPLOAD SECTION --- */
+.image-upload-section {
+    -fx-padding: 10 0;
+}
+
+.profile-avatar-wrapper {
+    -fx-min-width: 100;
+    -fx-min-height: 100;
+    -fx-max-width: 100;
+    -fx-max-height: 100;
+    -fx-background-color: linear-gradient(to bottom right, #6366f1, #8b5cf6);
+    -fx-background-radius: 50;
+    -fx-alignment: CENTER;
+}
+
+.profile-avatar-initial {
+    -fx-font-size: 36px;
+    -fx-font-weight: 700;
+    -fx-text-fill: white;
+}
+
+.btn-change-photo {
+    -fx-background-color: rgba(99, 102, 241, 0.15);
+    -fx-text-fill: #a5b4fc;
+    -fx-background-radius: 8;
+    -fx-padding: 6 14;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+}
+
+.theme-light .btn-change-photo {
+    -fx-background-color: rgba(99, 102, 241, 0.1);
+    -fx-text-fill: #4f46e5;
+}

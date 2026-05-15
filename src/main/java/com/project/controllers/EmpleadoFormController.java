@@ -8,8 +8,12 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
@@ -29,9 +33,16 @@ public class EmpleadoFormController implements Initializable {
     @FXML private Button btnCancelar;
     @FXML private Button btnGuardar;
 
+    // Image Upload Fields
+    @FXML private ImageView imgPerfil;
+    @FXML private Label lblAvatarInicial;
+    @FXML private Label lblUploadStatus;
+    @FXML private Button btnCambiarFoto;
+
     private final EmpleadoService empleadoService = ServiceFactory.getEmpleadoService();
     private Empleado empleado;
     private boolean guardado = false;
+    private java.io.File archivoFotoSeleccionado;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -40,6 +51,22 @@ public class EmpleadoFormController implements Initializable {
 
         btnCancelar.setOnAction(e -> cerrarVentana());
         btnGuardar.setOnAction(e -> guardar());
+
+        // Configurar clip circular para el avatar
+        javafx.scene.shape.Circle clip = new javafx.scene.shape.Circle(50, 50, 50);
+        imgPerfil.setClip(clip);
+        
+        // Cargar imagen por defecto inicialmente
+        cargarFotoPerfil(Empleado.DEFAULT_PHOTO_URL);
+
+        // Actualizar avatar inicial cuando cambian nombres
+        txtNombres.textProperty().addListener((obs, old, nuevo) -> {
+            if (nuevo != null && !nuevo.isEmpty() && archivoFotoSeleccionado == null && 
+                (empleado == null || empleado.getFotoUrl() == null || empleado.getFotoUrl().equals(Empleado.DEFAULT_PHOTO_URL))) {
+                lblAvatarInicial.setText(nuevo.substring(0, 1).toUpperCase());
+                lblAvatarInicial.setVisible(true);
+            }
+        });
 
         // Valores por defecto
         dpFechaIngreso.setValue(LocalDate.now());
@@ -136,6 +163,43 @@ public class EmpleadoFormController implements Initializable {
 
             // En edición, el DNI no se edita
             txtDni.setEditable(false);
+
+            if (empleado.getFotoUrl() != null) {
+                cargarFotoPerfil(empleado.getFotoUrl());
+            }
+        }
+    }
+
+    private void cargarFotoPerfil(String url) {
+        if (url != null && !url.trim().isEmpty()) {
+            try {
+                Image image = new Image(url, true);
+                imgPerfil.setImage(image);
+                lblAvatarInicial.setVisible(false);
+            } catch (Exception e) {
+                lblAvatarInicial.setVisible(true);
+            }
+        }
+    }
+
+    @FXML
+    public void seleccionarFoto() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Seleccionar foto del empleado");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Imágenes", "*.png", "*.jpg", "*.jpeg")
+        );
+
+        archivoFotoSeleccionado = fileChooser.showOpenDialog(
+                imgPerfil.getScene().getWindow()
+        );
+
+        if (archivoFotoSeleccionado != null) {
+            Image preview = new Image(archivoFotoSeleccionado.toURI().toString());
+            imgPerfil.setImage(preview);
+            lblAvatarInicial.setVisible(false);
+            lblUploadStatus.setText("✓ " + archivoFotoSeleccionado.getName());
+            lblUploadStatus.setStyle("-fx-text-fill: #86efac;");
         }
     }
 
@@ -225,5 +289,9 @@ public class EmpleadoFormController implements Initializable {
 
     public boolean isGuardado() {
         return guardado;
+    }
+
+    public File getArchivoFotoSeleccionado() {
+        return archivoFotoSeleccionado;
     }
 }

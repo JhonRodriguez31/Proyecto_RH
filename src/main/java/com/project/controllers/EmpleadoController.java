@@ -5,19 +5,29 @@ import com.project.common.util.SessionManager;
 import com.project.config.ServiceFactory;
 import com.project.models.Empleado;
 import com.project.services.EmpleadoService;
+import com.project.services.ImageService;
 import com.project.services.ReportService;
+import com.project.services.impl.ImageServiceImpl;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -26,8 +36,10 @@ import java.util.ResourceBundle;
 public class EmpleadoController implements Initializable {
     private final EmpleadoService empleadoService = ServiceFactory.getEmpleadoService();
     private final ReportService reportService = ServiceFactory.getReportService();
+    private final ImageService imageService = new ImageServiceImpl();
 
     @FXML private TableView<Empleado> empleadosTable;
+    @FXML private TableColumn<Empleado, String> colFoto;
     @FXML private TableColumn<Empleado, String> colCodigo;
     @FXML private TableColumn<Empleado, String> colNombre;
     @FXML private TableColumn<Empleado, String> colApellidos;
@@ -56,6 +68,63 @@ public class EmpleadoController implements Initializable {
     }
 
     private void configurarColumnas() {
+        colFoto.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFotoUrl()));
+        colFoto.setCellFactory(column -> new TableCell<Empleado, String>() {
+            private final ImageView imageView = new ImageView();
+            private final Circle clip = new Circle(18, 18, 18);
+            private final StackPane container = new StackPane();
+            private final Label initialLabel = new Label();
+
+            {
+                imageView.setFitWidth(36);
+                imageView.setFitHeight(36);
+                imageView.setClip(clip);
+                
+                initialLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: white; -fx-font-size: 14px;");
+                
+                container.setAlignment(Pos.CENTER);
+                container.setPrefSize(36, 36);
+                container.setMaxSize(36, 36);
+            }
+
+            @Override
+            protected void updateItem(String url, boolean empty) {
+                super.updateItem(url, empty);
+                if (empty || getTableRow() == null || getTableRow().getItem() == null) {
+                    setGraphic(null);
+                } else {
+                    Empleado emp = getTableRow().getItem();
+                    container.getChildren().clear();
+                    
+                    String effectiveUrl = (url != null && !url.trim().isEmpty()) ? url : Empleado.DEFAULT_PHOTO_URL;
+                    
+                    try {
+                        Image img = new Image(effectiveUrl, true);
+                        imageView.setImage(img);
+                        container.getChildren().add(imageView);
+                        
+                        // Si es la imagen por defecto, mostramos la inicial encima para que se vea mejor
+                        if (effectiveUrl.equals(Empleado.DEFAULT_PHOTO_URL)) {
+                            String initial = (emp.getNombres() != null && !emp.getNombres().isEmpty()) 
+                                ? emp.getNombres().substring(0, 1).toUpperCase() : "?";
+                            initialLabel.setText(initial);
+                            container.getChildren().add(initialLabel);
+                        }
+                    } catch (Exception e) {
+                        // Fallback total
+                        Circle bg = new Circle(18, Color.web("#6366f1"));
+                        String initial = (emp.getNombres() != null && !emp.getNombres().isEmpty()) 
+                            ? emp.getNombres().substring(0, 1).toUpperCase() : "?";
+                        initialLabel.setText(initial);
+                        container.getChildren().addAll(bg, initialLabel);
+                    }
+                    
+                    setGraphic(container);
+                    setAlignment(Pos.CENTER);
+                }
+            }
+        });
+
         colCodigo.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCodigoEmpleado()));
         colNombre.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNombres()));
         colApellidos.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getApellidos()));
@@ -124,6 +193,18 @@ public class EmpleadoController implements Initializable {
             
             if (controller.isGuardado()) {
                 Empleado empResultado = controller.getEmpleado();
+                File fotoFile = controller.getArchivoFotoSeleccionado();
+
+                if (fotoFile != null) {
+                    try {
+                        String url = imageService.subirImagen(fotoFile);
+                        empResultado.setFotoUrl(url);
+                    } catch (Exception e) {
+                        NotificacionService.error("Error al subir la imagen: " + e.getMessage());
+                        // Opcional: preguntar si desea continuar sin la imagen
+                    }
+                }
+
                 if (empleado == null) {
                     empleadoService.registrarEmpleado(empResultado, SessionManager.getUsuarioId());
                     NotificacionService.exito("Empleado registrado correctamente");

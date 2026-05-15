@@ -2,12 +2,13 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <VBox spacing="20"
       styleClass="form-container"
-      stylesheets="@../../../css/theme.css, @../../../css/styles.css"
+      stylesheets="@../../../css/theme.css, @../../../css/styles.css, @../../../css/empleado.css"
       xmlns="http://javafx.com/javafx/21"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.project.controllers.EmpleadoFormController">
@@ -20,6 +21,21 @@
         <Label fx:id="titleLabel" text="Nuevo Empleado" styleClass="form-title"/>
         <Label text="Complete la información del empleado" styleClass="form-subtitle"/>
     </VBox>
+
+    <HBox spacing="20" alignment="CENTER_LEFT" styleClass="image-upload-section">
+        <StackPane styleClass="profile-avatar-wrapper">
+            <ImageView fx:id="imgPerfil" fitWidth="100" fitHeight="100" preserveRatio="false" />
+            <Label fx:id="lblAvatarInicial" text="?" styleClass="profile-avatar-initial" />
+        </StackPane>
+        <VBox spacing="8" alignment="CENTER_LEFT">
+            <Button fx:id="btnCambiarFoto" text="Seleccionar Foto" styleClass="btn-secondary" onAction="#seleccionarFoto">
+                <graphic>
+                    <FontIcon iconLiteral="mdi2c-camera" />
+                </graphic>
+            </Button>
+            <Label fx:id="lblUploadStatus" text="Sin foto seleccionada" style="-fx-text-fill: -fx-text-secondary; -fx-font-size: 11px;"/>
+        </VBox>
+    </HBox>
 
     <GridPane hgap="18" vgap="18">
         <columnConstraints>
