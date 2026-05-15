@@ -1,4 +1,7 @@
 
+USE PlanillaCoreDB;
+GO
+SELECT * FROM dbo.Empleado;
 
 GO
 INSERT INTO dbo.Empleado (codigo_empleado, nombres, apellidos, dni, telefono, direccion, fecha_nacimiento, fecha_ingreso, estado, dias_vacaciones_disponibles) VALUES

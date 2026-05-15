@@ -22,6 +22,10 @@ import com.project.services.impl.PerfilServiceImpl;
 import com.project.services.impl.UserServiceImpl;
 import com.project.services.ReportService;
 import com.project.services.impl.ReportServiceImpl;
+import com.project.DAO.DashboardDAO;
+import com.project.DAO.impl.DashboardDAOImpl;
+import com.project.services.DashboardService;
+import com.project.services.impl.DashboardServiceImpl;
 
 public class ServiceFactory {
     //    Empleado
@@ -40,6 +44,10 @@ public class ServiceFactory {
 
     //    Report
     private static ReportService reportService;
+
+    //    Dashboard
+    private static DashboardDAO dashboardDao;
+    private static DashboardService dashboardService;
 
     public static EmpleadoDao getEmpleadoDao() {
         if (empleadoDao == null) {
@@ -123,6 +131,20 @@ public class ServiceFactory {
             asistenciaService = new AsistenciaServiceImpl(getAsistenciaDao());
         }
         return asistenciaService;
+    }
+
+    public static DashboardDAO getDashboardDao() {
+        if (dashboardDao == null) {
+            dashboardDao = new DashboardDAOImpl();
+        }
+        return dashboardDao;
+    }
+
+    public static DashboardService getDashboardService() {
+        if (dashboardService == null) {
+            dashboardService = new DashboardServiceImpl();
+        }
+        return dashboardService;
     }
 
 

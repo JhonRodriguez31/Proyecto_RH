@@ -66,4 +66,19 @@ public class EmpleadoServiceImpl implements EmpleadoService {
     public void eliminarEmpleado(Integer id) {
         empleadoDao.eliminarEmpleado(id);
     }
+
+    @Override
+    public String generarSiguienteCodigo() {
+        String ultimoCodigo = empleadoDao.obtenerUltimoCodigo();
+        if (ultimoCodigo == null || !ultimoCodigo.startsWith("EMP-")) {
+            return "EMP-001";
+        }
+        try {
+            String numeroParte = ultimoCodigo.substring(4);
+            int siguiente = Integer.parseInt(numeroParte) + 1;
+            return String.format("EMP-%03d", siguiente);
+        } catch (NumberFormatException e) {
+            return "EMP-001";
+        }
+    }
 }

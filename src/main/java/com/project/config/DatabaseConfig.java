@@ -17,6 +17,11 @@ public class DatabaseConfig {
         String user = EnvConfig.get("DB_USER");
         String password = EnvConfig.get("DB_PASSWORD");
 
+        if (db == null || user == null || password == null) {
+            throw new RuntimeException("Missing required environment variables (DB_NAME, DB_USER, or DB_PASSWORD). " +
+                    "Please check your .env file.");
+        }
+
         String encrypt = EnvConfig.get("DB_ENCRYPT", "true");
         String trustServerCertificate = EnvConfig.get("DB_TRUST_SERVER_CERTIFICATE", "true");
         String url = "jdbc:sqlserver://" + host + ":" + port + ";"
