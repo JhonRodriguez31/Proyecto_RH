@@ -11,8 +11,8 @@
            style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: -fx-text-primary;"/>
 
     <HBox spacing="10">
-        <Label text="ID Empleado:" style="-fx-text-fill: -fx-text-primary;"/>
-        <TextField fx:id="txtEmpleadoId" promptText="Ingresa el ID del empleado"/>
+        <Label text="Empleado:" style="-fx-text-fill: -fx-text-primary;"/>
+        <ComboBox fx:id="cmbEmpleado" promptText="Selecciona un empleado" prefWidth="220"/>
     </HBox>
 
     <HBox spacing="10">
