@@ -2,12 +2,15 @@ package com.project.controllers;
 
 import com.project.config.ServiceFactory;
 import com.project.models.Asistencia;
+import com.project.models.Empleado;
 import com.project.services.AsistenciaService;
+import com.project.services.EmpleadoService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.StringConverter;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -16,6 +19,7 @@ public class AsistenciaController {
 
     // Servicio de asistencia
     private AsistenciaService asistenciaService = ServiceFactory.getAsistenciaService();
+    private EmpleadoService empleadoService = ServiceFactory.getEmpleadoService();
 
     // Elementos de la pantalla
     @FXML
@@ -40,7 +44,7 @@ public class AsistenciaController {
     private TableColumn<Asistencia, Integer> colMinutosTardanza;
 
     @FXML
-    private TextField txtEmpleadoId;
+    private ComboBox<Empleado> cmbEmpleado;
 
     @FXML
     private TextField txtMotivo;
@@ -58,6 +62,8 @@ public class AsistenciaController {
         colEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
         colMinutosTardanza.setCellValueFactory(new PropertyValueFactory<>("minutosTardanza"));
 
+        cargarEmpleados();
+
         // Cargar asistencias de hoy al abrir
         cargarAsistenciasDeHoy();
     }
@@ -66,12 +72,10 @@ public class AsistenciaController {
     @FXML
     public void registrarEntrada() {
         try {
-            int empleadoId = Integer.parseInt(txtEmpleadoId.getText().trim());
+            int empleadoId = obtenerEmpleadoIdSeleccionado();
             asistenciaService.registrarEntrada(empleadoId);
             mostrarMensaje("Entrada registrada correctamente");
             cargarAsistenciasDeHoy();
-        } catch (NumberFormatException e) {
-            mostrarMensaje("Por favor ingresa un ID válido");
         } catch (RuntimeException e) {
             mostrarMensaje(e.getMessage());
         }
@@ -81,12 +85,10 @@ public class AsistenciaController {
     @FXML
     public void registrarSalida() {
         try {
-            int empleadoId = Integer.parseInt(txtEmpleadoId.getText().trim());
+            int empleadoId = obtenerEmpleadoIdSeleccionado();
             asistenciaService.registrarSalida(empleadoId);
             mostrarMensaje("Salida registrada correctamente");
             cargarAsistenciasDeHoy();
-        } catch (NumberFormatException e) {
-            mostrarMensaje("Por favor ingresa un ID válido");
         } catch (RuntimeException e) {
             mostrarMensaje(e.getMessage());
         }
@@ -96,7 +98,7 @@ public class AsistenciaController {
     @FXML
     public void verHistorial() {
         try {
-            int empleadoId = Integer.parseInt(txtEmpleadoId.getText().trim());
+            int empleadoId = obtenerEmpleadoIdSeleccionado();
             List<Asistencia> historial = asistenciaService.obtenerHistorial(empleadoId);
 
             if (historial.isEmpty()) {
@@ -106,8 +108,6 @@ public class AsistenciaController {
                 tablaAsistencia.setItems(lista);
                 mostrarMensaje("Historial cargado: " + historial.size() + " registros");
             }
-        } catch (NumberFormatException e) {
-            mostrarMensaje("Por favor ingresa un ID válido");
         } catch (RuntimeException e) {
             mostrarMensaje(e.getMessage());
         }
@@ -138,6 +138,35 @@ public class AsistenciaController {
         }
     }
 
+    private void cargarEmpleados() {
+        List<Empleado> empleados = empleadoService.obtenerEmpleados();
+        cmbEmpleado.setItems(FXCollections.observableArrayList(empleados));
+
+        cmbEmpleado.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(Empleado empleado) {
+                if (empleado == null) {
+                    return "";
+                }
+                return empleado.getNombres() + " " + empleado.getApellidos();
+            }
+
+            @Override
+            public Empleado fromString(String string) {
+                return null;
+            }
+        });
+    }
+
+    private int obtenerEmpleadoIdSeleccionado() {
+        Empleado empleado = cmbEmpleado.getValue();
+
+        if (empleado == null) {
+            throw new RuntimeException("Selecciona un empleado");
+        }
+
+        return empleado.getId();
+    }
     // Cargar asistencias de hoy
     private void cargarAsistenciasDeHoy() {
         List<Asistencia> lista = asistenciaService.obtenerAsistenciasDeHoy();
