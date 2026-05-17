@@ -7,7 +7,6 @@ import com.project.models.Empleado;
 import com.project.services.EmpleadoService;
 import com.project.services.ImageService;
 import com.project.services.ReportService;
-import com.project.services.impl.ImageServiceImpl;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -39,7 +38,7 @@ import java.util.ResourceBundle;
 public class EmpleadoController implements Initializable {
     private final EmpleadoService empleadoService = ServiceFactory.getEmpleadoService();
     private final ReportService reportService = ServiceFactory.getReportService();
-    private final ImageService imageService = new ImageServiceImpl();
+    private final ImageService imageService = ServiceFactory.getImageService();
 
     @FXML private TableView<Empleado> empleadosTable;
     @FXML private TableColumn<Empleado, String> colFoto;
@@ -204,12 +203,12 @@ public class EmpleadoController implements Initializable {
                         empResultado.setFotoUrl(url);
                     } catch (Exception e) {
                         NotificacionService.error("Error al subir la imagen: " + e.getMessage());
-                        // Opcional: preguntar si desea continuar sin la imagen
                     }
                 }
 
                 if (empleado == null) {
-                    empleadoService.registrarEmpleado(empResultado, SessionManager.getUsuarioId());
+                    String email = controller.getEmail();
+                    empleadoService.registrarEmpleado(empResultado, email, SessionManager.getUsuarioId());
                     NotificacionService.exito("Empleado registrado correctamente");
                 } else {
                     empleadoService.actualizarEmpleado(empResultado, SessionManager.getUsuarioId());
@@ -220,7 +219,7 @@ public class EmpleadoController implements Initializable {
             
         } catch (IOException e) {
             e.printStackTrace();
-            NotificacionService.error("Error al abrir el formulario: " + e.getMessage());
+            NotificacionService.error("Error al abrir the formulario: " + e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
             NotificacionService.error("Error al guardar: " + e.getMessage());

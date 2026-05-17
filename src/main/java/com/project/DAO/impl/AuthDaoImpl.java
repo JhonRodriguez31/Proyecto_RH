@@ -32,6 +32,7 @@ public class AuthDaoImpl implements AuthDao {
                     usuario.setPassword(resultSet.getString("password"));
                     usuario.setRole(Role.valueOf(resultSet.getString("rol")));
                     usuario.setActivo(resultSet.getBoolean("activo"));
+                    usuario.setPrimeraVez(resultSet.getBoolean("primera_vez"));
                     return usuario;
                 }
             }
@@ -40,5 +41,25 @@ public class AuthDaoImpl implements AuthDao {
         }
 
         return null;
+    }
+
+    @Override
+    public void actualizarPassword(Integer usuarioId, String hashedPassword, boolean primeraVez) {
+        String query = "UPDATE dbo.Usuario SET password = ?, primera_vez = ?, fecha_actualizacion = SYSDATETIME() WHERE id = ?";
+
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, hashedPassword);
+            stmt.setBoolean(2, primeraVez);
+            stmt.setInt(3, usuarioId);
+
+            int filasAfectadas = stmt.executeUpdate();
+            if (filasAfectadas == 0) {
+                throw new BaseDatosException("No se pudo actualizar la contraseña", null);
+            }
+        } catch (SQLException e) {
+            throw new BaseDatosException("Error al actualizar la contraseña del usuario ID: " + usuarioId, e);
+        }
     }
 }

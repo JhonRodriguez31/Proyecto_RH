@@ -1,9 +1,10 @@
 package com.project.controllers;
 
 import com.project.common.util.NotificacionService;
+import com.project.config.ServiceFactory;
 import com.project.models.Planilla;
 import com.project.models.PlanillaDetalle;
-import com.project.services.impl.PlanillaServiceImpl;
+import com.project.services.PlanillaService;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -29,7 +30,7 @@ import javafx.geometry.Insets;
 
 public class PlanillaPrincipalController implements Initializable {
 
-    private final PlanillaServiceImpl planillaService = new PlanillaServiceImpl();
+    private final PlanillaService planillaService = ServiceFactory.getPlanillaService();
     private boolean isLoading = false;
 
     // ── Tabla principal ───────────────────────────────────────
@@ -106,11 +107,19 @@ public class PlanillaPrincipalController implements Initializable {
                 super.updateItem(estado, empty);
                 if (empty || estado == null) { setText(null); setStyle(""); return; }
                 setText(estado);
-                setStyle(switch (estado) {
-                    case "PAGADA"  -> "-fx-text-fill:#16A34A; -fx-font-weight:bold;";
-                    case "ANULADA" -> "-fx-text-fill:#DC2626; -fx-font-weight:bold;";
-                    default        -> "-fx-text-fill:#D97706; -fx-font-weight:bold;";
-                });
+                String style;
+                switch (estado) {
+                    case "APROBADA":
+                        style = "-fx-text-fill: #16A34A; -fx-font-weight: bold;";
+                        break;
+                    case "RECHAZADA":
+                        style = "-fx-text-fill: #DC2626; -fx-font-weight: bold;";
+                        break;
+                    default:
+                        style = "-fx-text-fill: #D97706; -fx-font-weight: bold;";
+                        break;
+                }
+                setStyle(style);
             }
         });
         

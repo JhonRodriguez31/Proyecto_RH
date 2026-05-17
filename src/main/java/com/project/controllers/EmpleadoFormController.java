@@ -23,6 +23,7 @@ public class EmpleadoFormController implements Initializable {
     @FXML private Label titleLabel;
     @FXML private TextField txtCodigo;
     @FXML private TextField txtDni;
+    @FXML private TextField txtEmail;
     @FXML private TextField txtNombres;
     @FXML private TextField txtApellidos;
     @FXML private TextField txtTelefono;
@@ -71,11 +72,6 @@ public class EmpleadoFormController implements Initializable {
         // Valores por defecto
         dpFechaIngreso.setValue(LocalDate.now());
         dpFechaNacimiento.setValue(LocalDate.now().minusYears(20));
-
-        // Auto-generar código de empleado
-        String siguienteCodigo = empleadoService.generarSiguienteCodigo();
-        txtCodigo.setText(siguienteCodigo);
-        txtCodigo.setEditable(false);
 
         // ── Restricciones peruanas ──
 
@@ -126,11 +122,15 @@ public class EmpleadoFormController implements Initializable {
 
             // Temporarily remove formatters to set existing values
             txtDni.setTextFormatter(null);
+            txtEmail.setTextFormatter(null);
             txtTelefono.setTextFormatter(null);
             txtNombres.setTextFormatter(null);
             txtApellidos.setTextFormatter(null);
 
             txtDni.setText(empleado.getDni());
+            
+            // Nota: txtEmail se deja vacío o se carga por otro medio si se desea ver el email actual
+            
             txtNombres.setText(empleado.getNombres());
             txtApellidos.setText(empleado.getApellidos());
             txtTelefono.setText(empleado.getTelefono());
@@ -167,6 +167,10 @@ public class EmpleadoFormController implements Initializable {
             if (empleado.getFotoUrl() != null) {
                 cargarFotoPerfil(empleado.getFotoUrl());
             }
+        } else {
+            // Nuevo Empleado
+            titleLabel.setText("Nuevo Empleado");
+            txtCodigo.setText(empleadoService.generarSiguienteCodigo());
         }
     }
 
@@ -235,6 +239,12 @@ public class EmpleadoFormController implements Initializable {
             errores.append("• El DNI debe tener exactamente 8 dígitos.\n");
         }
 
+        if (txtEmail.getText().trim().isEmpty()) {
+            errores.append("• El correo electrónico es obligatorio.\n");
+        } else if (!txtEmail.getText().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+            errores.append("• El formato del correo electrónico no es válido.\n");
+        }
+
         if (txtNombres.getText().trim().isEmpty()) {
             errores.append("• El nombre es obligatorio.\n");
         }
@@ -285,6 +295,10 @@ public class EmpleadoFormController implements Initializable {
 
     public Empleado getEmpleado() {
         return empleado;
+    }
+
+    public String getEmail() {
+        return txtEmail.getText().trim();
     }
 
     public boolean isGuardado() {

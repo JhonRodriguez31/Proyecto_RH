@@ -27,4 +27,8 @@ public interface PlanillaService {
     );
 
     void eliminarPlanilla(Integer id);
+
+    void generarPlanilla(Planilla planilla, int minutosExtra, int diasFalta, Integer usuarioId);
+
+    List<PlanillaDetalle> calcularDetallesPreview(Integer empleadoId, int minutosExtra, int diasFalta);
 }

@@ -1,8 +1,6 @@
 package com.project.services.impl;
 
-import com.project.DAO.ContratoDAO;
-import com.project.DAO.PlanillaDAO;
-import com.project.DAO.PlanillaDetalleDAO;
+import com.project.DAO.*;
 import com.project.DAO.impl.ContratoDAOImpl;
 import com.project.DAO.impl.PlanillaDAOImpl;
 import com.project.DAO.impl.PlanillaDetalleDAOImpl;
@@ -43,11 +41,18 @@ public class PlanillaServiceImpl implements PlanillaService {
     private final PlanillaDAO       planillaDAO;
     private final PlanillaDetalleDAO detalleDAO;
     private final ContratoDAO       contratoDAO;
+    private final EmpleadoDao empleadoDao;
+    private final AsistenciaDao asistenciaDao;
 
-    public PlanillaServiceImpl() {
-        this.planillaDAO  = new PlanillaDAOImpl();
-        this.detalleDAO   = new PlanillaDetalleDAOImpl();
-        this.contratoDAO  = new ContratoDAOImpl();
+    public PlanillaServiceImpl(PlanillaDAO planillaDAO, 
+                               PlanillaDetalleDAO detalleDAO, 
+                               EmpleadoDao empleadoDao,
+                               AsistenciaDao asistenciaDao) {
+        this.planillaDAO   = planillaDAO;
+        this.detalleDAO    = detalleDAO;
+        this.empleadoDao   = empleadoDao;
+        this.asistenciaDao = asistenciaDao;
+        this.contratoDAO   = new com.project.DAO.impl.ContratoDAOImpl(); // Se puede inyectar también si se prefiere
     }
 
     @Override
@@ -65,6 +70,7 @@ public class PlanillaServiceImpl implements PlanillaService {
         return detalleDAO.listarPorPlanilla(planillaId);
     }
 
+    @Override
     public void generarPlanilla(Planilla planilla,
                                 int minutosExtra,
                                 int diasFalta,
@@ -104,6 +110,7 @@ public class PlanillaServiceImpl implements PlanillaService {
     // ────────────────────────────────────────────────────────────
     // (previsualizar antes de guardar)
     // ────────────────────────────────────────────────────────────
+    @Override
     public List<PlanillaDetalle> calcularDetallesPreview(Integer empleadoId,
                                                          int minutosExtra,
                                                          int diasFalta) {

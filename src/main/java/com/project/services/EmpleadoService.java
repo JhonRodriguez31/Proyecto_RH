@@ -9,7 +9,7 @@ public interface EmpleadoService {
 
     Empleado obtenerEmpleado(Integer id);
 
-    void registrarEmpleado(Empleado empleado, Integer usuarioId);
+    void registrarEmpleado(Empleado empleado, String email, Integer usuarioId);
 
     void actualizarEmpleado(Empleado empleado, Integer usuarioId);
 

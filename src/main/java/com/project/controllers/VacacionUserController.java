@@ -1,13 +1,11 @@
 package com.project.controllers;
 
-import com.project.DAO.impl.EmpleadoDaoImpl;
 import com.project.common.util.NotificacionService;
+import com.project.config.ServiceFactory;
 import com.project.models.Empleado;
 import com.project.models.Vacacion;
 import com.project.services.EmpleadoService;
 import com.project.services.VacacionService;
-import com.project.services.impl.EmpleadoServiceImpl;
-import com.project.services.impl.VacacionServiceImpl;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -20,18 +18,14 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.ResourceBundle;
 
-/**
- * Controller de vacaciones — vista EMPLEADO (USER).
- * El empleado ve sus propias solicitudes y puede crear nuevas.
- */
+
 public class VacacionUserController implements Initializable {
 
     // TODO: reemplazar con el ID del empleado logueado (sesión)
     private static final Integer EMPLEADO_ID_SESION = 1;
 
-    private final VacacionService  vacacionService  = new VacacionServiceImpl();
-	private final EmpleadoService empleadoService =
-	        new EmpleadoServiceImpl(new EmpleadoDaoImpl());
+    private final VacacionService  vacacionService  = ServiceFactory.getVacacionService();
+	private final EmpleadoService empleadoService = ServiceFactory.getEmpleadoService();
 
     private Empleado empleadoActual;
 
@@ -112,11 +106,19 @@ public class VacacionUserController implements Initializable {
                 super.updateItem(estado, empty);
                 if (empty || estado == null) { setText(null); setStyle(""); return; }
                 setText(estado);
-                setStyle(switch (estado) {
-                    case "APROBADA"  -> "-fx-text-fill: #16A34A; -fx-font-weight: bold;";
-                    case "RECHAZADA" -> "-fx-text-fill: #DC2626; -fx-font-weight: bold;";
-                    default          -> "-fx-text-fill: #D97706; -fx-font-weight: bold;";
-                });
+                String style;
+                switch (estado) {
+                    case "APROBADA":
+                        style = "-fx-text-fill: #16A34A; -fx-font-weight: bold;";
+                        break;
+                    case "RECHAZADA":
+                        style = "-fx-text-fill: #DC2626; -fx-font-weight: bold;";
+                        break;
+                    default:
+                        style = "-fx-text-fill: #D97706; -fx-font-weight: bold;";
+                        break;
+                }
+                setStyle(style);
             }
         });
     }

@@ -1,5 +1,6 @@
 package com.project.services.impl;
 
+import com.project.DAO.EmpleadoDao;
 import com.project.DAO.VacacionDAO;
 import com.project.DAO.impl.VacacionDAOImpl;
 import com.project.models.Empleado;
@@ -12,10 +13,13 @@ import java.util.List;
 public class VacacionServiceImpl implements VacacionService {
 
     private final VacacionDAO vacacionDAO;
+    private final EmpleadoDao empleadoDao;
 
-    public VacacionServiceImpl() {
-        this.vacacionDAO = new VacacionDAOImpl();
+    public VacacionServiceImpl(VacacionDAO vacacionDAO, EmpleadoDao empleadoDao) {
+        this.vacacionDAO = vacacionDAO;
+        this.empleadoDao = empleadoDao;
     }
+
 
     @Override
     public List<Vacacion> listar() {

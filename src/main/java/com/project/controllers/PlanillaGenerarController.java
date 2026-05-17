@@ -1,15 +1,13 @@
 package com.project.controllers;
 
-import com.project.DAO.impl.ConceptoDAOImpl;
-import com.project.DAO.impl.EmpleadoDaoImpl;
 import com.project.common.util.NotificacionService;
+import com.project.config.ServiceFactory;
 import com.project.models.Concepto;
 import com.project.models.Empleado;
 import com.project.models.Planilla;
 import com.project.models.PlanillaDetalle;
 import com.project.services.EmpleadoService;
-import com.project.services.impl.EmpleadoServiceImpl;
-import com.project.services.impl.PlanillaServiceImpl;
+import com.project.services.PlanillaService;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -27,10 +25,8 @@ import java.util.ResourceBundle;
 
 public class PlanillaGenerarController implements Initializable {
 	
-	private final EmpleadoService empleadoService =
-	        new EmpleadoServiceImpl(new EmpleadoDaoImpl());
-
-    private final PlanillaServiceImpl planillaService = new PlanillaServiceImpl();
+	private final EmpleadoService empleadoService = ServiceFactory.getEmpleadoService();
+    private final PlanillaService planillaService = ServiceFactory.getPlanillaService();
     private boolean isWorking = false;
 
     // ── Selección ─────────────────────────────────────────────

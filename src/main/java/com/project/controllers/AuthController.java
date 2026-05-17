@@ -71,8 +71,13 @@ public class AuthController {
         if (usuarioAutenticado != null && usuarioAutenticado.getActivo()) {
             com.project.common.util.SessionManager.login(usuarioAutenticado);
             hideError();
-            boolean isAdmin = "admin".equalsIgnoreCase(usuarioAutenticado.getRole().toString());
-            navigateToLayout(isAdmin);
+
+            if (usuarioAutenticado.getPrimeraVez()) {
+                navigateToChangePassword();
+            } else {
+                boolean isAdmin = "admin".equalsIgnoreCase(usuarioAutenticado.getRole().toString());
+                navigateToLayout(isAdmin);
+            }
         } else {
             showError("Usuario o contraseña incorrectos");
             clearPassword();
@@ -160,6 +165,19 @@ public class AuthController {
                 IOException e) {
             e.printStackTrace();
             showError("Error al cargar el sistema: " + e.getMessage());
+        }
+    }
+
+    private void navigateToChangePassword() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    MainApplication.class.getResource("/com/project/fxml/auth/change-password.fxml")
+            );
+            Parent newRoot = loader.load();
+            crossfadeTo(newRoot, "PlanillaCore — Actualizar Contraseña");
+        } catch (IOException e) {
+            e.printStackTrace();
+            showError("Error al cargar la pantalla: " + e.getMessage());
         }
     }
 

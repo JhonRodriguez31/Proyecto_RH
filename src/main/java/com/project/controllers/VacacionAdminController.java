@@ -1,9 +1,9 @@
 package com.project.controllers;
 
 import com.project.common.util.NotificacionService;
+import com.project.config.ServiceFactory;
 import com.project.models.Vacacion;
 import com.project.services.VacacionService;
-import com.project.services.impl.VacacionServiceImpl;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -26,7 +26,7 @@ public class VacacionAdminController implements Initializable {
 
     private static final Integer ADMIN_ID = 1; // TODO: reemplazar con ID del usuario logueado
 
-    private final VacacionService vacacionService = new VacacionServiceImpl();
+    private final VacacionService vacacionService = ServiceFactory.getVacacionService();
 
     @FXML private TableView<Vacacion>            tablaVacaciones;
     @FXML private TableColumn<Vacacion, String>  colEmpleado;
@@ -92,11 +92,19 @@ public class VacacionAdminController implements Initializable {
                 super.updateItem(estado, empty);
                 if (empty || estado == null) { setText(null); setStyle(""); return; }
                 setText(estado);
-                setStyle(switch (estado) {
-                    case "APROBADA"  -> "-fx-text-fill: #16A34A; -fx-font-weight: bold;";
-                    case "RECHAZADA" -> "-fx-text-fill: #DC2626; -fx-font-weight: bold;";
-                    default          -> "-fx-text-fill: #D97706; -fx-font-weight: bold;";
-                });
+                String style;
+                switch (estado) {
+                    case "APROBADA":
+                        style = "-fx-text-fill: #16A34A; -fx-font-weight: bold;";
+                        break;
+                    case "RECHAZADA":
+                        style = "-fx-text-fill: #DC2626; -fx-font-weight: bold;";
+                        break;
+                    default:
+                        style = "-fx-text-fill: #D97706; -fx-font-weight: bold;";
+                        break;
+                }
+                setStyle(style);
             }
         });
     }

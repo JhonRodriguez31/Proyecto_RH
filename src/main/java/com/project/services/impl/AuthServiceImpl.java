@@ -50,6 +50,13 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void cambiarContraseña(Integer usuarioId, String newPassword) {
-
+        String passwordHashed = BcryptFactory.hashPassword(newPassword);
+        authDao.actualizarPassword(usuarioId, passwordHashed, false);
+        
+        // Actualizar el estado del usuario en la sesión si es el actual
+        if (usuarioAutenticado != null && usuarioAutenticado.getId().equals(usuarioId)) {
+            usuarioAutenticado.setPassword(passwordHashed);
+            usuarioAutenticado.setPrimeraVez(false);
+        }
     }
 }

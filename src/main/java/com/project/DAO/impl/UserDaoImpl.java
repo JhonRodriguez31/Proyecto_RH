@@ -14,7 +14,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<Usuario> getAllUsers() {
         List<Usuario> usuarios = new ArrayList<>();
-        String query = "SELECT id,email,password,role from users";
+        String query = "SELECT id, email, password, rol FROM dbo.Usuario";
         try (Connection connection = DatabaseConfig.getConnection();
              Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(query);
@@ -25,7 +25,7 @@ public class UserDaoImpl implements UserDao {
                 usuario.setId(rs.getInt("id"));
                 usuario.setEmail(rs.getString("email"));
                 usuario.setPassword(rs.getString("password"));
-                usuario.setRole(Role.valueOf(rs.getString("role")));
+                usuario.setRole(Role.valueOf(rs.getString("rol")));
                 usuarios.add(usuario);
             }
         } catch (

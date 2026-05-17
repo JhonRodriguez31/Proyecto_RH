@@ -14,9 +14,8 @@ import java.util.List;
 public class EmpleadoDaoImpl implements EmpleadoDao {
     @Override
     public List<Empleado> obtenerEmpleados() {
-
         List<Empleado> empleados = new ArrayList<>();
-        String query = "SELECT * FROM Empleado";
+        String query = "SELECT * FROM dbo.Empleado";
         try (Connection conn = DatabaseConfig.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)
@@ -25,9 +24,7 @@ public class EmpleadoDaoImpl implements EmpleadoDao {
                 Empleado empleado = mapearResultSet(rs);
                 empleados.add(empleado);
             }
-        } catch (
-                SQLException e) {
-
+        } catch (SQLException e) {
             throw new BaseDatosException("Error al obtener empleados", e);
         }
         return empleados;
@@ -35,7 +32,7 @@ public class EmpleadoDaoImpl implements EmpleadoDao {
 
     @Override
     public Empleado obtenerEmpleado(Integer id) {
-        String query = "SELECT * FROM Empleado WHERE id = ?";
+        String query = "SELECT * FROM dbo.Empleado WHERE id = ?";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query);
         ) {
@@ -45,10 +42,9 @@ public class EmpleadoDaoImpl implements EmpleadoDao {
                     Empleado empleado = mapearResultSet(rs);
                     return empleado;
                 }
-                throw new EmpleadoNotFoundException("Empleado con ID" + id + "no existe");
+                throw new EmpleadoNotFoundException("Empleado con ID " + id + " no existe");
             }
-        } catch (
-                SQLException e) {
+        } catch (SQLException e) {
             throw new BaseDatosException("Error al obtener empleado", e);
         }
     }
@@ -62,9 +58,8 @@ public class EmpleadoDaoImpl implements EmpleadoDao {
                 "dias_vacaciones_disponibles, fecha_creacion, creado_por) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-
         try (Connection conn = DatabaseConfig.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query);
+             PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         ) {
             stmt.setString(1, empleado.getCodigoEmpleado());
             stmt.setString(2, empleado.getNombres());
@@ -83,6 +78,12 @@ public class EmpleadoDaoImpl implements EmpleadoDao {
             int filasAfectadas = stmt.executeUpdate();
             if (filasAfectadas == 0) {
                 throw new BaseDatosException("Error al crear empleado", null);
+            }
+            
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    empleado.setId(generatedKeys.getInt(1));
+                }
             }
         } catch (SQLException e) {
             if (e.getErrorCode() == 2627 || e.getErrorCode() == 2601) {
@@ -105,11 +106,10 @@ public class EmpleadoDaoImpl implements EmpleadoDao {
             stmt.setInt(1, id);
             int filasAfectadas = stmt.executeUpdate();
             if (filasAfectadas == 0) {
-                throw new EmpleadoNotFoundException("Empleado con ID : " + id + "no existe");
+                throw new EmpleadoNotFoundException("Empleado con ID : " + id + " no existe");
             }
 
-        } catch (
-                SQLException e) {
+        } catch (SQLException e) {
             throw new BaseDatosException("Error al eliminar usuario con ID : " + id, e);
         }
     }
@@ -179,5 +179,4 @@ public class EmpleadoDaoImpl implements EmpleadoDao {
         }
         return null;
     }
-
 }
