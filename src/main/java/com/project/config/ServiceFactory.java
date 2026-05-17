@@ -2,8 +2,8 @@ package com.project.config;
 
 import com.project.DAO.AsistenciaDao;
 import com.project.DAO.impl.AsistenciaDaoImpl;
-import com.project.services.AsistenciaService;
-import com.project.services.impl.AsistenciaServiceImpl;
+import com.project.services.*;
+import com.project.services.impl.*;
 import com.project.DAO.AuthDao;
 import com.project.DAO.EmpleadoDao;
 import com.project.DAO.PerfilDao;
@@ -12,22 +12,12 @@ import com.project.DAO.impl.AuthDaoImpl;
 import com.project.DAO.impl.EmpleadoDaoImpl;
 import com.project.DAO.impl.PerfilDaoImpl;
 import com.project.DAO.impl.UserDaoImpl;
-import com.project.services.AuthService;
-import com.project.services.EmpleadoService;
-import com.project.services.PerfilService;
-import com.project.services.UserService;
-import com.project.services.impl.AuthServiceImpl;
-import com.project.services.impl.EmpleadoServiceImpl;
-import com.project.services.impl.PerfilServiceImpl;
-import com.project.services.impl.UserServiceImpl;
-import com.project.services.ReportService;
-import com.project.services.impl.ReportServiceImpl;
 
 public class ServiceFactory {
     //    Empleado
     private static EmpleadoDao empleadoDao;
     private static EmpleadoService empleadoService;
-    //    Autenticacion
+    //    Authentication
     private static AuthDao authDao;
     private static AuthServiceImpl authService;
     //    User
@@ -40,6 +30,16 @@ public class ServiceFactory {
 
     //    Report
     private static ReportService reportService;
+
+    //Beneficio
+    private static BeneficioService beneficioService;
+
+    public static BeneficioService getBeneficioService() {
+        if(beneficioService == null){
+            beneficioService = new BeneficioServiceImpl();
+        }
+        return beneficioService;
+    }
 
     public static EmpleadoDao getEmpleadoDao() {
         if (empleadoDao == null) {
