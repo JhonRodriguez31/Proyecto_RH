@@ -1,22 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import javafx.geometry.Insets?>
-<VBox spacing="10"
-      styleClass="page-placeholder"
-      xmlns="http://javafx.com/javafx/21"
-      xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.shape.Circle?>
+
+<VBox spacing="20" styleClass="page-placeholder" xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.project.controllers.BeneficioController">
+
     <padding>
-        <Insets top="22"
-                right="22"
-                bottom="22"
-                left="22"/>
+        <Insets top="25" right="25" bottom="25" left="25"/>
     </padding>
-    <Label text="Beneficios"
-           styleClass="placeholder-title"/>
+
+    <!-- Cabecera de la página -->
+    <VBox spacing="5">
+        <Label text="Gestión de Beneficios" styleClass="placeholder-title"/>
+        <Label text="Administre los beneficios corporativos y sus reglas polimórficas." styleClass="placeholder-subtitle"/>
+    </VBox>
+
+    <HBox spacing="20" VBox.vgrow="ALWAYS">
+
+        <!-- Sección Izquierda: Lista con estilo de tarjeta -->
+        <VBox spacing="10" prefWidth="300" styleClass="content-host">
+            <Label text="Beneficios Disponibles" style="-fx-font-weight: bold; -fx-text-fill: -fx-text-primary;"/>
+            <ListView fx:id="listaUI" VBox.vgrow="ALWAYS"
+                      style="-fx-background-color: transparent; -fx-background-insets: 0; -fx-padding: 0;"/>
+        </VBox>
+
+        <!-- Sección Derecha: Detalle y Formulario -->
+        <VBox spacing="20" HBox.hgrow="ALWAYS">
+
+            <!-- Card de Detalles -->
+            <VBox spacing="15" styleClass="content-host">
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="Detalle del Beneficio" style="-fx-font-weight: bold; -fx-font-size: 15px; -fx-text-fill: -fx-primary-light;"/>
+                </HBox>
+
+                <VBox spacing="8" styleClass="user-card">
+                    <Label fx:id="lblDetalle" text="Seleccione un elemento de la lista" styleClass="user-name"/>
+                    <Label fx:id="lblRegla" wrapText="true" styleClass="user-role-text" style="-fx-font-style: italic;"/>
+                </VBox>
+
+                <Button text="Simular Asignación" onAction="#simularAsignacion" styleClass="mode-pill" maxWidth="Infinity"/>
+            </VBox>
+
+            <!-- Card de Registro -->
+            <VBox spacing="15" styleClass="content-host" VBox.vgrow="ALWAYS">
+                <Label text="Registrar Nuevo Beneficio" style="-fx-font-weight: bold; -fx-text-fill: -fx-text-primary;"/>
+
+                <VBox spacing="12">
+                    <VBox spacing="5">
+                        <Label text="Nombre del Beneficio" styleClass="date-label"/>
+                        <TextField fx:id="txtNombre" promptText="Ej: Seguro Dental"
+                                   style="-fx-background-color: -fx-bg-tertiary; -fx-text-fill: -fx-text-primary; -fx-background-radius: 8;"/>
+                    </VBox>
+
+                    <VBox spacing="5">
+                        <Label text="Monto base ($)" styleClass="date-label"/>
+                        <TextField fx:id="txtMonto" promptText="0.00"
+                                   style="-fx-background-color: -fx-bg-tertiary; -fx-text-fill: -fx-text-primary; -fx-background-radius: 8;"/>
+                    </VBox>
+                </VBox>
+
+                <Region VBox.vgrow="ALWAYS" />
+
+                <Button text="Guardar Beneficio" onAction="#guardarDatos"
+                        styleClass="icon-btn" maxWidth="Infinity"
+                        style="-fx-background-color: -fx-primary; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold;"/>
+            </VBox>
+        </VBox>
+    </HBox>
 </VBox>

@@ -1,5 +1,17 @@
 package com.project.config;
 
+import com.project.DAO.AsistenciaDao;
+import com.project.DAO.impl.AsistenciaDaoImpl;
+import com.project.services.*;
+import com.project.services.impl.*;
+import com.project.DAO.AuthDao;
+import com.project.DAO.EmpleadoDao;
+import com.project.DAO.PerfilDao;
+import com.project.DAO.UserDao;
+import com.project.DAO.impl.AuthDaoImpl;
+import com.project.DAO.impl.EmpleadoDaoImpl;
+import com.project.DAO.impl.PerfilDaoImpl;
+import com.project.DAO.impl.UserDaoImpl;
 import com.project.DAO.*;
 import com.project.DAO.impl.*;
 import com.project.services.*;
@@ -9,7 +21,7 @@ public class ServiceFactory {
     //    Empleado
     private static EmpleadoDao empleadoDao;
     private static EmpleadoService empleadoService;
-    //    Autenticacion
+    //    Authentication
     private static AuthDao authDao;
     private static AuthService authService;
     //    User
@@ -26,6 +38,15 @@ public class ServiceFactory {
     //    Report
     private static ReportService reportService;
 
+    //Beneficio
+    private static BeneficioService beneficioService;
+
+    public static BeneficioService getBeneficioService() {
+        if(beneficioService == null){
+            beneficioService = new BeneficioServiceImpl();
+        }
+        return beneficioService;
+    }
     //    Dashboard
     private static DashboardDAO dashboardDao;
     private static DashboardService dashboardService;
