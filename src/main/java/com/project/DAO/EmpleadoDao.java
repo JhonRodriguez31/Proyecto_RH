@@ -14,4 +14,6 @@ public interface EmpleadoDao {
     void eliminarEmpleado(Integer id);
 
     void actualizarEmpleado(Empleado empleado, Integer usuarioId);
+
+    String obtenerUltimoCodigo();
 }

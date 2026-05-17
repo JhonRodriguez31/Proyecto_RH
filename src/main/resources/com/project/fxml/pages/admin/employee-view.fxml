@@ -57,6 +57,7 @@
     <StackPane VBox.vgrow="ALWAYS" styleClass="table-container-vintage">
         <TableView fx:id="empleadosTable" styleClass="modern-table">
             <columns>
+                <TableColumn fx:id="colFoto" text="Foto" prefWidth="60" resizable="false" />
                 <TableColumn fx:id="colCodigo" text="Id" prefWidth="80"/>
                 <TableColumn fx:id="colNombre" text="Nombres" prefWidth="180"/>
                 <TableColumn fx:id="colApellidos" text="Apellidos" prefWidth="180"/>

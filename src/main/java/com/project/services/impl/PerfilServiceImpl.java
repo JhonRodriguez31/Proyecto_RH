@@ -13,7 +13,7 @@ public class PerfilServiceImpl implements PerfilService {
     }
 
     @Override
-    public PerfilEmpleadoDTO obtenerPerfil(Integer empleadoId) {
+    public PerfilEmpleadoDTO obtenerPerfilCompleto(Integer empleadoId) {
         if (empleadoId == null) {
             throw new IllegalArgumentException("El ID del empleado no puede ser nulo");
         }
@@ -27,4 +27,16 @@ public class PerfilServiceImpl implements PerfilService {
         }
         perfilDao.actualizarPerfil(empleadoId, telefono, direccion, fotoUrl);
     }
+    
+    @Override
+    public void actualizarPerfil(PerfilEmpleadoDTO dto) {
+        if (dto == null || dto.getEmpleadoId() == null) {
+            throw new IllegalArgumentException("El DTO del perfil no puede ser nulo");
+        }
+        perfilDao.actualizarPerfil(dto.getEmpleadoId(), dto.getTelefono(), dto.getDireccion(), dto.getFotoUrl());
+    }
+    
+    
+    
+    
 }

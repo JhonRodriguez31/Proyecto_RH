@@ -7,7 +7,6 @@ import com.project.models.Usuario;
 import com.project.services.AuthService;
 import com.project.services.ImageService;
 import com.project.services.PerfilService;
-import com.project.services.impl.ImageServiceImpl;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -38,210 +37,135 @@ public class MiPerfilController {
     @FXML private Label lblFechaIngreso;
     @FXML private Label lblDiasVacaciones;
 
-    // Account
-    @FXML private Label lblUsername;
-    @FXML private Label lblEmail;
-    @FXML private Label lblUltimoAcceso;
-
-    // Contact (editable)
+    // Contacto (Editables)
     @FXML private TextField txtTelefono;
     @FXML private TextField txtDireccion;
+    @FXML private TextField txtEmail;
 
-    // Employment
-    @FXML private Label lblCargo;
-    @FXML private Label lblArea;
-    @FXML private Label lblTipoContrato;
+    // Laboral
     @FXML private Label lblSueldoBase;
+    @FXML private Label lblTipoContrato;
     @FXML private Label lblSistemaPension;
-    @FXML private Label lblInicioContrato;
-    @FXML private Label lblFinContrato;
-
-    // Actions
-    @FXML private Label lblEstadoGuardado;
+    @FXML private Label lblFechaFinContrato;
+    @FXML private Label lblUltimoAcceso;
 
     private final PerfilService perfilService = ServiceFactory.getPerfilService();
-    private final AuthService authService = ServiceFactory.getAuthService();
-    private final ImageService imageService = new ImageServiceImpl();
-
-    private static final DateTimeFormatter DATE_FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    private static final DateTimeFormatter DATETIME_FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-
+    private final ImageService  imageService  = ServiceFactory.getImageService();
     private PerfilEmpleadoDTO perfilActual;
-    private File archivoFotoSeleccionado;
-    private String nuevaFotoUrl;
 
     @FXML
     public void initialize() {
-        cargarPerfil();
+        Circle clip = new Circle(50, 50, 50);
+        imgPerfil.setClip(clip);
+        cargarDatos();
     }
 
-    private void cargarPerfil() {
-        Usuario usuario = authService.obtenerUsuarioAutenticado();
-        if (usuario == null || usuario.getEmpleadoId() == null) {
-            lblNombreCompleto.setText("No hay sesión activa");
-            return;
-        }
-
-        perfilActual = perfilService.obtenerPerfil(usuario.getEmpleadoId());
-        if (perfilActual == null) {
-            lblNombreCompleto.setText("Perfil no encontrado");
-            return;
-        }
-
-        poblarDatos(perfilActual);
-    }
-
-    private void poblarDatos(PerfilEmpleadoDTO p) {
-        // Header
-        lblNombreCompleto.setText(p.getNombreCompleto());
-        lblCargoArea.setText(p.getCargoArea());
-        lblRolBadge.setText(p.getRol() != null ? p.getRol() : "—");
-        lblEstadoBadge.setText(p.getEstadoEmpleado() != null ? p.getEstadoEmpleado() : "—");
-
-        // Avatar
-        if (p.getNombres() != null && !p.getNombres().isEmpty()) {
-            lblAvatarInicial.setText(p.getNombres().substring(0, 1).toUpperCase());
-        }
-        cargarFotoPerfil(p.getFotoUrl());
-
-        // Personal
-        lblCodigo.setText(valOr(p.getCodigoEmpleado()));
-        lblDni.setText(valOr(p.getDni()));
-        lblFechaNacimiento.setText(p.getFechaNacimiento() != null ? p.getFechaNacimiento().format(DATE_FMT) : "—");
-        lblFechaIngreso.setText(p.getFechaIngreso() != null ? p.getFechaIngreso().format(DATE_FMT) : "—");
-        lblDiasVacaciones.setText(p.getDiasVacacionesDisponibles() != null ? String.valueOf(p.getDiasVacacionesDisponibles()) : "—");
-
-        // Account
-        lblUsername.setText(valOr(p.getUsername()));
-        lblEmail.setText(valOr(p.getEmail()));
-        lblUltimoAcceso.setText(p.getUltimoAcceso() != null ? p.getUltimoAcceso().format(DATETIME_FMT) : "Sin registro");
-
-        // Contact (editable)
-        txtTelefono.setText(p.getTelefono() != null ? p.getTelefono() : "");
-        txtDireccion.setText(p.getDireccion() != null ? p.getDireccion() : "");
-
-        // Employment
-        lblCargo.setText(valOr(p.getCargo()));
-        lblArea.setText(valOr(p.getArea()));
-        lblTipoContrato.setText(valOr(p.getTipoContrato()));
-        lblSueldoBase.setText(p.getSueldoBase() != null ? String.format("S/ %.2f", p.getSueldoBase()) : "—");
-        lblSistemaPension.setText(valOr(p.getSistemaPension()));
-        lblInicioContrato.setText(p.getFechaInicioContrato() != null ? p.getFechaInicioContrato().format(DATE_FMT) : "—");
-        lblFinContrato.setText(p.getFechaFinContrato() != null ? p.getFechaFinContrato().format(DATE_FMT) : "Indefinido");
-    }
-
-    private void cargarFotoPerfil(String url) {
-        if (url != null && !url.trim().isEmpty()) {
+    private void cargarDatos() {
+        Integer empleadoId = com.project.common.util.SessionManager.getUsuarioLogueado().getEmpleadoId();
+        
+        Platform.runLater(() -> {
             try {
-                Image image = new Image(url, true);
-                imgPerfil.setImage(image);
-                Circle clip = new Circle(55, 55, 55);
-                imgPerfil.setClip(clip);
-                lblAvatarInicial.setVisible(false);
+                perfilActual = perfilService.obtenerPerfilCompleto(empleadoId);
+                poblarCampos();
             } catch (Exception e) {
-                lblAvatarInicial.setVisible(true);
+                e.printStackTrace();
             }
-        }
+        });
     }
 
-    @FXML
-    public void seleccionarFoto() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Seleccionar foto de perfil");
-        fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("Imágenes", "*.png", "*.jpg", "*.jpeg")
-        );
-
-        archivoFotoSeleccionado = fileChooser.showOpenDialog(
-                imgPerfil.getScene().getWindow()
-        );
-
-        if (archivoFotoSeleccionado != null) {
-            // Preview local
-            Image preview = new Image(archivoFotoSeleccionado.toURI().toString());
-            imgPerfil.setImage(preview);
-            Circle clip = new Circle(55, 55, 55);
-            imgPerfil.setClip(clip);
-            lblAvatarInicial.setVisible(false);
-            lblUploadStatus.setText("✓ " + archivoFotoSeleccionado.getName());
-            lblUploadStatus.setStyle("-fx-text-fill: #86efac;");
-        }
-    }
-
-    @FXML
-    public void guardarCambios() {
+    private void poblarCampos() {
         if (perfilActual == null) return;
 
-        lblEstadoGuardado.setText("Guardando...");
-        lblEstadoGuardado.getStyleClass().setAll("status-label-success");
+        // Header
+        lblNombreCompleto.setText(perfilActual.getNombres() + " " + perfilActual.getApellidos());
+        lblCargoArea.setText(perfilActual.getCargo() + " | " + perfilActual.getArea());
+        lblRolBadge.setText(perfilActual.getRol());
+        lblEstadoBadge.setText(perfilActual.getEstadoEmpleado());
+        
+        if (perfilActual.getFotoUrl() != null && !perfilActual.getFotoUrl().isEmpty()) {
+            imgPerfil.setImage(new Image(perfilActual.getFotoUrl(), true));
+            lblAvatarInicial.setVisible(false);
+        } else {
+            lblAvatarInicial.setText(perfilActual.getNombres().substring(0,1).toUpperCase());
+            lblAvatarInicial.setVisible(true);
+        }
 
-        new Thread(() -> {
-            try {
-                // Si hay foto nueva, subirla primero
-                String fotoUrl = perfilActual.getFotoUrl();
-                if (archivoFotoSeleccionado != null) {
-                    lblUploadStatusUpdate("⏳ Subiendo imagen...");
-                    fotoUrl = imageService.subirImagen(archivoFotoSeleccionado);
-                    nuevaFotoUrl = fotoUrl;
-                    lblUploadStatusUpdate("✓ Imagen subida");
-                }
+        // Datos
+        lblCodigo.setText(perfilActual.getCodigoEmpleado());
+        lblDni.setText(perfilActual.getDni());
+        
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        lblFechaNacimiento.setText(perfilActual.getFechaNacimiento().format(dtf));
+        lblFechaIngreso.setText(perfilActual.getFechaIngreso().format(dtf));
+        lblDiasVacaciones.setText(String.valueOf(perfilActual.getDiasVacacionesDisponibles()));
 
-                String telefono = txtTelefono.getText().trim();
-                String direccion = txtDireccion.getText().trim();
+        txtTelefono.setText(perfilActual.getTelefono());
+        txtDireccion.setText(perfilActual.getDireccion());
+        txtEmail.setText(perfilActual.getEmail());
 
-                perfilService.actualizarPerfil(
-                        perfilActual.getEmpleadoId(),
-                        telefono,
-                        direccion,
-                        fotoUrl
-                );
+        lblSueldoBase.setText(String.format("S/ %.2f", perfilActual.getSueldoBase()));
+        lblTipoContrato.setText(perfilActual.getTipoContrato());
+        lblSistemaPension.setText(perfilActual.getSistemaPension());
+        
+        if (perfilActual.getFechaFinContrato() != null) {
+            lblFechaFinContrato.setText(perfilActual.getFechaFinContrato().format(dtf));
+        } else {
+            lblFechaFinContrato.setText("Indefinido");
+        }
 
-                // Actualizar estado local
-                perfilActual.setTelefono(telefono);
-                perfilActual.setDireccion(direccion);
-                if (nuevaFotoUrl != null) {
-                    perfilActual.setFotoUrl(nuevaFotoUrl);
-                }
-                archivoFotoSeleccionado = null;
-
-                // Notificar al layout para que refresque el avatar del sidebar
-                BaseLayoutController.notificarPerfilActualizado();
-
-                Platform.runLater(() -> {
-                    lblEstadoGuardado.setText("✓ Cambios guardados correctamente");
-                    lblEstadoGuardado.getStyleClass().setAll("status-label-success");
-                });
-
-            } catch (Exception e) {
-                // NUNCA tragarse una excepción sin loguearla
-                System.err.println("════════════════════════════════════════");
-                System.err.println("[ERROR] Fallo al guardar perfil:");
-                System.err.println("  Tipo: " + e.getClass().getName());
-                System.err.println("  Mensaje: " + e.getMessage());
-                if (e.getCause() != null) {
-                    System.err.println("  Causa: " + e.getCause().getClass().getName() + " → " + e.getCause().getMessage());
-                }
-                System.err.println("════════════════════════════════════════");
-                e.printStackTrace();
-
-                String errorMsg = e.getMessage() != null ? e.getMessage() : e.getClass().getSimpleName();
-                if (e.getCause() != null && e.getCause().getMessage() != null) {
-                    errorMsg = e.getCause().getMessage();
-                }
-                String finalMsg = errorMsg;
-                Platform.runLater(() -> {
-                    lblEstadoGuardado.setText("✗ Error: " + finalMsg);
-                    lblEstadoGuardado.getStyleClass().setAll("status-label-error");
-                });
-            }
-        }).start();
+        if (perfilActual.getUltimoAcceso() != null) {
+            lblUltimoAcceso.setText(perfilActual.getUltimoAcceso().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+        }
     }
 
-    private void lblUploadStatusUpdate(String text) {
-        Platform.runLater(() -> lblUploadStatus.setText(text));
+    @FXML
+    private void guardarCambios() {
+        try {
+            perfilActual.setTelefono(txtTelefono.getText());
+            perfilActual.setDireccion(txtDireccion.getText());
+            // El email no es editable por el usuario en este flujo simplificado
+            
+            perfilService.actualizarPerfil(perfilActual);
+            com.project.common.util.NotificacionService.exito("Perfil actualizado correctamente");
+            
+            // Actualizar sidebar/header notificando el cambio
+            BaseLayoutController.notificarPerfilActualizado();
+            
+        } catch (Exception e) {
+            com.project.common.util.NotificacionService.error("Error al actualizar perfil: " + e.getMessage());
+        }
     }
 
-    private String valOr(String value) {
-        return value != null && !value.isEmpty() ? value : "—";
+    @FXML
+    private void cambiarFoto() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Seleccionar Imagen de Perfil");
+        fileChooser.getExtensionFilters().addAll(
+            new FileChooser.ExtensionFilter("Imágenes", "*.png", "*.jpg", "*.jpeg")
+        );
+
+        File selectedFile = fileChooser.showOpenDialog(imgPerfil.getScene().getWindow());
+        if (selectedFile != null) {
+            new Thread(() -> {
+                try {
+                    Platform.runLater(() -> lblUploadStatus.setText("Subiendo..."));
+                    String url = imageService.subirImagen(selectedFile);
+                    perfilActual.setFotoUrl(url);
+                    perfilService.actualizarPerfil(perfilActual);
+                    
+                    Platform.runLater(() -> {
+                        imgPerfil.setImage(new Image(url));
+                        lblAvatarInicial.setVisible(false);
+                        lblUploadStatus.setText("Foto actualizada");
+                        BaseLayoutController.notificarPerfilActualizado();
+                    });
+                } catch (Exception e) {
+                    Platform.runLater(() -> {
+                        lblUploadStatus.setText("Error al subir");
+                        com.project.common.util.NotificacionService.error("Error: " + e.getMessage());
+                    });
+                }
+            }).start();
+        }
     }
 }

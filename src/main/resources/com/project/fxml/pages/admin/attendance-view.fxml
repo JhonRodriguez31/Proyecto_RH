@@ -3,7 +3,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="10" style="-fx-padding: 20;" xmlns="http://javafx.com/javafx"
+<VBox spacing="10" style="-fx-padding: 20;"
+      styleClass="attendance-root"
+      stylesheets="@../../../css/asistencia.css"
+      xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.project.controllers.AsistenciaController">
 
@@ -11,8 +14,8 @@
            style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: -fx-text-primary;"/>
 
     <HBox spacing="10">
-        <Label text="ID Empleado:" style="-fx-text-fill: -fx-text-primary;"/>
-        <TextField fx:id="txtEmpleadoId" promptText="Ingresa el ID del empleado"/>
+        <Label text="Empleado:" style="-fx-text-fill: -fx-text-primary;"/>
+        <ComboBox fx:id="cmbEmpleado" promptText="Selecciona un empleado" prefWidth="220"/>
     </HBox>
 
     <HBox spacing="10">
@@ -33,15 +36,17 @@
 
     <Label fx:id="lblMensaje" style="-fx-text-fill: green;"/>
 
-    <TableView fx:id="tablaAsistencia" VBox.vgrow="ALWAYS">
-        <columns>
-            <TableColumn fx:id="colEmpleadoId" text="ID Empleado" prefWidth="100"/>
-            <TableColumn fx:id="colFecha" text="Fecha" prefWidth="120"/>
-            <TableColumn fx:id="colHoraEntrada" text="Hora Entrada" prefWidth="150"/>
-            <TableColumn fx:id="colHoraSalida" text="Hora Salida" prefWidth="150"/>
-            <TableColumn fx:id="colEstado" text="Estado" prefWidth="120"/>
-            <TableColumn fx:id="colMinutosTardanza" text="Min. Tardanza" prefWidth="120"/>
-        </columns>
-    </TableView>
+    <StackPane VBox.vgrow="ALWAYS" styleClass="table-container-vintage">
+        <TableView fx:id="tablaAsistencia" styleClass="modern-table">
+            <columns>
+                <TableColumn fx:id="colEmpleadoId" text="ID Empleado" prefWidth="100"/>
+                <TableColumn fx:id="colFecha" text="Fecha" prefWidth="120"/>
+                <TableColumn fx:id="colHoraEntrada" text="Hora Entrada" prefWidth="150"/>
+                <TableColumn fx:id="colHoraSalida" text="Hora Salida" prefWidth="150"/>
+                <TableColumn fx:id="colEstado" text="Estado" prefWidth="120"/>
+                <TableColumn fx:id="colMinutosTardanza" text="Min. Tardanza" prefWidth="120"/>
+            </columns>
+        </TableView>
+    </StackPane>
 
 </VBox>
